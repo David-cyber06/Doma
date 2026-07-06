@@ -70,39 +70,39 @@
             width: 90%;
             max-width: 800px;
             text-align: center;
-            min-height: 120px;
+            min-height: 100px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 10px 20px;
             position: relative;
             z-index: 1;
         }
 
         .titulo {
             color: #00ffff;
-            font-size: 22px;
+            font-size: 18px;
             font-weight: bold;
             letter-spacing: 2px;
-            margin-bottom: 10px;
+            margin-bottom: 4px;
             text-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
             transition: all 0.3s ease;
-            min-height: 50px;
+            min-height: 35px;
             z-index: 1;
         }
 
         .letra {
-            font-size: 32px;
+            font-size: 26px;
             font-weight: bold;
             text-align: center;
-            min-height: 100px;
+            min-height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.1s ease;
-            padding: 10px;
-            line-height: 1.4;
+            padding: 6px;
+            line-height: 1.3;
             text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
             color: #fff;
             z-index: 1;
@@ -134,34 +134,118 @@
             }
         }
 
-        .barras-container {
+        /* ===== GRÁFICO DE BARRAS CON EJES ===== */
+        .grafico-container {
             width: 90%;
             max-width: 900px;
-            height: 250px;
+            position: relative;
+            z-index: 1;
+            margin-top: 5px;
+        }
+
+        .grafico-container .ejes {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            /* Altura máxima del gráfico (bajada) */
+            margin-left: 50px;
+        }
+
+        /* Eje Y (Intensidad) - etiquetas a la izquierda */
+        .eje-y {
+            position: absolute;
+            left: -48px;
+            top: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: #666;
+            font-size: 9px;
+            font-family: 'Segoe UI', monospace;
+            letter-spacing: 0.5px;
+            text-align: right;
+            padding-right: 6px;
+            width: 38px;
+        }
+        .eje-y span {
+            opacity: 0.5;
+        }
+
+        /* Título del eje Y (Intensidad) */
+        .eje-y-titulo {
+            position: absolute;
+            left: -52px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+            color: #555;
+            font-size: 11px;
+            letter-spacing: 2px;
+            font-family: 'Segoe UI', sans-serif;
+            white-space: nowrap;
+            opacity: 0.6;
+            font-weight: 300;
+        }
+
+        /* Contenedor de barras (dentro de ejes) */
+        .barras-wrapper {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
             align-items: flex-end;
             justify-content: center;
-            gap: 6px;
-            padding: 20px;
-            margin-top: 10px;
-            position: relative;
-            z-index: 1;
+            gap: 4px;
+            padding: 0 4px;
+            border-left: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .barra {
             flex: 1;
             height: 5px;
-            min-height: 5px;
-            border-radius: 4px 4px 0 0;
-            transition: height 0.05s ease, background 0.05s ease;
+            min-height: 2px;
+            border-radius: 3px 3px 0 0;
+            transition: height 0.04s ease, background 0.04s ease;
             background: cyan;
-            max-width: 30px;
+            max-width: 28px;
         }
 
+        /* Eje X (Frecuencia) - etiquetas abajo */
+        .eje-x {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 8px 0 8px;
+            margin-left: 50px;
+            color: #555;
+            font-size: 9px;
+            font-family: 'Segoe UI', monospace;
+            letter-spacing: 0.5px;
+        }
+        .eje-x span {
+            opacity: 0.5;
+        }
+
+        /* Título del eje X (Frecuencia) */
+        .eje-x-titulo {
+            text-align: center;
+            color: #555;
+            font-size: 11px;
+            letter-spacing: 2px;
+            font-family: 'Segoe UI', sans-serif;
+            opacity: 0.6;
+            font-weight: 300;
+            margin-top: 2px;
+            margin-left: 50px;
+        }
+
+        /* ===== INFO ===== */
         .info {
             color: #888;
-            font-size: 14px;
-            margin-top: 15px;
+            font-size: 13px;
+            margin-top: 10px;
             letter-spacing: 2px;
             text-align: center;
             z-index: 1;
@@ -174,16 +258,17 @@
         .tiempo {
             color: #aaa;
             font-size: 13px;
-            margin-top: 5px;
+            margin-top: 3px;
             letter-spacing: 1px;
             z-index: 1;
             position: relative;
         }
 
+        /* ===== CONTROLES ===== */
         .controles {
-            margin-top: 20px;
+            margin-top: 12px;
             display: flex;
-            gap: 16px;
+            gap: 14px;
             align-items: center;
             flex-wrap: wrap;
             justify-content: center;
@@ -195,10 +280,10 @@
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: #ddd;
-            padding: 10px 28px;
+            padding: 8px 24px;
             border-radius: 30px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             transition: all 0.3s ease;
             font-family: inherit;
             letter-spacing: 1px;
@@ -230,7 +315,7 @@
             background: rgba(0, 255, 255, 0.1);
             border-color: rgba(0, 255, 255, 0.2);
             color: #00ffff;
-            min-width: 60px;
+            min-width: 54px;
         }
 
         .btn-audio:hover {
@@ -238,6 +323,7 @@
             border-color: rgba(0, 255, 255, 0.4);
         }
 
+        /* ===== CARGA ===== */
         .cargando {
             position: fixed;
             top: 0;
@@ -264,58 +350,111 @@
             animation: girar 1s linear infinite;
         }
         @keyframes girar {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
         .cargando.oculto {
             display: none;
         }
 
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 600px) {
             .letra {
-                font-size: 22px;
-                min-height: 80px;
+                font-size: 20px;
+                min-height: 50px;
             }
             .titulo {
-                font-size: 16px;
-                min-height: 40px;
+                font-size: 14px;
+                min-height: 30px;
             }
-            .barras-container {
-                height: 180px;
-                gap: 4px;
-                padding: 10px;
+            .grafico-container .ejes {
+                height: 150px;
+                margin-left: 35px;
+            }
+            .eje-y {
+                left: -38px;
+                width: 30px;
+                font-size: 8px;
+            }
+            .eje-y-titulo {
+                left: -42px;
+                font-size: 9px;
+            }
+            .eje-x {
+                margin-left: 35px;
+                font-size: 8px;
+                padding: 2px 4px 0 4px;
+            }
+            .eje-x-titulo {
+                margin-left: 35px;
+                font-size: 9px;
+            }
+            .barras-wrapper {
+                gap: 3px;
+                padding: 0 3px;
             }
             .barra {
                 max-width: 20px;
-                min-height: 3px;
+                min-height: 2px;
             }
             .btn {
-                padding: 8px 18px;
-                font-size: 12px;
+                padding: 6px 16px;
+                font-size: 11px;
             }
             .controles {
-                gap: 10px;
+                gap: 8px;
+            }
+            .info {
+                font-size: 11px;
+            }
+            .tiempo {
+                font-size: 11px;
             }
         }
 
         @media (max-width: 400px) {
             .letra {
-                font-size: 18px;
-                min-height: 60px;
+                font-size: 16px;
+                min-height: 40px;
             }
-            .barras-container {
-                height: 140px;
-                gap: 3px;
+            .grafico-container .ejes {
+                height: 120px;
+                margin-left: 30px;
+            }
+            .eje-y {
+                left: -32px;
+                width: 26px;
+                font-size: 7px;
+            }
+            .eje-y-titulo {
+                left: -36px;
+                font-size: 8px;
+            }
+            .eje-x {
+                margin-left: 30px;
+                font-size: 7px;
+            }
+            .eje-x-titulo {
+                margin-left: 30px;
+                font-size: 8px;
+            }
+            .barras-wrapper {
+                gap: 2px;
+                padding: 0 2px;
             }
             .barra {
                 max-width: 14px;
                 min-height: 2px;
             }
             .info {
-                font-size: 11px;
+                font-size: 10px;
             }
             .titulo {
-                font-size: 13px;
+                font-size: 12px;
             }
         }
 
@@ -343,7 +482,38 @@
             </div>
         </div>
 
-        <div class="barras-container" id="barrasContainer"></div>
+        <!-- ===== GRÁFICO CON EJES ===== -->
+        <div class="grafico-container">
+            <div class="ejes">
+                <!-- Eje Y (Intensidad) -->
+                <div class="eje-y">
+                    <span>1.0</span>
+                    <span>0.75</span>
+                    <span>0.5</span>
+                    <span>0.25</span>
+                    <span>0.0</span>
+                </div>
+                <!-- Título Eje Y -->
+                <div class="eje-y-titulo">Intensidad</div>
+                <!-- Barras -->
+                <div class="barras-wrapper" id="barrasContainer"></div>
+            </div>
+            <!-- Eje X (Frecuencia) -->
+            <div class="eje-x">
+                <span>0</span>
+                <span>10</span>
+                <span>20</span>
+                <span>30</span>
+                <span>40</span>
+                <span>50</span>
+                <span>60</span>
+                <span>70</span>
+                <span>80</span>
+                <span>90</span>
+                <span>100</span>
+            </div>
+            <div class="eje-x-titulo">Frecuencia</div>
+        </div>
 
         <div class="info">
             ⏱ <strong id="tiempoRestante">80.0</strong>s restantes
@@ -365,6 +535,7 @@
         const NUM_BARRAS = 40;
         const INICIO_AUDIO = 80;
         const MODO_EXPLOSIVO = 40;
+        const ALTURA_MAXIMA = 180; // Altura máxima de barras en modo explosivo (bajada)
 
         const LETRAS = [
             { tiempo: 0.0, texto: "❤ De corazones tienes colección ❤" },
@@ -427,7 +598,7 @@
             for (let i = 0; i < NUM_BARRAS; i++) {
                 const barra = document.createElement('div');
                 barra.className = 'barra';
-                barra.style.height = '5px';
+                barra.style.height = '3px';
                 barrasContainer.appendChild(barra);
                 barras.push(barra);
             }
@@ -559,10 +730,7 @@
             const tiempoActual = (Date.now() - tiempoInicio) / 1000;
 
             if (tiempoActual > DURACION_TOTAL) {
-                // BUCLE: reiniciar automáticamente sin congelar
                 tiempoInicio = Date.now();
-                // Si el audio está en loop, no hay que hacer nada más
-                // Pero si está pausado, lo reanudamos
                 if (audio.paused && audioEncendido) {
                     audio.currentTime = INICIO_AUDIO;
                     audio.play().catch(() => {});
@@ -643,7 +811,7 @@
                 tituloEl.style.textShadow = '0 0 30px rgba(0, 255, 255, 0.3)';
             }
 
-            // ===== BARRAS ===== (altura normal: 250px)
+            // ===== BARRAS (con altura máxima reducida en modo explosivo) =====
             let alturas;
             if (explosivo) {
                 const latido = tiempoActual;
@@ -663,20 +831,23 @@
                 }
             }
 
+            // Altura máxima: 180px en modo explosivo, 200px en modo normal
+            const alturaMax = explosivo ? ALTURA_MAXIMA : 200;
+
             for (let i = 0; i < NUM_BARRAS; i++) {
                 const altura = alturas[i] || 0.05;
                 const barra = barras[i];
-                const alturaPx = Math.max(5, altura * 250); // ALTURA NORMAL
+                const alturaPx = Math.max(3, altura * alturaMax);
                 barra.style.height = alturaPx + 'px';
                 barra.style.background = getColor(altura, explosivo);
                 if (explosivo) {
-                    barra.style.boxShadow = `0 0 ${10 + altura * 20}px ${getColor(altura, true)}`;
+                    barra.style.boxShadow = `0 0 ${8 + altura * 15}px ${getColor(altura, true)}`;
                 } else {
                     barra.style.boxShadow = 'none';
                 }
             }
 
-            // ===== PARTÍCULAS (EXPLOSIVO) =====
+            // ===== PARTÍCULAS =====
             if (explosivo && frameCounter % 3 === 0) {
                 const ancho = window.innerWidth;
                 const alto = window.innerHeight;
@@ -737,30 +908,26 @@
         }
 
         // ============================================================
-        // REINICIAR (ARREGLADO)
+        // REINICIAR
         // ============================================================
         function reiniciar() {
             if (reiniciando) return;
             reiniciando = true;
 
-            // Detener animación actual
             if (animacionId) {
                 cancelAnimationFrame(animacionId);
                 animacionId = null;
             }
 
-            // Resetear tiempo
             tiempoInicio = Date.now();
             pausado = false;
             frameCounter = 0;
 
-            // Resetear audio al segundo 80
             audio.currentTime = INICIO_AUDIO;
             if (audioEncendido) {
                 audio.play().catch(() => {});
             }
 
-            // Resetear visuales
             container.style.background = '#0a0008';
             letraEl.style.color = '#fff';
             letraEl.style.transform = 'scale(1)';
@@ -773,18 +940,15 @@
             modoTextoEl.style.fontSize = '16px';
             brilloLetra.style.display = 'none';
 
-            // Limpiar partículas
             particulasContainer.innerHTML = '';
 
-            // Reiniciar barras
             for (let i = 0; i < NUM_BARRAS; i++) {
                 const barra = barras[i];
-                barra.style.height = '5px';
+                barra.style.height = '3px';
                 barra.style.background = 'cyan';
                 barra.style.boxShadow = 'none';
             }
 
-            // Reactivar animación
             reproduciendo = true;
             animacionId = requestAnimationFrame(actualizarAnimacion);
 
