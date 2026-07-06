@@ -24,6 +24,29 @@
             width: 100vw;
         }
 
+        /* ===== FOTO DE FONDO ===== */
+        .fondo-foto {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background-image: url('image/wiwi.jpeg');
+            /* ← CAMBIA ESTO por el nombre de tu foto */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: brightness(0.4) saturate(0.8);
+            /* Oscurece la imagen para que se vean bien los colores encima */
+            transition: filter 0.1s ease;
+        }
+
+        /* En modo explosivo la foto se aclara un poco */
+        .fondo-foto.explosivo {
+            filter: brightness(0.5) saturate(1.1) contrast(1.05);
+        }
+
         .container {
             position: relative;
             width: 100vw;
@@ -32,11 +55,12 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: #0a0008;
-            transition: background 0.1s ease;
+            background: transparent;
+            /* Fondo transparente para ver la foto */
             padding: 8px 16px 10px;
             overflow: hidden;
             padding-top: 6px;
+            z-index: 1;
         }
 
         .particulas-container {
@@ -46,7 +70,7 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 0;
+            z-index: 1;
             overflow: hidden;
         }
 
@@ -69,6 +93,7 @@
             }
         }
 
+        /* ===== LETRA ===== */
         .letra-container {
             width: 92%;
             max-width: 850px;
@@ -80,7 +105,7 @@
             align-items: center;
             padding: 2px 16px 2px;
             position: relative;
-            z-index: 1;
+            z-index: 2;
             flex-shrink: 0;
         }
 
@@ -90,10 +115,10 @@
             font-weight: bold;
             letter-spacing: 2px;
             margin-bottom: 1px;
-            text-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.3), 0 0 40px rgba(0, 0, 0, 0.8);
             transition: all 0.3s ease;
             min-height: 22px;
-            z-index: 1;
+            z-index: 2;
         }
 
         .letra {
@@ -107,9 +132,9 @@
             transition: all 0.1s ease;
             padding: 2px;
             line-height: 1.2;
-            text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.1), 0 0 60px rgba(0, 0, 0, 0.9);
             color: #fff;
-            z-index: 1;
+            z-index: 2;
             position: relative;
             width: 100%;
         }
@@ -139,11 +164,12 @@
             }
         }
 
+        /* ===== GRÁFICO ===== */
         .grafico-container {
             width: 94%;
             max-width: 940px;
             position: relative;
-            z-index: 1;
+            z-index: 2;
             flex-shrink: 0;
             height: 400px;
             display: flex;
@@ -163,6 +189,7 @@
             margin-left: 48px;
         }
 
+        /* Ejes con fondo semi-transparente para que se lean sobre la foto */
         .eje-y {
             position: absolute;
             left: -46px;
@@ -171,16 +198,17 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            color: #666;
+            color: #aaa;
             font-size: 9px;
             font-family: 'Segoe UI', monospace;
             letter-spacing: 0.5px;
             text-align: right;
             padding-right: 5px;
             width: 36px;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
         }
         .eje-y span {
-            opacity: 0.5;
+            opacity: 0.7;
         }
 
         .eje-y-titulo {
@@ -188,13 +216,14 @@
             left: -50px;
             top: 50%;
             transform: translateY(-50%) rotate(-90deg);
-            color: #555;
+            color: #aaa;
             font-size: 10px;
             letter-spacing: 2px;
             font-family: 'Segoe UI', sans-serif;
             white-space: nowrap;
-            opacity: 0.6;
+            opacity: 0.7;
             font-weight: 300;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
         }
 
         .barras-wrapper {
@@ -221,6 +250,7 @@
             background: cyan;
             max-width: 20px;
             will-change: height;
+            opacity: 0.85;
         }
 
         .eje-x {
@@ -228,51 +258,57 @@
             justify-content: space-between;
             padding: 3px 6px 0 6px;
             margin-left: 48px;
-            color: #555;
+            color: #aaa;
             font-size: 8px;
             font-family: 'Segoe UI', monospace;
             letter-spacing: 0.5px;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
         }
         .eje-x span {
-            opacity: 0.5;
+            opacity: 0.7;
         }
 
         .eje-x-titulo {
             text-align: center;
-            color: #555;
+            color: #aaa;
             font-size: 10px;
             letter-spacing: 2px;
             font-family: 'Segoe UI', sans-serif;
-            opacity: 0.6;
+            opacity: 0.7;
             font-weight: 300;
             margin-top: 0px;
             margin-left: 48px;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
         }
 
+        /* ===== INFO ===== */
         .info {
-            color: #888;
+            color: #ccc;
             font-size: 13px;
             margin-top: 10px;
             letter-spacing: 2px;
             text-align: center;
-            z-index: 1;
+            z-index: 2;
             position: relative;
             flex-shrink: 0;
+            text-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
         }
         .info strong {
             color: #ff6b6b;
         }
 
         .tiempo {
-            color: #aaa;
+            color: #ccc;
             font-size: 13px;
             margin-top: 1px;
             letter-spacing: 1px;
-            z-index: 1;
+            z-index: 2;
             position: relative;
             flex-shrink: 0;
+            text-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
         }
 
+        /* ===== CONTROLES ===== */
         .controles {
             margin-top: 10px;
             margin-bottom: 10px;
@@ -281,14 +317,15 @@
             align-items: center;
             flex-wrap: wrap;
             justify-content: center;
-            z-index: 1;
+            z-index: 2;
             position: relative;
             flex-shrink: 0;
         }
 
         .btn {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: #ddd;
             padding: 10px 28px;
             border-radius: 30px;
@@ -297,7 +334,7 @@
             transition: all 0.3s ease;
             font-family: inherit;
             letter-spacing: 1px;
-            z-index: 1;
+            z-index: 2;
             touch-action: manipulation;
             min-height: 44px;
             min-width: 44px;
@@ -305,7 +342,7 @@
 
         .btn:hover {
             background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.3);
             transform: scale(1.02);
         }
 
@@ -314,28 +351,29 @@
         }
 
         .btn-primary {
-            background: rgba(255, 107, 107, 0.2);
-            border-color: rgba(255, 107, 107, 0.35);
-            color: #ff6b6b;
+            background: rgba(255, 80, 30, 0.3);
+            border-color: rgba(255, 80, 30, 0.4);
+            color: #ff6633;
         }
 
         .btn-primary:hover {
-            background: rgba(255, 107, 107, 0.3);
-            border-color: rgba(255, 107, 107, 0.55);
+            background: rgba(255, 80, 30, 0.45);
+            border-color: rgba(255, 80, 30, 0.6);
         }
 
         .btn-audio {
-            background: rgba(0, 255, 255, 0.15);
-            border-color: rgba(0, 255, 255, 0.25);
+            background: rgba(0, 255, 255, 0.2);
+            border-color: rgba(0, 255, 255, 0.3);
             color: #00ffff;
             min-width: 54px;
         }
 
         .btn-audio:hover {
-            background: rgba(0, 255, 255, 0.25);
-            border-color: rgba(0, 255, 255, 0.45);
+            background: rgba(0, 255, 255, 0.3);
+            border-color: rgba(0, 255, 255, 0.5);
         }
 
+        /* ===== MENSAJE AUDIO ===== */
         .mensaje-audio {
             position: fixed;
             bottom: 80px;
@@ -343,11 +381,11 @@
             transform: translateX(-50%);
             color: #d4a0d4;
             font-size: 16px;
-            background: rgba(10, 0, 15, 0.85);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
             padding: 12px 24px;
             border-radius: 30px;
             border: 1px solid rgba(180, 80, 180, 0.2);
-            backdrop-filter: blur(10px);
             z-index: 100;
             animation: pulseMensaje 2s ease-in-out infinite;
             display: none;
@@ -372,6 +410,7 @@
             }
         }
 
+        /* ===== CARGA ===== */
         .cargando {
             position: fixed;
             top: 0;
@@ -409,6 +448,7 @@
             display: none;
         }
 
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .container {
                 padding: 4px 10px 6px;
@@ -569,6 +609,9 @@
 </head>
 <body>
 
+    <!-- ===== FOTO DE FONDO ===== -->
+    <div class="fondo-foto" id="fondoFoto"></div>
+
     <div class="cargando" id="cargando">
         <div class="spinner"></div>
         <span>🎵 Cargando canción...</span>
@@ -637,7 +680,6 @@
         const MODO_EXPLOSIVO = 40;
         const ALTURA_MAXIMA = 160;
 
-        // DETECTAR TABLET - menos barras para mejor rendimiento
         const esTablet = window.innerWidth <= 768;
         const NUM_BARRAS = esTablet ? 50 : 70;
 
@@ -677,6 +719,7 @@
         const cargando = document.getElementById('cargando');
         const ejesGrafico = document.getElementById('ejesGrafico');
         const mensajeAudio = document.getElementById('mensajeAudio');
+        const fondoFoto = document.getElementById('fondoFoto');
 
         // ============================================================
         // AUDIO
@@ -769,7 +812,7 @@
         crearBarras();
 
         // ============================================================
-        // GENERAR ONDAS (MODO NORMAL - OPTIMIZADO)
+        // GENERAR ONDAS (MODO NORMAL)
         // ============================================================
         function generarOndas(ancho, tiempo) {
             const alturas = new Array(ancho);
@@ -801,7 +844,7 @@
         }
 
         // ============================================================
-        // GENERAR CAOS (MODO EXPLOSIVO - OPTIMIZADO)
+        // GENERAR CAOS (MODO EXPLOSIVO)
         // ============================================================
         function generarCaos(ancho, tiempo) {
             const alturas = new Array(ancho);
@@ -841,7 +884,7 @@
         }
 
         // ============================================================
-        // COLOR (CACHEADO)
+        // COLOR
         // ============================================================
         const colorCache = {};
 
@@ -864,44 +907,7 @@
         }
 
         // ============================================================
-        // COLOR DE FONDO (OPTIMIZADO)
-        // ============================================================
-        function getFondoColor(tiempo, explosivo) {
-            if (!explosivo) {
-                const r = 0.05 + 0.1 * Math.pow(Math.sin(tiempo * 0.5), 2);
-                const g = 0.05 + 0.1 * Math.pow(Math.sin(tiempo * 0.6), 2);
-                const b = 0.15 + 0.15 * Math.pow(Math.sin(tiempo * 0.7), 2);
-                return `rgb(${Math.floor(r * 255)},${Math.floor(g * 255)},${Math.floor(b * 255)})`;
-            }
-
-            const pulso = Math.sin(tiempo * 2.5) * 0.5 + 0.5;
-            const pulso2 = Math.sin(tiempo * 3.2 + 1.5) * 0.5 + 0.5;
-
-            let r = 0.15 + 0.3 * pulso;
-            let g = 0.03 + 0.08 * pulso2;
-            let b = 0.05 + 0.2 * (1 - pulso);
-
-            if (Math.sin(tiempo * 10) > 0.9) r = Math.min(1, r + 0.4);
-            if (Math.sin(tiempo * 11) > 0.9) { r = Math.min(1, r + 0.2);
-                b = Math.min(1, b + 0.3); }
-            if (Math.sin(tiempo * 8) > 0.95) { r = Math.min(1, r + 0.5);
-                g = Math.min(1, g + 0.2); }
-            if (Math.sin(tiempo * 14) > 0.92) { r = 0.9;
-                g = 0.1;
-                b = 0.2; }
-            if (Math.sin(tiempo * 16) > 0.92) { r = 0.6;
-                g = 0.05;
-                b = 0.8; }
-
-            r = Math.min(Math.max(r, 0.02), 1);
-            g = Math.min(Math.max(g, 0.01), 0.5);
-            b = Math.min(Math.max(b, 0.01), 0.8);
-
-            return `rgb(${Math.floor(r * 255)},${Math.floor(g * 255)},${Math.floor(b * 255)})`;
-        }
-
-        // ============================================================
-        // PARTÍCULAS (REDUCIDAS PARA TABLET)
+        // PARTÍCULAS
         // ============================================================
         let particulaTimer = 0;
 
@@ -958,7 +964,7 @@
         let reiniciando = false;
 
         // ============================================================
-        // ACTUALIZAR ANIMACIÓN (OPTIMIZADA)
+        // ACTUALIZAR ANIMACIÓN
         // ============================================================
         function actualizarAnimacion(timestamp) {
             if (!reproduciendo || pausado) {
@@ -981,14 +987,14 @@
             const tiempoRestante = Math.max(0, DURACION_TOTAL - tiempoActual);
             const explosivo = tiempoActual >= MODO_EXPLOSIVO;
 
-            // ===== FONDO (cada 4 frames en tablet) =====
-            const skipFrames = esTablet ? 4 : 2;
-            if (frameCounter % skipFrames === 0) {
-                const bgColor = getFondoColor(tiempoActual, explosivo);
-                container.style.background = bgColor;
+            // ===== FOTO: MODO EXPLOSIVO SE ACLARA UN POCO =====
+            if (explosivo) {
+                fondoFoto.classList.add('explosivo');
+            } else {
+                fondoFoto.classList.remove('explosivo');
             }
 
-            // ===== LETRA (cada 3 frames en tablet) =====
+            // ===== LETRA =====
             const skipLetra = esTablet ? 3 : 2;
             if (frameCounter % skipLetra === 0 || explosivo) {
                 let textoActual = '';
@@ -1007,21 +1013,21 @@
                     const lig = 50 + 20 * Math.sin(tiempoActual * 5);
                     letraEl.style.color = `hsl(${hue}, 100%, ${lig}%)`;
                     letraEl.style.textShadow =
-                        `0 0 30px hsla(${hue}, 100%, 60%, 0.5), 0 0 60px hsla(${hue + 20}, 100%, 50%, 0.3)`;
+                        `0 0 30px hsla(${hue}, 100%, 60%, 0.5), 0 0 60px hsla(${hue + 20}, 100%, 50%, 0.3), 0 0 100px rgba(0,0,0,0.9)`;
                     letraEl.style.transform = `scale(${1 + 0.025 * Math.sin(tiempoActual * 8)})`;
                     brilloLetra.style.display = 'block';
                     brilloLetra.style.background =
                         `radial-gradient(circle, hsla(${hue}, 100%, 60%, 0.3), transparent 70%)`;
                     tituloEl.style.color = '#ff6633';
-                    tituloEl.style.textShadow = '0 0 30px rgba(255, 80, 30, 0.5)';
+                    tituloEl.style.textShadow = '0 0 30px rgba(255, 80, 30, 0.5), 0 0 60px rgba(0,0,0,0.9)';
                 } else {
                     const hue = 180 + (tiempoActual * 30) % 60;
                     letraEl.style.color = `hsl(${hue}, 100%, 70%)`;
-                    letraEl.style.textShadow = `0 0 40px hsla(${hue}, 100%, 70%, 0.2)`;
+                    letraEl.style.textShadow = `0 0 40px hsla(${hue}, 100%, 70%, 0.2), 0 0 80px rgba(0,0,0,0.9)`;
                     letraEl.style.transform = 'scale(1)';
                     brilloLetra.style.display = 'none';
                     tituloEl.style.color = '#00ffff';
-                    tituloEl.style.textShadow = '0 0 30px rgba(0, 255, 255, 0.3)';
+                    tituloEl.style.textShadow = '0 0 30px rgba(0, 255, 255, 0.3), 0 0 60px rgba(0,0,0,0.9)';
                 }
             }
 
@@ -1050,7 +1056,7 @@
                 }
             }
 
-            // ===== PARTÍCULAS (REDUCIDAS en tablet) =====
+            // ===== PARTÍCULAS =====
             if (explosivo) {
                 const skipParticulas = esTablet ? 6 : 3;
                 particulaTimer++;
@@ -1077,13 +1083,13 @@
             if (explosivo) {
                 modoTextoEl.textContent = '🔥';
                 modoTextoEl.style.color = '#ff6633';
-                modoTextoEl.style.textShadow = '0 0 30px rgba(255, 80, 30, 0.5)';
+                modoTextoEl.style.textShadow = '0 0 30px rgba(255, 80, 30, 0.5), 0 0 60px rgba(0,0,0,0.9)';
                 modoTextoEl.style.fontSize = '22px';
                 tituloEl.textContent = `♫ ${tiempoRestante.toFixed(1)}s ♫  🔥🔥🔥🔥`;
             } else {
                 modoTextoEl.textContent = '🎵';
-                modoTextoEl.style.color = '#888';
-                modoTextoEl.style.textShadow = 'none';
+                modoTextoEl.style.color = '#ccc';
+                modoTextoEl.style.textShadow = '0 0 20px rgba(0,0,0,0.9)';
                 modoTextoEl.style.fontSize = '16px';
                 tituloEl.textContent = `♫ ${tiempoRestante.toFixed(1)}s ♫`;
             }
@@ -1131,17 +1137,18 @@
                 }
             }
 
-            container.style.background = '#0a0008';
+            container.style.background = 'transparent';
             letraEl.style.color = '#fff';
             letraEl.style.transform = 'scale(1)';
             tituloEl.style.color = '#00ffff';
-            tituloEl.style.textShadow = '0 0 30px rgba(0, 255, 255, 0.3)';
+            tituloEl.style.textShadow = '0 0 30px rgba(0, 255, 255, 0.3), 0 0 60px rgba(0,0,0,0.9)';
             tiempoRestanteEl.textContent = '99.0';
             modoTextoEl.textContent = '🎵';
-            modoTextoEl.style.color = '#888';
-            modoTextoEl.style.textShadow = 'none';
+            modoTextoEl.style.color = '#ccc';
+            modoTextoEl.style.textShadow = '0 0 20px rgba(0,0,0,0.9)';
             modoTextoEl.style.fontSize = '16px';
             brilloLetra.style.display = 'none';
+            fondoFoto.classList.remove('explosivo');
 
             particulasContainer.innerHTML = '';
 
@@ -1173,6 +1180,7 @@
         console.log('♫ Doma - Josean Log | Visualizador Musical ♫');
         console.log(`🎵 Audio inicia en segundo ${INICIO_AUDIO}`);
         console.log(`📱 Modo tablet: ${esTablet ? 'ACTIVADO' : 'DESACTIVADO'} (${NUM_BARRAS} barras)`);
+        console.log('📸 Fondo con foto de ustedes activado');
         console.log('🌊 Modo normal: ONDAS FRÍAS');
         console.log('🔥 Modo explosivo: NARANJA-ROJO-PÚRPURA');
         console.log('🔄 Bucle infinito automático');
