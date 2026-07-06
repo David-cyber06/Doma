@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>♫ Doma - Josean Log | Visualizador Musical ♫</title>
     <style>
         * {
@@ -11,17 +11,22 @@
             box-sizing: border-box;
         }
 
+        html,
         body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
             background: #0a0008;
+            font-family: 'Segoe UI', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            font-family: 'Segoe UI', sans-serif;
-            overflow: hidden; 
-            user-select: none;
-            height: 100vh;
-            width: 100vw;
         }
 
         /* ===== FOTO DE FONDO ===== */
@@ -46,17 +51,16 @@
 
         .container {
             position: relative;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             background: transparent;
-            padding: 8px 16px 10px;
-            overflow: hidden;
-            padding-top: 6px;
+            padding: 2vh 4vw 1.5vh;
             z-index: 1;
+            overflow: hidden;
         }
 
         .particulas-container {
@@ -89,49 +93,53 @@
             }
         }
 
+        /* ===== LETRA ===== */
         .letra-container {
             width: 92%;
             max-width: 850px;
             text-align: center;
-            min-height: 55px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 2px 16px 2px;
+            padding: 0.5vh 2vw 0.5vh;
             position: relative;
             z-index: 2;
             flex-shrink: 0;
+            min-height: 10vh;
         }
 
         .titulo {
             color: #00ffff;
-            font-size: 14px;
+            font-size: clamp(10px, 1.4vh, 16px);
             font-weight: bold;
             letter-spacing: 2px;
-            margin-bottom: 1px;
+            margin-bottom: 0.3vh;
             text-shadow: 0 0 20px rgba(0, 255, 255, 0.3), 0 0 40px rgba(0, 0, 0, 0.8);
             transition: all 0.3s ease;
-            min-height: 22px;
+            min-height: 2.5vh;
             z-index: 2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .letra {
-            font-size: 20px;
+            font-size: clamp(14px, 2.2vh, 24px);
             font-weight: bold;
             text-align: center;
-            min-height: 38px;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.1s ease;
-            padding: 2px;
+            padding: 0.2vh 1vw;
             line-height: 1.2;
             text-shadow: 0 0 30px rgba(255, 255, 255, 0.1), 0 0 60px rgba(0, 0, 0, 0.9);
             color: #fff;
             z-index: 2;
             position: relative;
             width: 100%;
+            min-height: 5vh;
         }
 
         .letra .brillo {
@@ -159,45 +167,46 @@
             }
         }
 
+        /* ===== GRÁFICO ===== */
         .grafico-container {
             width: 94%;
             max-width: 940px;
             position: relative;
             z-index: 2;
-            flex-shrink: 0;
-            height: 400px;
+            flex-shrink: 1;
+            flex: 1;
+            min-height: 30vh;
+            max-height: 65vh;
             display: flex;
             flex-direction: column;
-            flex: 1;
-            min-height: 280px;
-            max-height: 520px;
+            width: 100%;
         }
 
         .grafico-container .ejes {
             position: relative;
             width: 100%;
             height: 100%;
-            min-height: 240px;
-            max-height: 460px;
+            min-height: 25vh;
+            max-height: 60vh;
             flex: 1;
-            margin-left: 48px;
+            margin-left: clamp(30px, 6vw, 50px);
         }
 
         .eje-y {
             position: absolute;
-            left: -46px;
+            left: clamp(-32px, -6vw, -48px);
             top: 0;
             height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             color: #aaa;
-            font-size: 9px;
+            font-size: clamp(6px, 1vh, 10px);
             font-family: 'Segoe UI', monospace;
             letter-spacing: 0.5px;
             text-align: right;
-            padding-right: 5px;
-            width: 36px;
+            padding-right: 4px;
+            width: clamp(24px, 5vw, 38px);
             text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
         }
         .eje-y span {
@@ -206,11 +215,11 @@
 
         .eje-y-titulo {
             position: absolute;
-            left: -50px;
+            left: clamp(-36px, -7vw, -52px);
             top: 50%;
             transform: translateY(-50%) rotate(-90deg);
             color: #aaa;
-            font-size: 10px;
+            font-size: clamp(7px, 1.1vh, 11px);
             letter-spacing: 2px;
             font-family: 'Segoe UI', sans-serif;
             white-space: nowrap;
@@ -228,8 +237,8 @@
             display: flex;
             align-items: flex-end;
             justify-content: center;
-            gap: 2px;
-            padding: 0 2px;
+            gap: clamp(1px, 0.3vw, 3px);
+            padding: 0 clamp(1px, 0.3vw, 3px);
             border-left: 1px solid rgba(255, 255, 255, 0.08);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
@@ -241,7 +250,7 @@
             border-radius: 2px 2px 0 0;
             transition: height 0.06s ease, background 0.06s ease;
             background: cyan;
-            max-width: 20px;
+            max-width: clamp(10px, 2vw, 22px);
             will-change: height;
             opacity: 0.85;
         }
@@ -249,10 +258,10 @@
         .eje-x {
             display: flex;
             justify-content: space-between;
-            padding: 3px 6px 0 6px;
-            margin-left: 48px;
+            padding: 0.3vh 0.6vw 0 0.6vw;
+            margin-left: clamp(30px, 6vw, 50px);
             color: #aaa;
-            font-size: 8px;
+            font-size: clamp(5px, 0.9vh, 9px);
             font-family: 'Segoe UI', monospace;
             letter-spacing: 0.5px;
             text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
@@ -264,20 +273,21 @@
         .eje-x-titulo {
             text-align: center;
             color: #aaa;
-            font-size: 10px;
+            font-size: clamp(7px, 1.1vh, 11px);
             letter-spacing: 2px;
             font-family: 'Segoe UI', sans-serif;
             opacity: 0.7;
             font-weight: 300;
-            margin-top: 0px;
-            margin-left: 48px;
+            margin-top: 0.2vh;
+            margin-left: clamp(30px, 6vw, 50px);
             text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
         }
 
+        /* ===== INFO ===== */
         .info {
             color: #ccc;
-            font-size: 13px;
-            margin-top: 10px;
+            font-size: clamp(10px, 1.3vh, 14px);
+            margin-top: 1vh;
             letter-spacing: 2px;
             text-align: center;
             z-index: 2;
@@ -291,8 +301,8 @@
 
         .tiempo {
             color: #ccc;
-            font-size: 13px;
-            margin-top: 1px;
+            font-size: clamp(10px, 1.3vh, 14px);
+            margin-top: 0.2vh;
             letter-spacing: 1px;
             z-index: 2;
             position: relative;
@@ -300,11 +310,12 @@
             text-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
         }
 
+        /* ===== CONTROLES ===== */
         .controles {
-            margin-top: 10px;
-            margin-bottom: 10px;
+            margin-top: 1vh;
+            margin-bottom: 0.5vh;
             display: flex;
-            gap: 14px;
+            gap: clamp(8px, 2vw, 16px);
             align-items: center;
             flex-wrap: wrap;
             justify-content: center;
@@ -316,25 +327,23 @@
         .btn {
             background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.15);
             color: #ddd;
-            padding: 10px 28px;
+            padding: clamp(6px, 1.2vh, 12px) clamp(14px, 3vw, 30px);
             border-radius: 30px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: clamp(10px, 1.3vh, 15px);
             transition: all 0.3s ease;
             font-family: inherit;
             letter-spacing: 1px;
             z-index: 2;
             touch-action: manipulation;
-            min-height: 44px;
-            min-width: 44px;
-        }
-
-        .btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: rgba(255, 255, 255, 0.3);
-            transform: scale(1.02);
+            min-height: clamp(32px, 5vh, 46px);
+            min-width: clamp(32px, 5vw, 48px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn:active {
@@ -347,33 +356,32 @@
             color: #ff6633;
         }
 
-        .btn-primary:hover {
-            background: rgba(255, 80, 30, 0.45);
-            border-color: rgba(255, 80, 30, 0.6);
+        .btn-primary:active {
+            background: rgba(255, 80, 30, 0.5);
         }
 
         .btn-audio {
             background: rgba(0, 255, 255, 0.2);
             border-color: rgba(0, 255, 255, 0.3);
             color: #00ffff;
-            min-width: 54px;
+            min-width: clamp(40px, 6vw, 56px);
         }
 
-        .btn-audio:hover {
-            background: rgba(0, 255, 255, 0.3);
-            border-color: rgba(0, 255, 255, 0.5);
+        .btn-audio:active {
+            background: rgba(0, 255, 255, 0.35);
         }
 
         .mensaje-audio {
             position: fixed;
-            bottom: 80px;
+            bottom: 8vh;
             left: 50%;
             transform: translateX(-50%);
             color: #d4a0d4;
-            font-size: 16px;
+            font-size: clamp(12px, 1.6vh, 18px);
             background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(10px);
-            padding: 12px 24px;
+            -webkit-backdrop-filter: blur(10px);
+            padding: clamp(8px, 1.2vh, 14px) clamp(14px, 3vw, 28px);
             border-radius: 30px;
             border: 1px solid rgba(180, 80, 180, 0.2);
             z-index: 100;
@@ -412,14 +420,14 @@
             background: #0a0008;
             z-index: 1000;
             color: #d4a0d4;
-            font-size: 20px;
+            font-size: clamp(14px, 2.5vh, 22px);
             letter-spacing: 3px;
             flex-direction: column;
-            gap: 20px;
+            gap: 2vh;
         }
         .cargando .spinner {
-            width: 50px;
-            height: 50px;
+            width: clamp(30px, 6vh, 55px);
+            height: clamp(30px, 6vh, 55px);
             border: 3px solid rgba(180, 80, 180, 0.1);
             border-top: 3px solid #d4a0d4;
             border-radius: 50%;
@@ -437,156 +445,164 @@
             display: none;
         }
 
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .container {
-                padding: 4px 10px 6px;
-                padding-top: 4px;
+                padding: 1.5vh 3vw 1vh;
             }
             .letra {
-                font-size: 16px;
-                min-height: 32px;
+                font-size: clamp(13px, 2vh, 18px);
+                min-height: 4vh;
             }
             .titulo {
-                font-size: 12px;
-                min-height: 20px;
-            }
-            .letra-container {
-                min-height: 44px;
-                padding: 1px 10px 2px;
+                font-size: clamp(9px, 1.2vh, 13px);
             }
             .grafico-container {
-                height: 300px;
-                min-height: 200px;
-                max-height: 400px;
+                min-height: 25vh;
+                max-height: 55vh;
             }
             .grafico-container .ejes {
-                min-height: 160px;
-                max-height: 330px;
-                margin-left: 38px;
-            }
-            .eje-y {
-                left: -38px;
-                width: 30px;
-                font-size: 8px;
-            }
-            .eje-y-titulo {
-                left: -42px;
-                font-size: 9px;
-            }
-            .eje-x {
-                margin-left: 38px;
-                font-size: 8px;
-                padding: 2px 4px 0 4px;
-            }
-            .eje-x-titulo {
-                margin-left: 38px;
-                font-size: 9px;
-            }
-            .barras-wrapper {
-                gap: 2px;
-                padding: 0 2px;
+                min-height: 20vh;
+                max-height: 50vh;
+                margin-left: clamp(28px, 5vw, 40px);
             }
             .barra {
-                max-width: 14px;
-                min-height: 2px;
+                max-width: clamp(8px, 1.5vw, 16px);
+            }
+            .eje-y {
+                font-size: clamp(5px, 0.8vh, 8px);
+                width: clamp(20px, 4vw, 32px);
+                left: clamp(-26px, -5vw, -38px);
+            }
+            .eje-y-titulo {
+                font-size: clamp(6px, 0.9vh, 9px);
+                left: clamp(-30px, -6vw, -42px);
+            }
+            .eje-x {
+                font-size: clamp(5px, 0.7vh, 8px);
+                margin-left: clamp(28px, 5vw, 40px);
+            }
+            .eje-x-titulo {
+                font-size: clamp(6px, 0.9vh, 9px);
+                margin-left: clamp(28px, 5vw, 40px);
             }
             .btn {
-                padding: 8px 20px;
-                font-size: 12px;
-                min-height: 40px;
-                min-width: 40px;
-            }
-            .controles {
-                gap: 10px;
-                margin-top: 8px;
-                margin-bottom: 6px;
+                font-size: clamp(9px, 1.1vh, 12px);
+                padding: clamp(5px, 1vh, 10px) clamp(12px, 2.5vw, 22px);
+                min-height: clamp(28px, 4vh, 40px);
+                min-width: clamp(28px, 4vw, 42px);
             }
             .info {
-                font-size: 12px;
-                margin-top: 8px;
+                font-size: clamp(9px, 1.1vh, 12px);
+                margin-top: 0.8vh;
             }
             .tiempo {
-                font-size: 12px;
-                margin-top: 1px;
+                font-size: clamp(9px, 1.1vh, 12px);
+            }
+            .controles {
+                gap: clamp(6px, 1.5vw, 12px);
+                margin-top: 0.8vh;
             }
             .mensaje-audio {
-                font-size: 14px;
-                padding: 10px 20px;
-                bottom: 70px;
+                font-size: clamp(11px, 1.4vh, 15px);
+                padding: clamp(6px, 1vh, 12px) clamp(12px, 2.5vw, 22px);
+                bottom: 7vh;
             }
         }
 
         @media (max-width: 480px) {
             .container {
-                padding: 2px 6px 4px;
-                padding-top: 2px;
+                padding: 1vh 2vw 0.8vh;
             }
             .letra {
-                font-size: 13px;
-                min-height: 26px;
+                font-size: clamp(11px, 1.7vh, 15px);
+                min-height: 3.5vh;
             }
             .titulo {
-                font-size: 10px;
-                min-height: 16px;
-            }
-            .letra-container {
-                min-height: 36px;
-                padding: 1px 6px 1px;
+                font-size: clamp(8px, 1vh, 11px);
             }
             .grafico-container {
-                height: 200px;
-                min-height: 150px;
-                max-height: 300px;
+                min-height: 20vh;
+                max-height: 50vh;
             }
             .grafico-container .ejes {
-                min-height: 120px;
-                max-height: 240px;
-                margin-left: 32px;
-            }
-            .eje-y {
-                left: -32px;
-                width: 26px;
-                font-size: 7px;
-            }
-            .eje-y-titulo {
-                left: -36px;
-                font-size: 8px;
-            }
-            .eje-x {
-                margin-left: 32px;
-                font-size: 7px;
-            }
-            .eje-x-titulo {
-                margin-left: 32px;
-                font-size: 8px;
-            }
-            .barras-wrapper {
-                gap: 2px;
-                padding: 0 2px;
+                min-height: 16vh;
+                max-height: 45vh;
+                margin-left: clamp(22px, 4vw, 32px);
             }
             .barra {
-                max-width: 10px;
-                min-height: 2px;
+                max-width: clamp(6px, 1.2vw, 12px);
+            }
+            .eje-y {
+                font-size: clamp(4px, 0.6vh, 7px);
+                width: clamp(16px, 3.5vw, 26px);
+                left: clamp(-20px, -4vw, -30px);
+            }
+            .eje-y-titulo {
+                font-size: clamp(5px, 0.7vh, 8px);
+                left: clamp(-24px, -5vw, -34px);
+            }
+            .eje-x {
+                font-size: clamp(4px, 0.6vh, 7px);
+                margin-left: clamp(22px, 4vw, 32px);
+            }
+            .eje-x-titulo {
+                font-size: clamp(5px, 0.7vh, 8px);
+                margin-left: clamp(22px, 4vw, 32px);
             }
             .btn {
-                padding: 6px 14px;
-                font-size: 11px;
-                min-height: 36px;
-                min-width: 36px;
-            }
-            .controles {
-                gap: 8px;
-                margin-top: 6px;
-                margin-bottom: 4px;
+                font-size: clamp(8px, 1vh, 11px);
+                padding: clamp(4px, 0.8vh, 8px) clamp(10px, 2vw, 18px);
+                min-height: clamp(24px, 3.5vh, 36px);
+                min-width: clamp(24px, 3.5vw, 38px);
             }
             .info {
-                font-size: 11px;
-                margin-top: 6px;
+                font-size: clamp(8px, 1vh, 11px);
+                margin-top: 0.5vh;
+            }
+            .tiempo {
+                font-size: clamp(8px, 1vh, 11px);
+            }
+            .controles {
+                gap: clamp(4px, 1vw, 8px);
+                margin-top: 0.5vh;
             }
             .mensaje-audio {
-                font-size: 12px;
-                padding: 8px 16px;
-                bottom: 60px;
+                font-size: clamp(10px, 1.2vh, 13px);
+                padding: clamp(5px, 0.8vh, 10px) clamp(10px, 2vw, 18px);
+                bottom: 6vh;
+            }
+        }
+
+        @media (orientation: landscape) and (max-height: 500px) {
+            .letra-container {
+                min-height: 6vh;
+            }
+            .letra {
+                font-size: clamp(11px, 1.8vh, 16px);
+                min-height: 3vh;
+            }
+            .titulo {
+                font-size: clamp(8px, 1.2vh, 12px);
+            }
+            .grafico-container {
+                min-height: 20vh;
+                max-height: 50vh;
+            }
+            .grafico-container .ejes {
+                min-height: 15vh;
+                max-height: 45vh;
+            }
+            .info {
+                margin-top: 0.5vh;
+            }
+            .controles {
+                margin-top: 0.5vh;
+            }
+            .btn {
+                padding: clamp(4px, 0.8vh, 8px) clamp(10px, 2vw, 20px);
+                min-height: clamp(24px, 3.5vh, 36px);
+                font-size: clamp(8px, 1vh, 11px);
             }
         }
 
@@ -663,7 +679,7 @@
         // ============================================================
         // CONFIGURACIÓN
         // ============================================================
-        const DURACION_TOTAL = 99;
+        const DURACION_TOTAL = 102;
         const INICIO_AUDIO = 80;
         const MODO_EXPLOSIVO = 40;
         const ALTURA_MAXIMA = 160;
