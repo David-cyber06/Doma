@@ -33,16 +33,13 @@
             height: 100%;
             z-index: 0;
             background-image: url('image/wiwi.jpeg');
-            /* ← CAMBIA ESTO por el nombre de tu foto */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             filter: brightness(0.4) saturate(0.8);
-            /* Oscurece la imagen para que se vean bien los colores encima */
             transition: filter 0.1s ease;
         }
 
-        /* En modo explosivo la foto se aclara un poco */
         .fondo-foto.explosivo {
             filter: brightness(0.5) saturate(1.1) contrast(1.05);
         }
@@ -56,7 +53,6 @@
             justify-content: center;
             align-items: center;
             background: transparent;
-            /* Fondo transparente para ver la foto */
             padding: 8px 16px 10px;
             overflow: hidden;
             padding-top: 6px;
@@ -93,7 +89,6 @@
             }
         }
 
-        /* ===== LETRA ===== */
         .letra-container {
             width: 92%;
             max-width: 850px;
@@ -164,7 +159,6 @@
             }
         }
 
-        /* ===== GRÁFICO ===== */
         .grafico-container {
             width: 94%;
             max-width: 940px;
@@ -189,7 +183,6 @@
             margin-left: 48px;
         }
 
-        /* Ejes con fondo semi-transparente para que se lean sobre la foto */
         .eje-y {
             position: absolute;
             left: -46px;
@@ -281,7 +274,6 @@
             text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
         }
 
-        /* ===== INFO ===== */
         .info {
             color: #ccc;
             font-size: 13px;
@@ -308,7 +300,6 @@
             text-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
         }
 
-        /* ===== CONTROLES ===== */
         .controles {
             margin-top: 10px;
             margin-bottom: 10px;
@@ -373,7 +364,6 @@
             border-color: rgba(0, 255, 255, 0.5);
         }
 
-        /* ===== MENSAJE AUDIO ===== */
         .mensaje-audio {
             position: fixed;
             bottom: 80px;
@@ -410,7 +400,6 @@
             }
         }
 
-        /* ===== CARGA ===== */
         .cargando {
             position: fixed;
             top: 0;
@@ -448,7 +437,6 @@
             display: none;
         }
 
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .container {
                 padding: 4px 10px 6px;
@@ -1180,7 +1168,7 @@
         console.log('♫ Doma - Josean Log | Visualizador Musical ♫');
         console.log(`🎵 Audio inicia en segundo ${INICIO_AUDIO}`);
         console.log(`📱 Modo tablet: ${esTablet ? 'ACTIVADO' : 'DESACTIVADO'} (${NUM_BARRAS} barras)`);
-        console.log('📸 Fondo con foto de ustedes activado');
+        console.log('📸 Fondo: image/wiwi.jpeg');
         console.log('🌊 Modo normal: ONDAS FRÍAS');
         console.log('🔥 Modo explosivo: NARANJA-ROJO-PÚRPURA');
         console.log('🔄 Bucle infinito automático');
