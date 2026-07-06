@@ -633,11 +633,11 @@
         // CONFIGURACIÓN
         // ============================================================
         const DURACION_TOTAL = 99;
-        const NUM_BARRAS = 60;
+        const NUM_BARRAS = 70;
         const INICIO_AUDIO = 80;
         const MODO_EXPLOSIVO = 40;
-        const ALTURA_MAXIMA_EXPLOSIVO = 130;
-        const ALTURA_MAXIMA_NORMAL = 160;
+        const ALTURA_MAXIMA_EXPLOSIVO = 140;
+        const ALTURA_MAXIMA_NORMAL = 170;
 
         const LETRAS = [
             { tiempo: 0.0, texto: "❤ De corazones tienes colección ❤" },
@@ -767,20 +767,40 @@
         crearBarras();
 
         // ============================================================
-        // GENERAR ONDAS (MODO NORMAL)
+        // GENERAR PAISAJE (MODO NORMAL - MONTES Y CORAZONES)
         // ============================================================
-        function generarOndas(ancho, tiempo) {
+        function generarPaisaje(ancho, tiempo) {
             const alturas = new Array(ancho);
-            const centro = Math.floor(ancho / 2);
 
             for (let i = 0; i < ancho; i++) {
-                const onda1 = Math.sin(i * 0.2 + tiempo * 2.5) * 0.4 + 0.5;
-                const onda2 = Math.sin(i * 0.28 - tiempo * 1.8) * 0.25 + 0.3;
-                const distCentro = Math.abs(i - centro) / (ancho / 2);
-                const picoCentral = Math.max(0, 0.7 - distCentro * 0.5) * 0.2;
+                const x = i / ancho; // 0 a 1
 
-                let altura = onda1 * 0.5 + onda2 * 0.3 + picoCentral;
-                altura = Math.min(Math.max(altura, 0.08), 1);
+                // MONTES: varias ondas con diferentes frecuencias
+                const monte1 = 0.4 * Math.pow(Math.sin(x * 8 + tiempo * 2.2 + 1.2), 2) + 0.2;
+                const monte2 = 0.35 * Math.pow(Math.sin(x * 12 - tiempo * 1.8 + 0.8), 2) + 0.15;
+                const monte3 = 0.3 * Math.pow(Math.sin(x * 5 + tiempo * 3.5 + 0.3), 2) + 0.1;
+                const monte4 = 0.25 * Math.pow(Math.sin(x * 15 + tiempo * 1.2 + 2.1), 2) + 0.1;
+
+                // CORAZONES PEQUEÑOS que aparecen y desaparecen
+                const centro1 = 0.2 + 0.1 * Math.sin(tiempo * 0.5);
+                const centro2 = 0.5 + 0.1 * Math.cos(tiempo * 0.4);
+                const centro3 = 0.8 + 0.1 * Math.sin(tiempo * 0.6 + 1);
+
+                const corazon1 = 0.3 * Math.exp(-Math.pow((x - centro1) * 12, 2));
+                const corazon2 = 0.3 * Math.exp(-Math.pow((x - centro2) * 12, 2));
+                const corazon3 = 0.3 * Math.exp(-Math.pow((x - centro3) * 12, 2));
+
+                // Sumar todo
+                let altura = monte1 * 0.5 + monte2 * 0.3 + monte3 * 0.2 + monte4 * 0.15;
+                altura += corazon1 * 0.4 + corazon2 * 0.4 + corazon3 * 0.4;
+
+                // Pequeño efecto de movimiento ondulante en toda la gráfica
+                altura += 0.08 * Math.sin(i * 0.2 + tiempo * 4);
+
+                // Nunca se queda en cero
+                altura = Math.max(altura, 0.06);
+                altura = Math.min(altura, 1);
+
                 alturas[i] = altura;
             }
 
@@ -788,73 +808,76 @@
         }
 
         // ============================================================
-        // GENERAR CORAZÓN (ANCHO, REDONDO Y CON MOVIMIENTO)
+        // GENERAR CORAZÓN (MODO EXPLOSIVO - CAOS DE CORAZONES)
         // ============================================================
-        function generarCorazon(ancho, latido) {
+        function generarCaosCorazones(ancho, latido) {
             const alturas = new Array(ancho);
             const centro = Math.floor(ancho / 2);
 
-            // CORAZÓN ANCHO - ocupa casi todo el ancho
+            // CORAZÓN PRINCIPAL GIGANTE
             const formaCorazon = [];
-            const mitad = Math.floor(ancho * 0.45);
+            const mitad = Math.floor(ancho * 0.35);
 
-            // Construir forma de corazón ancha
             for (let i = -mitad; i <= mitad; i++) {
-                const x = i / mitad; // -1 a 1
-                // Fórmula del corazón: (x^2 + y^2 - 1)^3 - x^2 * y^3 = 0
-                // Despejamos y para cada x
+                const x = i / mitad;
                 const x2 = x * x;
                 const yMax = Math.sqrt(Math.max(0, 1 - x2 * 1.2));
-                // Forma de corazón más redonda y ancha
                 let valor = yMax * 0.9;
-
-                // Hacer el pico superior más pronunciado
-                if (Math.abs(x) < 0.15) {
-                    valor = valor * (1 + 0.3 * (1 - Math.abs(x) / 0.15));
+                if (Math.abs(x) < 0.12) {
+                    valor = valor * (1 + 0.3 * (1 - Math.abs(x) / 0.12));
                 }
-
-                // Suavizar bordes
-                valor = Math.max(0, valor - 0.05);
-                formaCorazon.push(valor);
+                formaCorazon.push(Math.max(0, valor - 0.05));
             }
 
-            // Asegurar que el corazón ocupa el ancho correcto
             const inicio = centro - Math.floor(formaCorazon.length / 2);
 
-            // Inicializar todas las barras
+            // Inicializar
             for (let i = 0; i < ancho; i++) {
                 alturas[i] = 0.05;
             }
 
-            // Colocar el corazón
+            // Corazón principal
             for (let i = 0; i < formaCorazon.length; i++) {
                 const idx = inicio + i;
                 if (idx >= 0 && idx < ancho) {
-                    alturas[idx] = Math.max(alturas[idx], formaCorazon[i] * 0.95);
+                    alturas[idx] = Math.max(alturas[idx], formaCorazon[i] * 0.9);
                 }
             }
 
-            // LATIDO: el corazón late desde el centro hacia afuera
-            const latidoSuave = 0.5 + 0.5 * Math.sin(latido * 10);
-            const factorLatido = 0.4 + 0.6 * latidoSuave;
+            // CORAZONES SECUNDARIOS (caos bonito)
+            const numCorazones = 5 + Math.floor(Math.sin(latido * 0.5) * 3 + 3);
+            for (let c = 0; c < numCorazones; c++) {
+                const cx = 0.1 + 0.8 * Math.random();
+                const cy = 0.2 + 0.3 * Math.sin(latido * 2 + c * 1.5) + 0.2;
+                const size = 0.03 + 0.05 * Math.random() + 0.02 * Math.sin(latido * 3 + c);
 
-            // ONDA DE LATIDO: se expande desde el centro
+                const centroCorazon = Math.floor(cx * ancho);
+                const radio = Math.floor(size * ancho);
+
+                for (let i = -radio; i <= radio; i++) {
+                    const idx = centroCorazon + i;
+                    if (idx >= 0 && idx < ancho) {
+                        const x = i / radio;
+                        const x2 = x * x;
+                        const yMax = Math.sqrt(Math.max(0, 1 - x2 * 1.2));
+                        let valor = yMax * 0.8 * cy;
+                        if (Math.abs(x) < 0.1) {
+                            valor = valor * (1 + 0.2 * (1 - Math.abs(x) / 0.1));
+                        }
+                        alturas[idx] = Math.max(alturas[idx], Math.max(0, valor - 0.02));
+                    }
+                }
+            }
+
+            // LATIDO
+            const latidoFactor = 0.4 + 0.6 * (0.5 + 0.5 * Math.sin(latido * 10));
             for (let i = 0; i < ancho; i++) {
                 const dist = Math.abs(i - centro) / (ancho / 2);
-                // El latido es más fuerte en el centro y se atenúa hacia los bordes
-                const atenuacion = 1 - dist * 0.3;
-                const latidoLocal = factorLatido * (0.7 + 0.3 * atenuacion);
-
-                // Solo aplicar a las barras que tienen forma de corazón
+                const atenuacion = 1 - dist * 0.2;
+                const latidoLocal = latidoFactor * (0.7 + 0.3 * atenuacion);
                 if (alturas[i] > 0.1) {
                     alturas[i] = alturas[i] * latidoLocal;
                 }
-
-                // Añadir un poco de movimiento a las barras cercanas al corazón
-                if (dist < 0.5 && alturas[i] < 0.1) {
-                    alturas[i] = 0.05 + 0.1 * Math.sin(latido * 8 + i * 0.3) * (0.5 + 0.5 * Math.sin(latido * 12));
-                }
-
                 alturas[i] = Math.min(Math.max(alturas[i], 0.05), 1);
             }
 
@@ -1028,9 +1051,9 @@
             let alturas;
             if (explosivo) {
                 const latido = tiempoActual * 1.1;
-                alturas = generarCorazon(NUM_BARRAS, latido);
+                alturas = generarCaosCorazones(NUM_BARRAS, latido);
             } else {
-                alturas = generarOndas(NUM_BARRAS, tiempoActual);
+                alturas = generarPaisaje(NUM_BARRAS, tiempoActual);
             }
 
             for (let i = 0; i < NUM_BARRAS; i++) {
@@ -1168,7 +1191,8 @@
         // ============================================================
         console.log('♫ Doma - Josean Log | Visualizador Musical ♫');
         console.log(`🎵 Audio inicia en segundo ${INICIO_AUDIO}`);
-        console.log('❤🔥 A los 40 segundos: CORAZÓN ANCHO Y REDONDO');
+        console.log('🏔️❤️ Modo normal: MONTES + CORAZONES');
+        console.log('❤️‍🔥 Modo explosivo: CAOS DE CORAZONES');
         console.log('🔄 Bucle infinito automático');
 
         iniciar();
