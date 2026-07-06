@@ -636,7 +636,7 @@
         const NUM_BARRAS = 40;
         const INICIO_AUDIO = 80;
         const MODO_EXPLOSIVO = 40;
-        const ALTURA_MAXIMA_EXPLOSIVO = 120;
+        const ALTURA_MAXIMA_EXPLOSIVO = 130;
         const ALTURA_MAXIMA_NORMAL = 160;
 
         const LETRAS = [
@@ -767,20 +767,17 @@
         crearBarras();
 
         // ============================================================
-        // GENERAR ONDAS (MODO NORMAL - MÁS NATURAL)
+        // GENERAR ONDAS (MODO NORMAL)
         // ============================================================
         function generarOndas(ancho, tiempo) {
             const alturas = new Array(ancho);
             const centro = Math.floor(ancho / 2);
 
             for (let i = 0; i < ancho; i++) {
-                // Onda principal que se mueve de izquierda a derecha
                 const onda1 = Math.sin(i * 0.25 + tiempo * 2.5) * 0.4 + 0.5;
-                // Onda secundaria que va en dirección opuesta
                 const onda2 = Math.sin(i * 0.35 - tiempo * 1.8) * 0.25 + 0.3;
-                // Pico central más suave
                 const distCentro = Math.abs(i - centro) / (ancho / 2);
-                const picoCentral = Math.max(0, 0.8 - distCentro * 0.6) * 0.3;
+                const picoCentral = Math.max(0, 0.7 - distCentro * 0.5) * 0.25;
 
                 let altura = onda1 * 0.5 + onda2 * 0.3 + picoCentral;
                 altura = Math.min(Math.max(altura, 0.08), 1);
@@ -791,21 +788,27 @@
         }
 
         // ============================================================
-        // GENERAR CORAZÓN (MODO EXPLOSIVO - OPTIMIZADO Y FLUIDO)
+        // GENERAR CORAZÓN (PURO, SIN DEFORMACIONES)
         // ============================================================
-        function generarCorazon(ancho, latido, alturaMax) {
+        function generarCorazon(ancho, latido) {
             const alturas = new Array(ancho);
             const centro = Math.floor(ancho / 2);
 
-            // FORMA DE CORAZÓN (13 barras)
-            const formaCorazon = [0.2, 0.35, 0.55, 0.75, 0.88, 0.96, 1.0, 0.96, 0.88, 0.75, 0.55, 0.35, 0.2];
-            const inicio = centro - 6;
+            // FORMA DE CORAZÓN BIEN DEFINIDA
+            const formaCorazon = [
+                0.15, 0.25, 0.45, 0.65, 0.82, 0.93, 1.0,
+                0.98, 0.92, 0.82, 0.68, 0.50, 0.32, 0.20, 0.12
+            ];
 
-            // Primero, forma base del corazón
+            // Centrar el corazón
+            const inicio = centro - Math.floor(formaCorazon.length / 2);
+
+            // Inicializar todas las barras a 0.05
             for (let i = 0; i < ancho; i++) {
                 alturas[i] = 0.05;
             }
 
+            // Colocar la forma del corazón
             for (let i = 0; i < formaCorazon.length; i++) {
                 const idx = inicio + i;
                 if (idx >= 0 && idx < ancho) {
@@ -813,33 +816,35 @@
                 }
             }
 
-            // LATIDO - suave y natural
-            const latidoSuave = Math.sin(latido * 12);
-            const intensidad = 0.35 + 0.65 * (0.5 + 0.5 * latidoSuave);
+            // LATIDO SUAVE: escala toda la forma de corazón
+            // El latido es un factor que multiplica a todas las barras del corazón
+            const latidoFactor = 0.45 + 0.55 * (0.5 + 0.5 * Math.sin(latido * 11));
 
-            // Aplicar intensidad y añadir movimiento de ondas
+            // Aplicar latido SOLO a las barras que forman parte del corazón
             for (let i = 0; i < ancho; i++) {
-                // Movimiento ondulatorio lateral
-                const ondaLat = 0.15 * Math.sin(latido * 8 + i * 0.5);
-                // Onda vertical que sube y baja con el latido
-                const bombeo = 0.2 * (0.5 + 0.5 * Math.sin(latido * 14 + i * 0.15));
-
-                // Si es parte del corazón, mantener forma; si no, onda
-                if (alturas[i] > 0.3) {
-                    alturas[i] = alturas[i] * intensidad + bombeo * 0.3;
-                } else {
-                    const dist = Math.abs(i - centro) / (ancho / 2);
-                    alturas[i] = (0.25 + 0.25 * Math.sin(latido * 10 + i * 0.3 + 0.5)) * (1 - dist * 0.6) + bombeo * 0.5;
+                const dist = Math.abs(i - centro) / (ancho / 2);
+                // Si está cerca del centro (zona del corazón), aplicamos latido
+                if (dist < 0.45) {
+                    alturas[i] = alturas[i] * latidoFactor;
                 }
+                // Suavizar bordes para que no se vea cortado
+                if (dist > 0.35 && dist < 0.55) {
+                    const suavizado = 1 - (dist - 0.35) / 0.2;
+                    alturas[i] = alturas[i] * (0.3 + 0.7 * suavizado);
+                }
+            }
 
-                alturas[i] = Math.min(Math.max(alturas[i], 0.05), 1);
+            // Pequeño efecto de bombeo en todo el gráfico para dar vida
+            const bombeoGlobal = 0.05 * (0.5 + 0.5 * Math.sin(latido * 9));
+            for (let i = 0; i < ancho; i++) {
+                alturas[i] = Math.min(Math.max(alturas[i] + bombeoGlobal * 0.3, 0.05), 1);
             }
 
             return alturas;
         }
 
         // ============================================================
-        // COLOR (CACHEADO PARA MÁXIMO RENDIMIENTO)
+        // COLOR (CACHEADO)
         // ============================================================
         const colorCache = {};
 
@@ -862,7 +867,7 @@
         }
 
         // ============================================================
-        // PARTÍCULAS (REDUCIDAS PARA RENDIMIENTO)
+        // PARTÍCULAS (REDUCIDAS)
         // ============================================================
         let particulaTimer = 0;
 
@@ -916,7 +921,7 @@
         let reiniciando = false;
 
         // ============================================================
-        // ACTUALIZAR ANIMACIÓN (MÁXIMA FLUIDEZ)
+        // ACTUALIZAR ANIMACIÓN (FLUIDA)
         // ============================================================
         function actualizarAnimacion(timestamp) {
             if (!reproduciendo || pausado) {
@@ -939,7 +944,7 @@
             const tiempoRestante = Math.max(0, DURACION_TOTAL - tiempoActual);
             const explosivo = tiempoActual >= MODO_EXPLOSIVO;
 
-            // ===== FONDO (actualizado cada 3 frames para ahorrar) =====
+            // ===== FONDO =====
             if (frameCounter % 3 === 0) {
                 let r, g, b;
                 if (!explosivo) {
@@ -997,27 +1002,26 @@
                 }
             }
 
-            // ===== BARRAS (FLUIDEZ EXTREMA) =====
+            // ===== BARRAS =====
             const alturaMax = explosivo ? ALTURA_MAXIMA_EXPLOSIVO : ALTURA_MAXIMA_NORMAL;
             const ejesHeight = ejesGrafico.clientHeight || 300;
             const escala = (alturaMax / 200) * ejesHeight * 0.85;
 
             let alturas;
             if (explosivo) {
-                const latido = tiempoActual * 1.15;
-                alturas = generarCorazon(NUM_BARRAS, latido, alturaMax);
+                const latido = tiempoActual * 1.1;
+                alturas = generarCorazon(NUM_BARRAS, latido);
             } else {
                 alturas = generarOndas(NUM_BARRAS, tiempoActual);
             }
 
-            // Renderizado directo sin transiciones pesadas
             for (let i = 0; i < NUM_BARRAS; i++) {
                 const altura = alturas[i] || 0.05;
                 const barra = barras[i];
                 const alturaPx = Math.max(2, altura * escala);
                 barra.style.height = alturaPx + 'px';
                 barra.style.background = getColor(altura, explosivo);
-                if (explosivo && altura > 0.3) {
+                if (explosivo && altura > 0.25) {
                     const brillo = 4 + altura * 14;
                     barra.style.boxShadow = `0 0 ${brillo}px ${getColor(altura, true)}`;
                 } else {
@@ -1025,7 +1029,7 @@
                 }
             }
 
-            // ===== PARTÍCULAS (MODO EXPLOSIVO - MÍNIMAS) =====
+            // ===== PARTÍCULAS =====
             if (explosivo) {
                 particulaTimer++;
                 if (particulaTimer % 4 === 0) {
@@ -1146,7 +1150,7 @@
         // ============================================================
         console.log('♫ Doma - Josean Log | Visualizador Musical ♫');
         console.log(`🎵 Audio inicia en segundo ${INICIO_AUDIO}`);
-        console.log('❤🔥 A los 40 segundos: MODO EXPLOSIVO');
+        console.log('❤🔥 A los 40 segundos: MODO EXPLOSIVO (corazón puro)');
         console.log('🔄 Bucle infinito automático');
 
         iniciar();
