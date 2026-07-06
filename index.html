@@ -31,10 +31,43 @@
             justify-content: center;
             align-items: center;
             background: #0a0008;
-            transition: background 0.1s ease;
+            transition: background 0.05s ease;
             padding: 20px;
+            overflow: hidden;
         }
 
+        /* ===== PARTÍCULAS ===== */
+        .particulas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particula {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particulaVolar 3s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes particulaVolar {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--dx), var(--dy)) scale(0);
+            }
+        }
+
+        /* ===== LETRA ===== */
         .letra-container {
             width: 90%;
             max-width: 800px;
@@ -45,6 +78,8 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
+            position: relative;
+            z-index: 1;
         }
 
         .titulo {
@@ -56,6 +91,7 @@
             text-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
             transition: all 0.3s ease;
             min-height: 50px;
+            z-index: 1;
         }
 
         .letra {
@@ -66,13 +102,40 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
+            transition: all 0.1s ease;
             padding: 10px;
             line-height: 1.4;
             text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
             color: #fff;
+            z-index: 1;
+            position: relative;
         }
 
+        .letra .brillo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, rgba(255, 100, 150, 0.3), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: brilloLetra 0.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes brilloLetra {
+            0% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0.3;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1.5);
+                opacity: 0.8;
+            }
+        }
+
+        /* ===== BARRAS ===== */
         .barras-container {
             width: 90%;
             max-width: 900px;
@@ -83,6 +146,8 @@
             gap: 6px;
             padding: 20px;
             margin-top: 10px;
+            position: relative;
+            z-index: 1;
         }
 
         .barra {
@@ -90,17 +155,33 @@
             height: 5px;
             min-height: 5px;
             border-radius: 4px 4px 0 0;
-            transition: height 0.05s ease;
+            transition: height 0.05s ease, background 0.05s ease;
             background: cyan;
             max-width: 30px;
         }
 
+        .barra.explosiva {
+            animation: barraExplosiva 0.3s ease-in-out infinite alternate;
+        }
+
+        @keyframes barraExplosiva {
+            0% {
+                transform: scaleY(1);
+            }
+            100% {
+                transform: scaleY(1.3);
+            }
+        }
+
+        /* ===== INFO ===== */
         .info {
             color: #888;
             font-size: 14px;
             margin-top: 15px;
             letter-spacing: 2px;
             text-align: center;
+            z-index: 1;
+            position: relative;
         }
         .info strong {
             color: #ff6b6b;
@@ -111,8 +192,11 @@
             font-size: 13px;
             margin-top: 5px;
             letter-spacing: 1px;
+            z-index: 1;
+            position: relative;
         }
 
+        /* ===== CONTROLES ===== */
         .controles {
             margin-top: 20px;
             display: flex;
@@ -120,6 +204,8 @@
             align-items: center;
             flex-wrap: wrap;
             justify-content: center;
+            z-index: 1;
+            position: relative;
         }
 
         .btn {
@@ -133,6 +219,7 @@
             transition: all 0.3s ease;
             font-family: inherit;
             letter-spacing: 1px;
+            z-index: 1;
         }
 
         .btn:hover {
@@ -168,6 +255,7 @@
             border-color: rgba(0, 255, 255, 0.4);
         }
 
+        /* ===== CARGA ===== */
         .cargando {
             position: fixed;
             top: 0;
@@ -201,6 +289,7 @@
             display: none;
         }
 
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 600px) {
             .letra {
                 font-size: 22px;
@@ -256,16 +345,24 @@
 </head>
 <body>
 
+    <!-- CARGA -->
     <div class="cargando" id="cargando">
         <div class="spinner"></div>
         <span>🎵 Cargando canción...</span>
     </div>
 
+    <!-- PARTÍCULAS -->
+    <div class="particulas-container" id="particulasContainer"></div>
+
+    <!-- CONTENIDO -->
     <div class="container" id="container">
 
         <div class="letra-container">
             <div class="titulo" id="titulo">♫ Doma - Josean Log ♫</div>
-            <div class="letra" id="letra">❤ De corazones tienes colección ❤</div>
+            <div class="letra" id="letra">
+                ❤ De corazones tienes colección ❤
+                <div class="brillo" id="brilloLetra"></div>
+            </div>
         </div>
 
         <div class="barras-container" id="barrasContainer"></div>
@@ -288,7 +385,8 @@
         // ============================================================
         const DURACION_TOTAL = 80;
         const NUM_BARRAS = 40;
-        const INICIO_AUDIO = 80; // ¡LA CANCIÓN EMPIEZA EN EL SEGUNDO 80!
+        const INICIO_AUDIO = 80;
+        const MODO_EXPLOSIVO = 40; // A partir de aquí todo explota
 
         const LETRAS = [
             { tiempo: 0.0, texto: "❤ De corazones tienes colección ❤" },
@@ -301,7 +399,7 @@
             { tiempo: 26.0, texto: "❤ Y tus arranques de pasión ❤" },
             { tiempo: 31.0, texto: ".ᐟ.ᐟ Debo buscar dentro de tanto desperfecto .ᐟ.ᐟ" },
             { tiempo: 37.5, texto: "☔︎︎ La moraleja de este cuento ☔︎︎" },
-            { tiempo: 40.0, texto: "➶➶ Debo domar tu corazón ➶➶" }
+            { tiempo: 40.0, texto: "➶➶ DEBO DOMAR TU CORAZÓN ➶➶" }
         ];
 
         // ============================================================
@@ -309,16 +407,18 @@
         // ============================================================
         const container = document.getElementById('container');
         const letraEl = document.getElementById('letra');
+        const brilloLetra = document.getElementById('brilloLetra');
         const tituloEl = document.getElementById('titulo');
         const tiempoRestanteEl = document.getElementById('tiempoRestante');
         const modoTextoEl = document.getElementById('modoTexto');
         const barrasContainer = document.getElementById('barrasContainer');
+        const particulasContainer = document.getElementById('particulasContainer');
         const btnReiniciar = document.getElementById('btnReiniciar');
         const btnAudio = document.getElementById('btnAudio');
         const cargando = document.getElementById('cargando');
 
         // ============================================================
-        // AUDIO - INICIA EN EL SEGUNDO 80
+        // AUDIO
         // ============================================================
         const audio = new Audio('music/doma.mp3');
         audio.loop = true;
@@ -328,12 +428,12 @@
         audio.addEventListener('canplaythrough', () => {
             audioListo = true;
             cargando.classList.add('oculto');
-            console.log('✅ Audio cargado correctamente');
-            console.log(`🎵 Iniciando en el segundo ${INICIO_AUDIO}`);
+            console.log('✅ Audio cargado');
+            console.log(`🎵 Iniciando en segundo ${INICIO_AUDIO}`);
         });
 
         audio.addEventListener('error', () => {
-            console.warn('⚠️ No se pudo cargar el audio');
+            console.warn('⚠️ No se cargó el audio');
             cargando.classList.add('oculto');
         });
 
@@ -358,9 +458,9 @@
         crearBarras();
 
         // ============================================================
-        // FUNCIÓN CORAZÓN
+        // GENERAR CORAZÓN
         // ============================================================
-        function generarCorazon(ancho, latido) {
+        function generarCorazon(ancho, latido, explosivo) {
             const alturas = new Array(ancho).fill(0.05);
             const centro = Math.floor(ancho / 2);
 
@@ -374,12 +474,16 @@
                 }
             }
 
-            const intensidadLatido = 0.5 + 0.5 * Math.sin(latido * 10);
+            // Latido más fuerte en modo explosivo
+            const intensidadLatido = explosivo ?
+                0.3 + 0.7 * Math.abs(Math.sin(latido * 15)) :
+                0.5 + 0.5 * Math.sin(latido * 10);
 
             for (let i = 0; i < ancho; i++) {
                 if (alturas[i] < 0.3) {
                     const distancia = Math.abs(i - centro) / (ancho / 2);
-                    const salto = (0.7 + 0.3 * Math.sin(latido * 12 - i * 0.5)) * (1 - distancia * 0.5);
+                    const frecuencia = explosivo ? 18 : 12;
+                    const salto = (0.7 + 0.3 * Math.sin(latido * frecuencia - i * 0.5)) * (1 - distancia * 0.5);
                     alturas[i] = Math.max(alturas[i], salto);
                 }
             }
@@ -388,8 +492,10 @@
                 alturas[i] = alturas[i] * (0.3 + 0.7 * intensidadLatido);
             }
 
+            // Caos explosivo: más aleatorio
+            const factorCaos = explosivo ? 0.6 : 0.2;
             for (let i = 0; i < ancho; i++) {
-                alturas[i] += 0.2 * Math.abs(Math.sin(latido * 18)) * (Math.random() * 0.5 + 0.5);
+                alturas[i] += factorCaos * Math.abs(Math.sin(latido * 25 + i * 2)) * (Math.random() * 0.5 + 0.5);
             }
 
             return alturas.map(a => Math.min(Math.max(a, 0.05), 1));
@@ -398,15 +504,61 @@
         // ============================================================
         // COLOR
         // ============================================================
-        function getColor(altura, modoCorazon) {
-            if (modoCorazon) {
-                const r = Math.min(1, 0.4 + altura * 0.8);
-                const g = Math.min(1, 0.1 + altura * 0.4);
+        function getColor(altura, explosivo) {
+            if (explosivo) {
+                // Colores cálidos y vibrantes: rojo, rosa, naranja, amarillo
+                const r = Math.min(1, 0.6 + altura * 0.6);
+                const g = Math.min(1, 0.1 + altura * 0.5);
                 const b = Math.min(1, 0.1 + altura * 0.3);
                 return `rgb(${Math.floor(r * 255)}, ${Math.floor(g * 255)}, ${Math.floor(b * 255)})`;
             } else {
                 const hue = 200 + altura * 180;
                 return `hsl(${hue}, 90%, ${30 + altura * 50}%)`;
+            }
+        }
+
+        // ============================================================
+        // PARTÍCULAS
+        // ============================================================
+        function crearParticula(x, y, color) {
+            const particula = document.createElement('div');
+            particula.className = 'particula';
+            const size = 4 + Math.random() * 10;
+            const angulo = Math.random() * 2 * Math.PI;
+            const distancia = 100 + Math.random() * 300;
+            const dx = Math.cos(angulo) * distancia;
+            const dy = Math.sin(angulo) * distancia - 100;
+
+            particula.style.width = size + 'px';
+            particula.style.height = size + 'px';
+            particula.style.left = (x - size / 2) + 'px';
+            particula.style.top = (y - size / 2) + 'px';
+            particula.style.setProperty('--dx', dx + 'px');
+            particula.style.setProperty('--dy', dy + 'px');
+            particula.style.background = color;
+            particula.style.boxShadow = `0 0 ${size * 2}px ${color}`;
+            particula.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+
+            particulasContainer.appendChild(particula);
+
+            setTimeout(() => {
+                particula.remove();
+            }, 4000);
+        }
+
+        function explosionParticulas(centroX, centroY, cantidad, colorBase) {
+            const colores = [
+                '#ff6b6b', '#ff4757', '#ff6348', '#ff7f50',
+                '#ff9ff3', '#f368e0', '#ff6b81', '#ff4757',
+                '#ffda79', '#ffb142', '#ff9f43', '#ff6b6b',
+                '#ff00ff', '#ff1493', '#ff69b4', '#ff4081'
+            ];
+
+            for (let i = 0; i < cantidad; i++) {
+                const color = colores[Math.floor(Math.random() * colores.length)];
+                const x = centroX + (Math.random() - 0.5) * 100;
+                const y = centroY + (Math.random() - 0.5) * 100;
+                crearParticula(x, y, color);
             }
         }
 
@@ -417,6 +569,7 @@
         let reproduciendo = false;
         let animacionId = null;
         let pausado = false;
+        let frameCounter = 0;
 
         // ============================================================
         // ACTUALIZAR ANIMACIÓN
@@ -427,36 +580,44 @@
                 return;
             }
 
+            frameCounter++;
             const tiempoActual = (Date.now() - tiempoInicio) / 1000;
 
             if (tiempoActual > DURACION_TOTAL) {
                 tiempoInicio = Date.now();
-                // Reiniciar audio también (pero como está en loop, no hace falta)
                 return;
             }
 
             const tiempoRestante = Math.max(0, DURACION_TOTAL - tiempoActual);
-            const modoCorazon = tiempoActual >= 40;
+            const explosivo = tiempoActual >= MODO_EXPLOSIVO;
 
             // ===== FONDO =====
             let r, g, b;
-            if (tiempoActual < 40) {
+            if (!explosivo) {
                 r = 0.05 + 0.1 * Math.pow(Math.sin(tiempoActual * 0.5), 2);
                 g = 0.05 + 0.1 * Math.pow(Math.sin(tiempoActual * 0.6), 2);
                 b = 0.15 + 0.15 * Math.pow(Math.sin(tiempoActual * 0.7), 2);
-
                 if (Math.sin(tiempoActual * 4) > 0.95) r = Math.min(0.3, r + 0.15);
                 if (Math.sin(tiempoActual * 4.2) > 0.95) b = Math.min(0.4, b + 0.15);
             } else {
-                r = 0.4 + 0.5 * Math.pow(Math.sin(tiempoActual * 1.5), 2);
-                g = 0.1 + 0.3 * Math.pow(Math.sin(tiempoActual * 2.0), 2);
-                b = 0.1 + 0.3 * Math.pow(Math.sin(tiempoActual * 2.5), 2);
+                // EXPLOSIVO: colores vibrantes y cambiantes
+                const pulso = Math.sin(tiempoActual * 3) * 0.5 + 0.5;
+                r = 0.3 + 0.7 * pulso;
+                g = 0.05 + 0.4 * Math.pow(Math.sin(tiempoActual * 2.5 + 1), 2);
+                b = 0.05 + 0.4 * Math.pow(Math.sin(tiempoActual * 2.8 + 2), 2);
 
-                if (Math.sin(tiempoActual * 8) > 0.85) r = Math.min(1, r + 0.5);
-                if (Math.sin(tiempoActual * 8.3) > 0.85) g = Math.min(0.8, g + 0.4);
-                if (Math.sin(tiempoActual * 7.7) > 0.85) {
-                    r = Math.min(1, r + 0.3);
-                    g = Math.min(0.6, g + 0.2);
+                // Explosiones de color aleatorias
+                if (Math.sin(tiempoActual * 12) > 0.9) r = Math.min(1, r + 0.5);
+                if (Math.sin(tiempoActual * 13) > 0.9) g = Math.min(0.8, g + 0.5);
+                if (Math.sin(tiempoActual * 11) > 0.9) {
+                    r = Math.min(1, r + 0.4);
+                    b = Math.min(1, b + 0.4);
+                }
+                // Destellos blancos
+                if (Math.sin(tiempoActual * 20) > 0.95) {
+                    r = 1;
+                    g = 1;
+                    b = 1;
                 }
             }
 
@@ -474,27 +635,46 @@
 
             letraEl.textContent = textoActual;
 
-            if (modoCorazon) {
-                const hue = (tiempoActual * 20) % 360;
-                letraEl.style.color = `hsl(${hue}, 100%, 65%)`;
-                letraEl.style.textShadow = `0 0 40px hsla(${hue}, 100%, 65%, 0.3)`;
+            if (explosivo) {
+                // Letra con colores que cambian rápidamente
+                const hue = (tiempoActual * 60) % 360;
+                const sat = 100;
+                const lig = 55 + 20 * Math.sin(tiempoActual * 5);
+                letraEl.style.color = `hsl(${hue}, ${sat}%, ${lig}%)`;
+                letraEl.style.textShadow = `
+                    0 0 30px hsla(${hue}, 100%, 70%, 0.5),
+                    0 0 60px hsla(${hue + 30}, 100%, 60%, 0.3),
+                    0 0 100px hsla(${hue + 60}, 100%, 50%, 0.2)
+                `;
+                letraEl.style.transform = `scale(${1 + 0.03 * Math.sin(tiempoActual * 8)})`;
+
+                // Brillo detrás de la letra
+                brilloLetra.style.display = 'block';
+                brilloLetra.style.background = `radial-gradient(circle, hsla(${hue}, 100%, 70%, 0.4), transparent 70%)`;
+
                 tituloEl.style.color = '#ff6b6b';
-                tituloEl.style.textShadow = '0 0 30px rgba(255, 107, 107, 0.3)';
+                tituloEl.style.textShadow = `
+                    0 0 30px rgba(255, 107, 107, 0.5),
+                    0 0 60px rgba(255, 107, 107, 0.2)
+                `;
             } else {
                 const hue = 180 + (tiempoActual * 30) % 60;
                 letraEl.style.color = `hsl(${hue}, 100%, 70%)`;
                 letraEl.style.textShadow = `0 0 40px hsla(${hue}, 100%, 70%, 0.2)`;
+                letraEl.style.transform = 'scale(1)';
+                brilloLetra.style.display = 'none';
                 tituloEl.style.color = '#00ffff';
                 tituloEl.style.textShadow = '0 0 30px rgba(0, 255, 255, 0.3)';
             }
 
             // ===== BARRAS =====
             let alturas;
-            if (modoCorazon) {
+            if (explosivo) {
                 const latido = tiempoActual;
-                alturas = generarCorazon(NUM_BARRAS, latido);
+                alturas = generarCorazon(NUM_BARRAS, latido, true);
+                // Más caos en las barras
                 for (let i = 0; i < NUM_BARRAS; i++) {
-                    alturas[i] += 0.3 * Math.abs(Math.sin(tiempoActual * 10)) * (Math.random() * 0.5 + 0.5);
+                    alturas[i] += 0.5 * Math.abs(Math.sin(tiempoActual * 15 + i * 3)) * (Math.random() * 0.5 + 0.5);
                     alturas[i] = Math.min(Math.max(alturas[i], 0.05), 1);
                 }
             } else {
@@ -511,19 +691,62 @@
             for (let i = 0; i < NUM_BARRAS; i++) {
                 const altura = alturas[i] || 0.05;
                 const barra = barras[i];
-                const alturaPx = Math.max(5, altura * 250);
+                const alturaPx = Math.max(5, altura * (explosivo ? 350 : 250));
                 barra.style.height = alturaPx + 'px';
-                barra.style.background = getColor(altura, modoCorazon);
+                barra.style.background = getColor(altura, explosivo);
+                // Efecto de brillo en barras
+                if (explosivo) {
+                    barra.style.boxShadow = `0 0 ${10 + altura * 20}px ${getColor(altura, true)}`;
+                } else {
+                    barra.style.boxShadow = 'none';
+                }
+            }
+
+            // ===== PARTÍCULAS (EXPLOSIVO) =====
+            if (explosivo && frameCounter % 3 === 0) {
+                const ancho = window.innerWidth;
+                const alto = window.innerHeight;
+                const cx = ancho / 2;
+                const cy = alto / 2;
+                const cantidad = 5 + Math.floor(Math.random() * 10);
+
+                // Centro de la explosión (alrededor de la letra)
+                const centroX = cx + (Math.random() - 0.5) * 200;
+                const centroY = cy * 0.3 + (Math.random() - 0.5) * 100;
+
+                explosionParticulas(centroX, centroY, cantidad, '#ff6b6b');
+            }
+
+            // EXPLOSIONES GRANDES en momentos clave
+            if (explosivo) {
+                // Explosión grande cada cierto tiempo
+                if (frameCounter % 30 === 0) {
+                    const cx = window.innerWidth / 2;
+                    const cy = window.innerHeight / 2;
+                    explosionParticulas(cx, cy * 0.3, 20 + Math.floor(Math.random() * 20), '#ff6b6b');
+                }
+
+                // Explosiones laterales
+                if (frameCounter % 15 === 0) {
+                    const x = Math.random() * window.innerWidth;
+                    const y = Math.random() * window.innerHeight * 0.5;
+                    explosionParticulas(x, y, 3 + Math.floor(Math.random() * 5), '#ff9ff3');
+                }
             }
 
             // ===== TIEMPO =====
             tiempoRestanteEl.textContent = tiempoRestante.toFixed(1);
-            modoTextoEl.textContent = modoCorazon ? '❤ MODO CORAZÓN ❤' : '🎵 Modo oscuro';
-            modoTextoEl.style.color = modoCorazon ? '#ff6b6b' : '#888';
-
-            if (modoCorazon) {
-                tituloEl.textContent = `♫ TIEMPO RESTANTE: ${tiempoRestante.toFixed(1)}s ♫  ❤❤❤❤❤❤❤`;
+            if (explosivo) {
+                modoTextoEl.textContent = '❤🔥 MODO EXPLOSIVO ❤🔥';
+                modoTextoEl.style.color = '#ff6b6b';
+                modoTextoEl.style.textShadow = '0 0 30px rgba(255, 107, 107, 0.5)';
+                modoTextoEl.style.fontSize = '16px';
+                tituloEl.textContent = `♫ TIEMPO RESTANTE: ${tiempoRestante.toFixed(1)}s ♫  ❤🔥❤🔥❤🔥❤🔥❤🔥`;
             } else {
+                modoTextoEl.textContent = '🎵 Modo oscuro';
+                modoTextoEl.style.color = '#888';
+                modoTextoEl.style.textShadow = 'none';
+                modoTextoEl.style.fontSize = '13px';
                 tituloEl.textContent = `♫ TIEMPO RESTANTE: ${tiempoRestante.toFixed(1)}s ♫`;
             }
 
@@ -540,6 +763,7 @@
             tiempoInicio = Date.now();
             reproduciendo = true;
             pausado = false;
+            frameCounter = 0;
             animacionId = requestAnimationFrame(actualizarAnimacion);
         }
 
@@ -549,19 +773,27 @@
         function reiniciar() {
             tiempoInicio = Date.now();
             pausado = false;
-            
-            // Reiniciar audio al segundo 80
+            frameCounter = 0;
+
             audio.currentTime = INICIO_AUDIO;
             if (audio.paused) {
                 audio.play().catch(() => {});
             }
-            
+
             container.style.background = '#0a0008';
             letraEl.style.color = '#fff';
+            letraEl.style.transform = 'scale(1)';
             tituloEl.style.color = '#00ffff';
+            tituloEl.style.textShadow = '0 0 30px rgba(0, 255, 255, 0.3)';
             tiempoRestanteEl.textContent = '80.0';
             modoTextoEl.textContent = '🎵 Modo oscuro';
             modoTextoEl.style.color = '#888';
+            modoTextoEl.style.textShadow = 'none';
+            modoTextoEl.style.fontSize = '13px';
+            brilloLetra.style.display = 'none';
+
+            // Limpiar partículas
+            particulasContainer.innerHTML = '';
         }
 
         // ============================================================
@@ -593,20 +825,17 @@
         // INICIO
         // ============================================================
         console.log('♫ Doma - Josean Log | Visualizador Musical ♫');
-        console.log(`🎵 Audio: music/doma.mp3 (inicia en segundo ${INICIO_AUDIO})`);
+        console.log(`🎵 Audio inicia en segundo ${INICIO_AUDIO}`);
         console.log('🎵 Modo oscuro hasta los 40 segundos');
-        console.log('❤ A los 40 segundos: MODO CORAZÓN');
+        console.log('❤🔥 A los 40 segundos: MODO EXPLOSIVO con partículas');
         console.log('🔄 Bucle infinito automático');
 
         iniciar();
 
-        // Reproducir audio desde el segundo 80
         const intentarAudio = () => {
             if (audioListo) {
                 audio.currentTime = INICIO_AUDIO;
-                audio.play().catch(() => {
-                    console.log('⏳ Esperando interacción del usuario');
-                });
+                audio.play().catch(() => {});
             }
             document.removeEventListener('click', intentarAudio);
             document.removeEventListener('touchstart', intentarAudio);
