@@ -20,6 +20,8 @@
             font-family: 'Segoe UI', sans-serif;
             overflow: hidden;
             user-select: none;
+            height: 100vh;
+            width: 100vw;
         }
 
         .container {
@@ -29,13 +31,12 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            /* Todo más arriba */
             align-items: center;
             background: #0a0008;
             transition: background 0.05s ease;
-            padding: 10px 20px 20px;
+            padding: 8px 16px 10px;
             overflow: hidden;
-            padding-top: 15px;
+            padding-top: 10px;
         }
 
         .particulas-container {
@@ -68,44 +69,44 @@
             }
         }
 
-        /* ===== LETRA - MÁS ARRIBA ===== */
+        /* ===== LETRA ===== */
         .letra-container {
             width: 90%;
             max-width: 800px;
             text-align: center;
-            min-height: 80px;
+            min-height: 70px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 4px 20px 6px;
+            padding: 2px 16px 4px;
             position: relative;
             z-index: 1;
-            margin-top: 0;
+            flex-shrink: 0;
         }
 
         .titulo {
             color: #00ffff;
-            font-size: 17px;
+            font-size: 16px;
             font-weight: bold;
             letter-spacing: 2px;
             margin-bottom: 2px;
             text-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
             transition: all 0.3s ease;
-            min-height: 30px;
+            min-height: 28px;
             z-index: 1;
         }
 
         .letra {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
             text-align: center;
-            min-height: 50px;
+            min-height: 46px;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.1s ease;
-            padding: 4px;
+            padding: 3px;
             line-height: 1.2;
             text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
             color: #fff;
@@ -138,34 +139,33 @@
             }
         }
 
-        /* ===== GRÁFICO DE BARRAS - MÁS GRANDE ===== */
+        /* ===== GRÁFICO - TAMAÑO FIJO (sin flex para que no oculte botones) ===== */
         .grafico-container {
             width: 92%;
-            max-width: 920px;
+            max-width: 900px;
             position: relative;
             z-index: 1;
             margin-top: 2px;
-            flex: 1;
+            flex-shrink: 0;
+            height: 300px;
+            /* Tamaño fijo para tablet */
             display: flex;
             flex-direction: column;
-            min-height: 0;
         }
 
         .grafico-container .ejes {
             position: relative;
             width: 100%;
             height: 100%;
-            min-height: 280px;
-            /* Más grande */
-            max-height: 450px;
+            min-height: 240px;
+            max-height: 350px;
             flex: 1;
-            margin-left: 50px;
+            margin-left: 45px;
         }
 
-        /* Eje Y (Intensidad) */
         .eje-y {
             position: absolute;
-            left: -48px;
+            left: -44px;
             top: 0;
             height: 100%;
             display: flex;
@@ -176,8 +176,8 @@
             font-family: 'Segoe UI', monospace;
             letter-spacing: 0.5px;
             text-align: right;
-            padding-right: 6px;
-            width: 38px;
+            padding-right: 5px;
+            width: 35px;
         }
         .eje-y span {
             opacity: 0.5;
@@ -185,11 +185,11 @@
 
         .eje-y-titulo {
             position: absolute;
-            left: -52px;
+            left: -48px;
             top: 50%;
             transform: translateY(-50%) rotate(-90deg);
             color: #555;
-            font-size: 11px;
+            font-size: 10px;
             letter-spacing: 2px;
             font-family: 'Segoe UI', sans-serif;
             white-space: nowrap;
@@ -197,7 +197,6 @@
             font-weight: 300;
         }
 
-        /* Barras */
         .barras-wrapper {
             position: absolute;
             left: 0;
@@ -207,8 +206,8 @@
             display: flex;
             align-items: flex-end;
             justify-content: center;
-            gap: 4px;
-            padding: 0 4px;
+            gap: 3px;
+            padding: 0 3px;
             border-left: 1px solid rgba(255, 255, 255, 0.08);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
@@ -220,17 +219,16 @@
             border-radius: 3px 3px 0 0;
             transition: height 0.04s ease, background 0.04s ease;
             background: cyan;
-            max-width: 28px;
+            max-width: 26px;
         }
 
-        /* Eje X */
         .eje-x {
             display: flex;
             justify-content: space-between;
-            padding: 4px 8px 0 8px;
-            margin-left: 50px;
+            padding: 3px 6px 0 6px;
+            margin-left: 45px;
             color: #555;
-            font-size: 9px;
+            font-size: 8px;
             font-family: 'Segoe UI', monospace;
             letter-spacing: 0.5px;
         }
@@ -241,24 +239,25 @@
         .eje-x-titulo {
             text-align: center;
             color: #555;
-            font-size: 11px;
+            font-size: 10px;
             letter-spacing: 2px;
             font-family: 'Segoe UI', sans-serif;
             opacity: 0.6;
             font-weight: 300;
-            margin-top: 1px;
-            margin-left: 50px;
+            margin-top: 0px;
+            margin-left: 45px;
         }
 
-        /* ===== INFO Y CONTROLES - MÁS ABAJO ===== */
+        /* ===== INFO Y CONTROLES - SIEMPRE VISIBLES ===== */
         .info {
             color: #888;
             font-size: 13px;
-            margin-top: 12px;
+            margin-top: 8px;
             letter-spacing: 2px;
             text-align: center;
             z-index: 1;
             position: relative;
+            flex-shrink: 0;
         }
         .info strong {
             color: #ff6b6b;
@@ -267,15 +266,16 @@
         .tiempo {
             color: #aaa;
             font-size: 13px;
-            margin-top: 2px;
+            margin-top: 1px;
             letter-spacing: 1px;
             z-index: 1;
             position: relative;
+            flex-shrink: 0;
         }
 
         .controles {
-            margin-top: 10px;
-            margin-bottom: 8px;
+            margin-top: 8px;
+            margin-bottom: 6px;
             display: flex;
             gap: 14px;
             align-items: center;
@@ -283,25 +283,29 @@
             justify-content: center;
             z-index: 1;
             position: relative;
+            flex-shrink: 0;
         }
 
         .btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             color: #ddd;
-            padding: 8px 24px;
+            padding: 10px 28px;
             border-radius: 30px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 14px;
             transition: all 0.3s ease;
             font-family: inherit;
             letter-spacing: 1px;
             z-index: 1;
+            touch-action: manipulation;
+            min-height: 44px;
+            min-width: 44px;
         }
 
         .btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.25);
             transform: scale(1.02);
         }
 
@@ -310,26 +314,63 @@
         }
 
         .btn-primary {
-            background: rgba(255, 107, 107, 0.15);
-            border-color: rgba(255, 107, 107, 0.3);
+            background: rgba(255, 107, 107, 0.2);
+            border-color: rgba(255, 107, 107, 0.35);
             color: #ff6b6b;
         }
 
         .btn-primary:hover {
-            background: rgba(255, 107, 107, 0.25);
-            border-color: rgba(255, 107, 107, 0.5);
+            background: rgba(255, 107, 107, 0.3);
+            border-color: rgba(255, 107, 107, 0.55);
         }
 
         .btn-audio {
-            background: rgba(0, 255, 255, 0.1);
-            border-color: rgba(0, 255, 255, 0.2);
+            background: rgba(0, 255, 255, 0.15);
+            border-color: rgba(0, 255, 255, 0.25);
             color: #00ffff;
             min-width: 54px;
         }
 
         .btn-audio:hover {
-            background: rgba(0, 255, 255, 0.2);
-            border-color: rgba(0, 255, 255, 0.4);
+            background: rgba(0, 255, 255, 0.25);
+            border-color: rgba(0, 255, 255, 0.45);
+        }
+
+        /* ===== MENSAJE DE TOCAR PARA AUDIO ===== */
+        .mensaje-audio {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #d4a0d4;
+            font-size: 16px;
+            background: rgba(10, 0, 15, 0.85);
+            padding: 12px 24px;
+            border-radius: 30px;
+            border: 1px solid rgba(180, 80, 180, 0.2);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            animation: pulseMensaje 2s ease-in-out infinite;
+            display: none;
+            text-align: center;
+            letter-spacing: 1px;
+            pointer-events: none;
+        }
+
+        .mensaje-audio.mostrar {
+            display: block;
+        }
+
+        @keyframes pulseMensaje {
+            0%,
+            100% {
+                opacity: 0.7;
+                transform: translateX(-50%) scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1.05);
+            }
         }
 
         /* ===== CARGA ===== */
@@ -371,27 +412,30 @@
         }
 
         /* ===== RESPONSIVE ===== */
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             .container {
-                padding: 8px 12px 12px;
-                padding-top: 8px;
+                padding: 6px 12px 8px;
+                padding-top: 6px;
             }
             .letra {
                 font-size: 18px;
-                min-height: 40px;
+                min-height: 38px;
             }
             .titulo {
                 font-size: 13px;
-                min-height: 24px;
+                min-height: 22px;
             }
             .letra-container {
-                min-height: 60px;
-                padding: 2px 12px 4px;
+                min-height: 54px;
+                padding: 2px 10px 2px;
+            }
+            .grafico-container {
+                height: 240px;
             }
             .grafico-container .ejes {
-                min-height: 200px;
-                max-height: 320px;
-                margin-left: 35px;
+                min-height: 180px;
+                max-height: 280px;
+                margin-left: 38px;
             }
             .eje-y {
                 left: -38px;
@@ -403,12 +447,12 @@
                 font-size: 9px;
             }
             .eje-x {
-                margin-left: 35px;
+                margin-left: 38px;
                 font-size: 8px;
                 padding: 2px 4px 0 4px;
             }
             .eje-x-titulo {
-                margin-left: 35px;
+                margin-left: 38px;
                 font-size: 9px;
             }
             .barras-wrapper {
@@ -420,45 +464,55 @@
                 min-height: 2px;
             }
             .btn {
-                padding: 6px 16px;
-                font-size: 11px;
+                padding: 8px 20px;
+                font-size: 12px;
+                min-height: 40px;
+                min-width: 40px;
             }
             .controles {
-                gap: 8px;
+                gap: 10px;
                 margin-top: 6px;
                 margin-bottom: 4px;
             }
             .info {
-                font-size: 11px;
-                margin-top: 8px;
+                font-size: 12px;
+                margin-top: 6px;
             }
             .tiempo {
-                font-size: 11px;
+                font-size: 12px;
                 margin-top: 1px;
+            }
+            .mensaje-audio {
+                font-size: 14px;
+                padding: 10px 20px;
+                bottom: 70px;
             }
         }
 
-        @media (max-width: 400px) {
+        @media (max-width: 480px) {
             .container {
-                padding: 4px 8px 8px;
+                padding: 4px 8px 6px;
                 padding-top: 4px;
             }
             .letra {
-                font-size: 14px;
+                font-size: 15px;
                 min-height: 32px;
             }
             .titulo {
                 font-size: 11px;
-                min-height: 20px;
+                min-height: 18px;
             }
             .letra-container {
-                min-height: 48px;
+                min-height: 44px;
                 padding: 1px 8px 2px;
             }
+            .grafico-container {
+                height: 180px;
+            }
             .grafico-container .ejes {
-                min-height: 150px;
-                max-height: 250px;
-                margin-left: 30px;
+                min-height: 140px;
+                max-height: 220px;
+                margin-left: 32px;
             }
             .eje-y {
                 left: -32px;
@@ -470,11 +524,11 @@
                 font-size: 8px;
             }
             .eje-x {
-                margin-left: 30px;
+                margin-left: 32px;
                 font-size: 7px;
             }
             .eje-x-titulo {
-                margin-left: 30px;
+                margin-left: 32px;
                 font-size: 8px;
             }
             .barras-wrapper {
@@ -485,18 +539,24 @@
                 max-width: 12px;
                 min-height: 2px;
             }
-            .info {
-                font-size: 10px;
-                margin-top: 6px;
+            .btn {
+                padding: 6px 14px;
+                font-size: 11px;
+                min-height: 36px;
+                min-width: 36px;
             }
             .controles {
+                gap: 8px;
                 margin-top: 4px;
-                margin-bottom: 2px;
-                gap: 6px;
             }
-            .btn {
-                padding: 5px 12px;
-                font-size: 10px;
+            .info {
+                font-size: 11px;
+                margin-top: 4px;
+            }
+            .mensaje-audio {
+                font-size: 12px;
+                padding: 8px 16px;
+                bottom: 60px;
             }
         }
 
@@ -514,9 +574,11 @@
 
     <div class="particulas-container" id="particulasContainer"></div>
 
+    <!-- Mensaje para tablets: tocar para activar audio -->
+    <div class="mensaje-audio" id="mensajeAudio">🎵 Toca en cualquier lugar para activar el audio</div>
+
     <div class="container" id="container">
 
-        <!-- ===== LETRA - MÁS ARRIBA ===== -->
         <div class="letra-container">
             <div class="titulo" id="titulo">♫ Doma - Josean Log ♫</div>
             <div class="letra" id="letra">
@@ -525,7 +587,6 @@
             </div>
         </div>
 
-        <!-- ===== GRÁFICO - MÁS GRANDE ===== -->
         <div class="grafico-container">
             <div class="ejes" id="ejesGrafico">
                 <div class="eje-y">
@@ -554,7 +615,6 @@
             <div class="eje-x-titulo">Frecuencia</div>
         </div>
 
-        <!-- ===== INFO - MÁS ABAJO ===== -->
         <div class="info">
             ⏱ <strong id="tiempoRestante">80.0</strong>s restantes
         </div>
@@ -575,8 +635,6 @@
         const NUM_BARRAS = 40;
         const INICIO_AUDIO = 80;
         const MODO_EXPLOSIVO = 40;
-
-        // ALTURA MÁXIMA DE BARRAS EN MODO EXPLOSIVO (BAJADA PARA VER CORAZÓN)
         const ALTURA_MAXIMA_EXPLOSIVO = 120;
         const ALTURA_MAXIMA_NORMAL = 200;
 
@@ -609,6 +667,7 @@
         const btnAudio = document.getElementById('btnAudio');
         const cargando = document.getElementById('cargando');
         const ejesGrafico = document.getElementById('ejesGrafico');
+        const mensajeAudio = document.getElementById('mensajeAudio');
 
         // ============================================================
         // AUDIO
@@ -617,11 +676,17 @@
         audio.loop = true;
         audio.volume = 0.7;
         let audioListo = false;
+        let audioIniciado = false;
 
         audio.addEventListener('canplaythrough', () => {
             audioListo = true;
             cargando.classList.add('oculto');
             console.log('✅ Audio cargado');
+
+            // Mostrar mensaje en tablet
+            if (window.innerWidth <= 768) {
+                mensajeAudio.classList.add('mostrar');
+            }
         });
 
         audio.addEventListener('error', () => {
@@ -630,6 +695,51 @@
         });
 
         audio.load();
+
+        // ============================================================
+        // FUNCIÓN PARA INICIAR AUDIO (después de interacción)
+        // ============================================================
+        function iniciarAudio() {
+            if (audioListo && !audioIniciado) {
+                audio.currentTime = INICIO_AUDIO;
+                audio.play().then(() => {
+                    audioIniciado = true;
+                    mensajeAudio.classList.remove('mostrar');
+                    console.log('🔊 Audio iniciado');
+                }).catch((err) => {
+                    console.log('⏳ Audio bloqueado, esperando interacción');
+                });
+            }
+        }
+
+        // Detectar interacción del usuario (click o touch)
+        document.addEventListener('click', iniciarAudio);
+        document.addEventListener('touchstart', iniciarAudio);
+
+        // También el botón de audio inicia el audio
+        btnAudio.addEventListener('click', () => {
+            if (!audioIniciado) {
+                iniciarAudio();
+            }
+            // Toggle normal
+            if (audioIniciado) {
+                if (audioEncendido) {
+                    audio.pause();
+                    audioEncendido = false;
+                    btnAudio.textContent = '🔇';
+                    pausado = true;
+                } else {
+                    audio.currentTime = INICIO_AUDIO;
+                    audio.play().catch(() => {});
+                    audioEncendido = true;
+                    btnAudio.textContent = '🔊';
+                    pausado = false;
+                    if (!tiempoInicio) {
+                        tiempoInicio = Date.now();
+                    }
+                }
+            }
+        });
 
         // ============================================================
         // CREAR BARRAS
@@ -650,7 +760,7 @@
         crearBarras();
 
         // ============================================================
-        // GENERAR CORAZÓN (con intensidad reducida en modo explosivo)
+        // GENERAR CORAZÓN
         // ============================================================
         function generarCorazon(ancho, latido, explosivo) {
             const alturas = new Array(ancho).fill(0.05);
@@ -666,7 +776,6 @@
                 }
             }
 
-            // INTENSIDAD REDUCIDA en modo explosivo para que se vea el corazón
             const intensidadLatido = explosivo ?
                 0.5 + 0.5 * Math.abs(Math.sin(latido * 12)) :
                 0.5 + 0.5 * Math.sin(latido * 10);
@@ -684,7 +793,6 @@
                 alturas[i] = alturas[i] * (0.3 + 0.7 * intensidadLatido);
             }
 
-            // CAOS REDUCIDO en modo explosivo
             const factorCaos = explosivo ? 0.35 : 0.2;
             for (let i = 0; i < ancho; i++) {
                 alturas[i] += factorCaos * Math.abs(Math.sin(latido * 20 + i * 2)) * (Math.random() * 0.5 + 0.5);
@@ -762,6 +870,7 @@
         let pausado = false;
         let frameCounter = 0;
         let reiniciando = false;
+        let audioEncendido = true;
 
         // ============================================================
         // ACTUALIZAR ANIMACIÓN
@@ -777,7 +886,7 @@
 
             if (tiempoActual > DURACION_TOTAL) {
                 tiempoInicio = Date.now();
-                if (audio.paused && audioEncendido) {
+                if (audio.paused && audioEncendido && audioIniciado) {
                     audio.currentTime = INICIO_AUDIO;
                     audio.play().catch(() => {});
                 }
@@ -862,7 +971,6 @@
             if (explosivo) {
                 const latido = tiempoActual;
                 alturas = generarCorazon(NUM_BARRAS, latido, true);
-                // Menos caos adicional
                 for (let i = 0; i < NUM_BARRAS; i++) {
                     alturas[i] += 0.25 * Math.abs(Math.sin(tiempoActual * 12 + i * 2.5)) * (Math.random() * 0.4 + 0.6);
                     alturas[i] = Math.min(Math.max(alturas[i], 0.05), 1);
@@ -878,16 +986,12 @@
                 }
             }
 
-            // Altura máxima según modo
             const alturaMax = explosivo ? ALTURA_MAXIMA_EXPLOSIVO : ALTURA_MAXIMA_NORMAL;
-
-            // Obtener altura del gráfico para escalar correctamente
-            const ejesHeight = ejesGrafico.clientHeight || 300;
+            const ejesHeight = ejesGrafico.clientHeight || 240;
 
             for (let i = 0; i < NUM_BARRAS; i++) {
                 const altura = alturas[i] || 0.05;
                 const barra = barras[i];
-                // Escalar al tamaño del gráfico
                 const alturaPx = Math.max(2, altura * (alturaMax / 200) * ejesHeight * 0.85);
                 barra.style.height = alturaPx + 'px';
                 barra.style.background = getColor(altura, explosivo);
@@ -974,9 +1078,11 @@
             pausado = false;
             frameCounter = 0;
 
-            audio.currentTime = INICIO_AUDIO;
-            if (audioEncendido) {
-                audio.play().catch(() => {});
+            if (audioIniciado) {
+                audio.currentTime = INICIO_AUDIO;
+                if (audioEncendido) {
+                    audio.play().catch(() => {});
+                }
             }
 
             container.style.background = '#0a0008';
@@ -1011,28 +1117,8 @@
         }
 
         // ============================================================
-        // CONTROLES
+        // BOTÓN REINICIAR
         // ============================================================
-        let audioEncendido = true;
-
-        btnAudio.addEventListener('click', () => {
-            if (audioEncendido) {
-                audio.pause();
-                audioEncendido = false;
-                btnAudio.textContent = '🔇';
-                pausado = true;
-            } else {
-                audio.currentTime = INICIO_AUDIO;
-                audio.play().catch(() => {});
-                audioEncendido = true;
-                btnAudio.textContent = '🔊';
-                pausado = false;
-                if (!tiempoInicio) {
-                    tiempoInicio = Date.now();
-                }
-            }
-        });
-
         btnReiniciar.addEventListener('click', reiniciar);
 
         // ============================================================
@@ -1040,29 +1126,17 @@
         // ============================================================
         console.log('♫ Doma - Josean Log | Visualizador Musical ♫');
         console.log(`🎵 Audio inicia en segundo ${INICIO_AUDIO}`);
-        console.log('❤🔥 A los 40 segundos: modo explosivo (intensidad reducida)');
+        console.log('❤🔥 A los 40 segundos: modo explosivo');
         console.log('🔄 Bucle infinito automático');
 
         iniciar();
 
-        const intentarAudio = () => {
-            if (audioListo) {
-                audio.currentTime = INICIO_AUDIO;
-                audio.play().catch(() => {});
-            }
-            document.removeEventListener('click', intentarAudio);
-            document.removeEventListener('touchstart', intentarAudio);
-        };
-
-        document.addEventListener('click', intentarAudio);
-        document.addEventListener('touchstart', intentarAudio);
-
+        // Intentar audio automáticamente (puede fallar en tablet)
         setTimeout(() => {
-            if (audioListo) {
-                audio.currentTime = INICIO_AUDIO;
-                audio.play().catch(() => {});
+            if (audioListo && !audioIniciado) {
+                iniciarAudio();
             }
-        }, 500);
+        }, 1000);
 
         window.addEventListener('resize', () => {});
     </script>
