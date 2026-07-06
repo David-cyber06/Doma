@@ -35,7 +35,6 @@
             padding: 20px;
         }
 
-        /* Letra */
         .letra-container {
             width: 90%;
             max-width: 800px;
@@ -74,7 +73,6 @@
             color: #fff;
         }
 
-        /* Barras */
         .barras-container {
             width: 90%;
             max-width: 900px;
@@ -115,7 +113,6 @@
             letter-spacing: 1px;
         }
 
-        /* Controles */
         .controles {
             margin-top: 20px;
             display: flex;
@@ -171,7 +168,6 @@
             border-color: rgba(0, 255, 255, 0.4);
         }
 
-        /* Estado de carga */
         .cargando {
             position: fixed;
             top: 0;
@@ -205,7 +201,6 @@
             display: none;
         }
 
-        /* Responsive */
         @media (max-width: 600px) {
             .letra {
                 font-size: 22px;
@@ -261,15 +256,11 @@
 </head>
 <body>
 
-    <!-- Pantalla de carga -->
     <div class="cargando" id="cargando">
         <div class="spinner"></div>
         <span>🎵 Cargando canción...</span>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- CONTENIDO PRINCIPAL -->
-    <!-- ============================================================ -->
     <div class="container" id="container">
 
         <div class="letra-container">
@@ -297,6 +288,7 @@
         // ============================================================
         const DURACION_TOTAL = 80;
         const NUM_BARRAS = 40;
+        const INICIO_AUDIO = 80; // ¡LA CANCIÓN EMPIEZA EN EL SEGUNDO 80!
 
         const LETRAS = [
             { tiempo: 0.0, texto: "❤ De corazones tienes colección ❤" },
@@ -326,26 +318,25 @@
         const cargando = document.getElementById('cargando');
 
         // ============================================================
-        // AUDIO
+        // AUDIO - INICIA EN EL SEGUNDO 80
         // ============================================================
         const audio = new Audio('music/doma.mp3');
-        audio.loop = true; // Bucle infinito
+        audio.loop = true;
         audio.volume = 0.7;
         let audioListo = false;
 
-        // Cargar audio
         audio.addEventListener('canplaythrough', () => {
             audioListo = true;
             cargando.classList.add('oculto');
             console.log('✅ Audio cargado correctamente');
+            console.log(`🎵 Iniciando en el segundo ${INICIO_AUDIO}`);
         });
 
         audio.addEventListener('error', () => {
-            console.warn('⚠️ No se pudo cargar el audio, pero el visualizador funciona');
+            console.warn('⚠️ No se pudo cargar el audio');
             cargando.classList.add('oculto');
         });
 
-        // Intentar cargar
         audio.load();
 
         // ============================================================
@@ -405,7 +396,7 @@
         }
 
         // ============================================================
-        // FUNCIÓN PARA OBTENER COLOR
+        // COLOR
         // ============================================================
         function getColor(altura, modoCorazon) {
             if (modoCorazon) {
@@ -440,6 +431,7 @@
 
             if (tiempoActual > DURACION_TOTAL) {
                 tiempoInicio = Date.now();
+                // Reiniciar audio también (pero como está en loop, no hace falta)
                 return;
             }
 
@@ -529,7 +521,6 @@
             modoTextoEl.textContent = modoCorazon ? '❤ MODO CORAZÓN ❤' : '🎵 Modo oscuro';
             modoTextoEl.style.color = modoCorazon ? '#ff6b6b' : '#888';
 
-            // ===== TÍTULO =====
             if (modoCorazon) {
                 tituloEl.textContent = `♫ TIEMPO RESTANTE: ${tiempoRestante.toFixed(1)}s ♫  ❤❤❤❤❤❤❤`;
             } else {
@@ -558,9 +549,13 @@
         function reiniciar() {
             tiempoInicio = Date.now();
             pausado = false;
+            
+            // Reiniciar audio al segundo 80
+            audio.currentTime = INICIO_AUDIO;
             if (audio.paused) {
                 audio.play().catch(() => {});
             }
+            
             container.style.background = '#0a0008';
             letraEl.style.color = '#fff';
             tituloEl.style.color = '#00ffff';
@@ -570,7 +565,7 @@
         }
 
         // ============================================================
-        // CONTROLES DE AUDIO
+        // CONTROLES
         // ============================================================
         let audioEncendido = true;
 
@@ -581,38 +576,36 @@
                 btnAudio.textContent = '🔇';
                 pausado = true;
             } else {
+                audio.currentTime = INICIO_AUDIO;
                 audio.play().catch(() => {});
                 audioEncendido = true;
                 btnAudio.textContent = '🔊';
                 pausado = false;
-                // Reiniciar el tiempo si estaba pausado
                 if (!tiempoInicio) {
                     tiempoInicio = Date.now();
                 }
             }
         });
 
-        btnReiniciar.addEventListener('click', () => {
-            reiniciar();
-        });
+        btnReiniciar.addEventListener('click', reiniciar);
 
         // ============================================================
-        // INICIO AUTOMÁTICO CON AUDIO
+        // INICIO
         // ============================================================
         console.log('♫ Doma - Josean Log | Visualizador Musical ♫');
-        console.log('🎵 Audio: music/doma.mp3');
+        console.log(`🎵 Audio: music/doma.mp3 (inicia en segundo ${INICIO_AUDIO})`);
         console.log('🎵 Modo oscuro hasta los 40 segundos');
         console.log('❤ A los 40 segundos: MODO CORAZÓN');
         console.log('🔄 Bucle infinito automático');
 
-        // Iniciar visualizador
         iniciar();
 
-        // Intentar reproducir audio automáticamente (necesita interacción del usuario)
+        // Reproducir audio desde el segundo 80
         const intentarAudio = () => {
             if (audioListo) {
+                audio.currentTime = INICIO_AUDIO;
                 audio.play().catch(() => {
-                    console.log('⏳ Esperando interacción del usuario para reproducir audio');
+                    console.log('⏳ Esperando interacción del usuario');
                 });
             }
             document.removeEventListener('click', intentarAudio);
@@ -622,16 +615,13 @@
         document.addEventListener('click', intentarAudio);
         document.addEventListener('touchstart', intentarAudio);
 
-        // Si el audio ya está cargado, intentar reproducir
         setTimeout(() => {
             if (audioListo) {
+                audio.currentTime = INICIO_AUDIO;
                 audio.play().catch(() => {});
             }
         }, 500);
 
-        // ============================================================
-        // RESIZE
-        // ============================================================
         window.addEventListener('resize', () => {});
     </script>
 
