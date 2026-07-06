@@ -33,7 +33,7 @@
             justify-content: center;
             align-items: center;
             background: #0a0008;
-            transition: background 0.08s ease;
+            transition: background 0.1s ease;
             padding: 8px 16px 10px;
             overflow: hidden;
             padding-top: 6px;
@@ -217,7 +217,7 @@
             height: 3px;
             min-height: 2px;
             border-radius: 2px 2px 0 0;
-            transition: height 0.04s ease, background 0.04s ease;
+            transition: height 0.06s ease, background 0.06s ease;
             background: cyan;
             max-width: 20px;
             will-change: height;
@@ -633,10 +633,13 @@
         // CONFIGURACIÓN
         // ============================================================
         const DURACION_TOTAL = 99;
-        const NUM_BARRAS = 70;
         const INICIO_AUDIO = 80;
         const MODO_EXPLOSIVO = 40;
         const ALTURA_MAXIMA = 160;
+
+        // DETECTAR TABLET - menos barras para mejor rendimiento
+        const esTablet = window.innerWidth <= 768;
+        const NUM_BARRAS = esTablet ? 50 : 70;
 
         const LETRAS = [
             { tiempo: 0.0, texto: "❤ De corazones tienes colección ❤" },
@@ -766,7 +769,7 @@
         crearBarras();
 
         // ============================================================
-        // GENERAR ONDAS (MODO NORMAL - IGUAL QUE ANTES)
+        // GENERAR ONDAS (MODO NORMAL - OPTIMIZADO)
         // ============================================================
         function generarOndas(ancho, tiempo) {
             const alturas = new Array(ancho);
@@ -778,9 +781,12 @@
                 const onda2 = Math.sin(i * 0.25 - tiempo * 2.2 + 1.5) * 0.25 + 0.3;
                 const onda3 = Math.sin(i * 0.08 + tiempo * 1.8 + 0.7) * 0.2 + 0.2;
 
-                const pico1 = 0.3 * Math.exp(-Math.pow((x - 0.2 - 0.1 * Math.sin(tiempo * 0.3)) * 10, 2));
-                const pico2 = 0.3 * Math.exp(-Math.pow((x - 0.5 - 0.1 * Math.cos(tiempo * 0.4)) * 10, 2));
-                const pico3 = 0.3 * Math.exp(-Math.pow((x - 0.8 - 0.1 * Math.sin(tiempo * 0.5 + 1)) * 10, 2));
+                const dist1 = (x - 0.2 - 0.1 * Math.sin(tiempo * 0.3));
+                const pico1 = 0.3 * Math.exp(-dist1 * dist1 * 100);
+                const dist2 = (x - 0.5 - 0.1 * Math.cos(tiempo * 0.4));
+                const pico2 = 0.3 * Math.exp(-dist2 * dist2 * 100);
+                const dist3 = (x - 0.8 - 0.1 * Math.sin(tiempo * 0.5 + 1));
+                const pico3 = 0.3 * Math.exp(-dist3 * dist3 * 100);
 
                 const ruido = 0.04 * Math.sin(i * 2.5 + tiempo * 12);
 
@@ -795,7 +801,7 @@
         }
 
         // ============================================================
-        // GENERAR CAOS (MODO EXPLOSIVO - NARANJA-ROJO-PÚRPURA)
+        // GENERAR CAOS (MODO EXPLOSIVO - OPTIMIZADO)
         // ============================================================
         function generarCaos(ancho, tiempo) {
             const alturas = new Array(ancho);
@@ -806,16 +812,19 @@
                 const onda1 = Math.sin(i * 0.12 + tiempo * 4.5) * 0.3 + 0.5;
                 const onda2 = Math.sin(i * 0.2 - tiempo * 3.8 + 2.0) * 0.25 + 0.4;
                 const onda3 = Math.sin(i * 0.07 + tiempo * 5.2 + 1.0) * 0.3 + 0.3;
-                const onda4 = Math.sin(i * 0.3 + tiempo * 2.5 + 0.5) * 0.2 + 0.2;
 
-                const pico1 = 0.4 * Math.exp(-Math.pow((x - 0.15 - 0.1 * Math.sin(tiempo * 0.7)) * 12, 2));
-                const pico2 = 0.4 * Math.exp(-Math.pow((x - 0.4 - 0.1 * Math.cos(tiempo * 0.8)) * 12, 2));
-                const pico3 = 0.4 * Math.exp(-Math.pow((x - 0.65 - 0.1 * Math.sin(tiempo * 0.6 + 1.5)) * 12, 2));
-                const pico4 = 0.4 * Math.exp(-Math.pow((x - 0.85 - 0.1 * Math.cos(tiempo * 0.5 + 2.0)) * 12, 2));
+                const dist1 = (x - 0.15 - 0.1 * Math.sin(tiempo * 0.7));
+                const pico1 = 0.4 * Math.exp(-dist1 * dist1 * 144);
+                const dist2 = (x - 0.4 - 0.1 * Math.cos(tiempo * 0.8));
+                const pico2 = 0.4 * Math.exp(-dist2 * dist2 * 144);
+                const dist3 = (x - 0.65 - 0.1 * Math.sin(tiempo * 0.6 + 1.5));
+                const pico3 = 0.4 * Math.exp(-dist3 * dist3 * 144);
+                const dist4 = (x - 0.85 - 0.1 * Math.cos(tiempo * 0.5 + 2.0));
+                const pico4 = 0.4 * Math.exp(-dist4 * dist4 * 144);
 
                 const ruido = 0.08 * Math.sin(i * 3.0 + tiempo * 18 + x * 20);
 
-                let altura = onda1 * 0.4 + onda2 * 0.3 + onda3 * 0.2 + onda4 * 0.1;
+                let altura = onda1 * 0.4 + onda2 * 0.3 + onda3 * 0.3;
                 altura += pico1 * 0.3 + pico2 * 0.3 + pico3 * 0.3 + pico4 * 0.3;
                 altura += ruido;
 
@@ -832,7 +841,7 @@
         }
 
         // ============================================================
-        // COLOR (NORMAL = FRÍO, EXPLOSIVO = NARANJA-ROJO-PÚRPURA)
+        // COLOR (CACHEADO)
         // ============================================================
         const colorCache = {};
 
@@ -842,13 +851,11 @@
 
             let color;
             if (explosivo) {
-                // Naranja -> Rojo oscuro -> Púrpura
                 const r = Math.min(1, 0.5 + altura * 0.6);
                 const g = Math.min(1, 0.05 + altura * 0.2);
                 const b = Math.min(1, 0.1 + altura * 0.5);
                 color = `rgb(${Math.floor(r * 255)},${Math.floor(g * 255)},${Math.floor(b * 255)})`;
             } else {
-                // Modo normal: colores fríos (azul/cyan) como antes
                 const hue = 200 + altura * 160;
                 color = `hsl(${hue}, 85%, ${30 + altura * 50}%)`;
             }
@@ -857,18 +864,16 @@
         }
 
         // ============================================================
-        // COLOR DE FONDO (NORMAL = OSCURO, EXPLOSIVO = NARANJA-ROJO)
+        // COLOR DE FONDO (OPTIMIZADO)
         // ============================================================
         function getFondoColor(tiempo, explosivo) {
             if (!explosivo) {
-                // Modo normal: fondo oscuro como antes
                 const r = 0.05 + 0.1 * Math.pow(Math.sin(tiempo * 0.5), 2);
                 const g = 0.05 + 0.1 * Math.pow(Math.sin(tiempo * 0.6), 2);
                 const b = 0.15 + 0.15 * Math.pow(Math.sin(tiempo * 0.7), 2);
                 return `rgb(${Math.floor(r * 255)},${Math.floor(g * 255)},${Math.floor(b * 255)})`;
             }
 
-            // MODO EXPLOSIVO: naranja, rojo, púrpura oscuro
             const pulso = Math.sin(tiempo * 2.5) * 0.5 + 0.5;
             const pulso2 = Math.sin(tiempo * 3.2 + 1.5) * 0.5 + 0.5;
 
@@ -877,24 +882,16 @@
             let b = 0.05 + 0.2 * (1 - pulso);
 
             if (Math.sin(tiempo * 10) > 0.9) r = Math.min(1, r + 0.4);
-            if (Math.sin(tiempo * 11) > 0.9) {
-                r = Math.min(1, r + 0.2);
-                b = Math.min(1, b + 0.3);
-            }
-            if (Math.sin(tiempo * 8) > 0.95) {
-                r = Math.min(1, r + 0.5);
-                g = Math.min(1, g + 0.2);
-            }
-            if (Math.sin(tiempo * 14) > 0.92) {
-                r = 0.9;
+            if (Math.sin(tiempo * 11) > 0.9) { r = Math.min(1, r + 0.2);
+                b = Math.min(1, b + 0.3); }
+            if (Math.sin(tiempo * 8) > 0.95) { r = Math.min(1, r + 0.5);
+                g = Math.min(1, g + 0.2); }
+            if (Math.sin(tiempo * 14) > 0.92) { r = 0.9;
                 g = 0.1;
-                b = 0.2;
-            }
-            if (Math.sin(tiempo * 16) > 0.92) {
-                r = 0.6;
+                b = 0.2; }
+            if (Math.sin(tiempo * 16) > 0.92) { r = 0.6;
                 g = 0.05;
-                b = 0.8;
-            }
+                b = 0.8; }
 
             r = Math.min(Math.max(r, 0.02), 1);
             g = Math.min(Math.max(g, 0.01), 0.5);
@@ -904,18 +901,18 @@
         }
 
         // ============================================================
-        // PARTÍCULAS (SOLO EN MODO EXPLOSIVO - COLORES NARANJA-ROJO)
+        // PARTÍCULAS (REDUCIDAS PARA TABLET)
         // ============================================================
         let particulaTimer = 0;
 
         function crearParticula(x, y, color) {
             const particula = document.createElement('div');
             particula.className = 'particula';
-            const size = 3 + Math.random() * 6;
+            const size = 3 + Math.random() * 5;
             const angulo = Math.random() * 2 * Math.PI;
-            const distancia = 70 + Math.random() * 180;
+            const distancia = 60 + Math.random() * 150;
             const dx = Math.cos(angulo) * distancia;
-            const dy = Math.sin(angulo) * distancia - 70;
+            const dy = Math.sin(angulo) * distancia - 60;
 
             particula.style.width = size + 'px';
             particula.style.height = size + 'px';
@@ -944,8 +941,8 @@
 
             for (let i = 0; i < cantidad; i++) {
                 const color = colores[Math.floor(Math.random() * colores.length)];
-                const x = centroX + (Math.random() - 0.5) * 70;
-                const y = centroY + (Math.random() - 0.5) * 70;
+                const x = centroX + (Math.random() - 0.5) * 60;
+                const y = centroY + (Math.random() - 0.5) * 60;
                 crearParticula(x, y, color);
             }
         }
@@ -961,7 +958,7 @@
         let reiniciando = false;
 
         // ============================================================
-        // ACTUALIZAR ANIMACIÓN
+        // ACTUALIZAR ANIMACIÓN (OPTIMIZADA)
         // ============================================================
         function actualizarAnimacion(timestamp) {
             if (!reproduciendo || pausado) {
@@ -984,14 +981,16 @@
             const tiempoRestante = Math.max(0, DURACION_TOTAL - tiempoActual);
             const explosivo = tiempoActual >= MODO_EXPLOSIVO;
 
-            // ===== FONDO =====
-            if (frameCounter % 2 === 0) {
+            // ===== FONDO (cada 4 frames en tablet) =====
+            const skipFrames = esTablet ? 4 : 2;
+            if (frameCounter % skipFrames === 0) {
                 const bgColor = getFondoColor(tiempoActual, explosivo);
                 container.style.background = bgColor;
             }
 
-            // ===== LETRA =====
-            if (frameCounter % 2 === 0 || explosivo) {
+            // ===== LETRA (cada 3 frames en tablet) =====
+            const skipLetra = esTablet ? 3 : 2;
+            if (frameCounter % skipLetra === 0 || explosivo) {
                 let textoActual = '';
                 for (let i = LETRAS.length - 1; i >= 0; i--) {
                     if (tiempoActual >= LETRAS[i].tiempo) {
@@ -1004,7 +1003,6 @@
                 }
 
                 if (explosivo) {
-                    // MODO EXPLOSIVO: NARANJA-ROJO
                     const hue = (tiempoActual * 40 + 20) % 60 + 10;
                     const lig = 50 + 20 * Math.sin(tiempoActual * 5);
                     letraEl.style.color = `hsl(${hue}, 100%, ${lig}%)`;
@@ -1017,7 +1015,6 @@
                     tituloEl.style.color = '#ff6633';
                     tituloEl.style.textShadow = '0 0 30px rgba(255, 80, 30, 0.5)';
                 } else {
-                    // MODO NORMAL: FRÍO (IGUAL QUE ANTES)
                     const hue = 180 + (tiempoActual * 30) % 60;
                     letraEl.style.color = `hsl(${hue}, 100%, 70%)`;
                     letraEl.style.textShadow = `0 0 40px hsla(${hue}, 100%, 70%, 0.2)`;
@@ -1045,31 +1042,32 @@
                 const alturaPx = Math.max(2, altura * escala);
                 barra.style.height = alturaPx + 'px';
                 barra.style.background = getColor(altura, explosivo);
-                if (explosivo && altura > 0.15) {
-                    const brillo = 4 + altura * 14;
+                if (explosivo && altura > 0.2) {
+                    const brillo = 3 + altura * 10;
                     barra.style.boxShadow = `0 0 ${brillo}px ${getColor(altura, true)}`;
                 } else {
                     barra.style.boxShadow = 'none';
                 }
             }
 
-            // ===== PARTÍCULAS (SOLO EN MODO EXPLOSIVO) =====
+            // ===== PARTÍCULAS (REDUCIDAS en tablet) =====
             if (explosivo) {
+                const skipParticulas = esTablet ? 6 : 3;
                 particulaTimer++;
-                if (particulaTimer % 3 === 0) {
+                if (particulaTimer % skipParticulas === 0) {
                     const ancho = window.innerWidth;
                     const alto = window.innerHeight;
                     const cx = ancho / 2;
                     const cy = alto / 2;
-                    const cantidad = 1 + Math.floor(Math.random() * 3);
-                    const centroX = cx + (Math.random() - 0.5) * 200;
-                    const centroY = cy * 0.35 + (Math.random() - 0.5) * 80;
+                    const cantidad = esTablet ? 1 + Math.floor(Math.random() * 2) : 1 + Math.floor(Math.random() * 3);
+                    const centroX = cx + (Math.random() - 0.5) * 180;
+                    const centroY = cy * 0.35 + (Math.random() - 0.5) * 70;
                     explosionParticulas(centroX, centroY, cantidad);
                 }
-                if (particulaTimer % 25 === 0) {
+                if (particulaTimer % 40 === 0 && !esTablet) {
                     const cx = window.innerWidth / 2;
                     const cy = window.innerHeight / 2;
-                    explosionParticulas(cx, cy * 0.35, 5 + Math.floor(Math.random() * 5));
+                    explosionParticulas(cx, cy * 0.35, 4 + Math.floor(Math.random() * 4));
                 }
             }
 
@@ -1174,7 +1172,8 @@
         // ============================================================
         console.log('♫ Doma - Josean Log | Visualizador Musical ♫');
         console.log(`🎵 Audio inicia en segundo ${INICIO_AUDIO}`);
-        console.log('🌊 Modo normal: ONDAS FRÍAS (AZUL/CYAN)');
+        console.log(`📱 Modo tablet: ${esTablet ? 'ACTIVADO' : 'DESACTIVADO'} (${NUM_BARRAS} barras)`);
+        console.log('🌊 Modo normal: ONDAS FRÍAS');
         console.log('🔥 Modo explosivo: NARANJA-ROJO-PÚRPURA');
         console.log('🔄 Bucle infinito automático');
 
