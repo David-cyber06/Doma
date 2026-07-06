@@ -28,12 +28,14 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
+            /* Todo más arriba */
             align-items: center;
             background: #0a0008;
             transition: background 0.05s ease;
-            padding: 20px;
+            padding: 10px 20px 20px;
             overflow: hidden;
+            padding-top: 15px;
         }
 
         .particulas-container {
@@ -66,43 +68,45 @@
             }
         }
 
+        /* ===== LETRA - MÁS ARRIBA ===== */
         .letra-container {
             width: 90%;
             max-width: 800px;
             text-align: center;
-            min-height: 100px;
+            min-height: 80px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 10px 20px;
+            padding: 4px 20px 6px;
             position: relative;
             z-index: 1;
+            margin-top: 0;
         }
 
         .titulo {
             color: #00ffff;
-            font-size: 18px;
+            font-size: 17px;
             font-weight: bold;
             letter-spacing: 2px;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
             text-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
             transition: all 0.3s ease;
-            min-height: 35px;
+            min-height: 30px;
             z-index: 1;
         }
 
         .letra {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: bold;
             text-align: center;
-            min-height: 60px;
+            min-height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.1s ease;
-            padding: 6px;
-            line-height: 1.3;
+            padding: 4px;
+            line-height: 1.2;
             text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
             color: #fff;
             z-index: 1;
@@ -134,24 +138,31 @@
             }
         }
 
-        /* ===== GRÁFICO DE BARRAS CON EJES ===== */
+        /* ===== GRÁFICO DE BARRAS - MÁS GRANDE ===== */
         .grafico-container {
-            width: 90%;
-            max-width: 900px;
+            width: 92%;
+            max-width: 920px;
             position: relative;
             z-index: 1;
-            margin-top: 5px;
+            margin-top: 2px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
         }
 
         .grafico-container .ejes {
             position: relative;
             width: 100%;
-            height: 200px;
-            /* Altura máxima del gráfico (bajada) */
+            height: 100%;
+            min-height: 280px;
+            /* Más grande */
+            max-height: 450px;
+            flex: 1;
             margin-left: 50px;
         }
 
-        /* Eje Y (Intensidad) - etiquetas a la izquierda */
+        /* Eje Y (Intensidad) */
         .eje-y {
             position: absolute;
             left: -48px;
@@ -172,7 +183,6 @@
             opacity: 0.5;
         }
 
-        /* Título del eje Y (Intensidad) */
         .eje-y-titulo {
             position: absolute;
             left: -52px;
@@ -187,7 +197,7 @@
             font-weight: 300;
         }
 
-        /* Contenedor de barras (dentro de ejes) */
+        /* Barras */
         .barras-wrapper {
             position: absolute;
             left: 0;
@@ -205,7 +215,7 @@
 
         .barra {
             flex: 1;
-            height: 5px;
+            height: 3px;
             min-height: 2px;
             border-radius: 3px 3px 0 0;
             transition: height 0.04s ease, background 0.04s ease;
@@ -213,7 +223,7 @@
             max-width: 28px;
         }
 
-        /* Eje X (Frecuencia) - etiquetas abajo */
+        /* Eje X */
         .eje-x {
             display: flex;
             justify-content: space-between;
@@ -228,7 +238,6 @@
             opacity: 0.5;
         }
 
-        /* Título del eje X (Frecuencia) */
         .eje-x-titulo {
             text-align: center;
             color: #555;
@@ -237,15 +246,15 @@
             font-family: 'Segoe UI', sans-serif;
             opacity: 0.6;
             font-weight: 300;
-            margin-top: 2px;
+            margin-top: 1px;
             margin-left: 50px;
         }
 
-        /* ===== INFO ===== */
+        /* ===== INFO Y CONTROLES - MÁS ABAJO ===== */
         .info {
             color: #888;
             font-size: 13px;
-            margin-top: 10px;
+            margin-top: 12px;
             letter-spacing: 2px;
             text-align: center;
             z-index: 1;
@@ -258,15 +267,15 @@
         .tiempo {
             color: #aaa;
             font-size: 13px;
-            margin-top: 3px;
+            margin-top: 2px;
             letter-spacing: 1px;
             z-index: 1;
             position: relative;
         }
 
-        /* ===== CONTROLES ===== */
         .controles {
-            margin-top: 12px;
+            margin-top: 10px;
+            margin-bottom: 8px;
             display: flex;
             gap: 14px;
             align-items: center;
@@ -363,16 +372,25 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 600px) {
+            .container {
+                padding: 8px 12px 12px;
+                padding-top: 8px;
+            }
             .letra {
-                font-size: 20px;
-                min-height: 50px;
+                font-size: 18px;
+                min-height: 40px;
             }
             .titulo {
-                font-size: 14px;
-                min-height: 30px;
+                font-size: 13px;
+                min-height: 24px;
+            }
+            .letra-container {
+                min-height: 60px;
+                padding: 2px 12px 4px;
             }
             .grafico-container .ejes {
-                height: 150px;
+                min-height: 200px;
+                max-height: 320px;
                 margin-left: 35px;
             }
             .eje-y {
@@ -398,7 +416,7 @@
                 padding: 0 3px;
             }
             .barra {
-                max-width: 20px;
+                max-width: 18px;
                 min-height: 2px;
             }
             .btn {
@@ -407,22 +425,39 @@
             }
             .controles {
                 gap: 8px;
+                margin-top: 6px;
+                margin-bottom: 4px;
             }
             .info {
                 font-size: 11px;
+                margin-top: 8px;
             }
             .tiempo {
                 font-size: 11px;
+                margin-top: 1px;
             }
         }
 
         @media (max-width: 400px) {
+            .container {
+                padding: 4px 8px 8px;
+                padding-top: 4px;
+            }
             .letra {
-                font-size: 16px;
-                min-height: 40px;
+                font-size: 14px;
+                min-height: 32px;
+            }
+            .titulo {
+                font-size: 11px;
+                min-height: 20px;
+            }
+            .letra-container {
+                min-height: 48px;
+                padding: 1px 8px 2px;
             }
             .grafico-container .ejes {
-                height: 120px;
+                min-height: 150px;
+                max-height: 250px;
                 margin-left: 30px;
             }
             .eje-y {
@@ -447,14 +482,21 @@
                 padding: 0 2px;
             }
             .barra {
-                max-width: 14px;
+                max-width: 12px;
                 min-height: 2px;
             }
             .info {
                 font-size: 10px;
+                margin-top: 6px;
             }
-            .titulo {
-                font-size: 12px;
+            .controles {
+                margin-top: 4px;
+                margin-bottom: 2px;
+                gap: 6px;
+            }
+            .btn {
+                padding: 5px 12px;
+                font-size: 10px;
             }
         }
 
@@ -474,6 +516,7 @@
 
     <div class="container" id="container">
 
+        <!-- ===== LETRA - MÁS ARRIBA ===== -->
         <div class="letra-container">
             <div class="titulo" id="titulo">♫ Doma - Josean Log ♫</div>
             <div class="letra" id="letra">
@@ -482,10 +525,9 @@
             </div>
         </div>
 
-        <!-- ===== GRÁFICO CON EJES ===== -->
+        <!-- ===== GRÁFICO - MÁS GRANDE ===== -->
         <div class="grafico-container">
-            <div class="ejes">
-                <!-- Eje Y (Intensidad) -->
+            <div class="ejes" id="ejesGrafico">
                 <div class="eje-y">
                     <span>1.0</span>
                     <span>0.75</span>
@@ -493,12 +535,9 @@
                     <span>0.25</span>
                     <span>0.0</span>
                 </div>
-                <!-- Título Eje Y -->
                 <div class="eje-y-titulo">Intensidad</div>
-                <!-- Barras -->
                 <div class="barras-wrapper" id="barrasContainer"></div>
             </div>
-            <!-- Eje X (Frecuencia) -->
             <div class="eje-x">
                 <span>0</span>
                 <span>10</span>
@@ -515,6 +554,7 @@
             <div class="eje-x-titulo">Frecuencia</div>
         </div>
 
+        <!-- ===== INFO - MÁS ABAJO ===== -->
         <div class="info">
             ⏱ <strong id="tiempoRestante">80.0</strong>s restantes
         </div>
@@ -535,7 +575,10 @@
         const NUM_BARRAS = 40;
         const INICIO_AUDIO = 80;
         const MODO_EXPLOSIVO = 40;
-        const ALTURA_MAXIMA = 180; // Altura máxima de barras en modo explosivo (bajada)
+
+        // ALTURA MÁXIMA DE BARRAS EN MODO EXPLOSIVO (BAJADA PARA VER CORAZÓN)
+        const ALTURA_MAXIMA_EXPLOSIVO = 120;
+        const ALTURA_MAXIMA_NORMAL = 200;
 
         const LETRAS = [
             { tiempo: 0.0, texto: "❤ De corazones tienes colección ❤" },
@@ -565,6 +608,7 @@
         const btnReiniciar = document.getElementById('btnReiniciar');
         const btnAudio = document.getElementById('btnAudio');
         const cargando = document.getElementById('cargando');
+        const ejesGrafico = document.getElementById('ejesGrafico');
 
         // ============================================================
         // AUDIO
@@ -606,7 +650,7 @@
         crearBarras();
 
         // ============================================================
-        // GENERAR CORAZÓN
+        // GENERAR CORAZÓN (con intensidad reducida en modo explosivo)
         // ============================================================
         function generarCorazon(ancho, latido, explosivo) {
             const alturas = new Array(ancho).fill(0.05);
@@ -622,15 +666,16 @@
                 }
             }
 
+            // INTENSIDAD REDUCIDA en modo explosivo para que se vea el corazón
             const intensidadLatido = explosivo ?
-                0.3 + 0.7 * Math.abs(Math.sin(latido * 15)) :
+                0.5 + 0.5 * Math.abs(Math.sin(latido * 12)) :
                 0.5 + 0.5 * Math.sin(latido * 10);
 
             for (let i = 0; i < ancho; i++) {
                 if (alturas[i] < 0.3) {
                     const distancia = Math.abs(i - centro) / (ancho / 2);
-                    const frecuencia = explosivo ? 18 : 12;
-                    const salto = (0.7 + 0.3 * Math.sin(latido * frecuencia - i * 0.5)) * (1 - distancia * 0.5);
+                    const frecuencia = explosivo ? 14 : 12;
+                    const salto = (0.6 + 0.4 * Math.sin(latido * frecuencia - i * 0.5)) * (1 - distancia * 0.5);
                     alturas[i] = Math.max(alturas[i], salto);
                 }
             }
@@ -639,9 +684,10 @@
                 alturas[i] = alturas[i] * (0.3 + 0.7 * intensidadLatido);
             }
 
-            const factorCaos = explosivo ? 0.6 : 0.2;
+            // CAOS REDUCIDO en modo explosivo
+            const factorCaos = explosivo ? 0.35 : 0.2;
             for (let i = 0; i < ancho; i++) {
-                alturas[i] += factorCaos * Math.abs(Math.sin(latido * 25 + i * 2)) * (Math.random() * 0.5 + 0.5);
+                alturas[i] += factorCaos * Math.abs(Math.sin(latido * 20 + i * 2)) * (Math.random() * 0.5 + 0.5);
             }
 
             return alturas.map(a => Math.min(Math.max(a, 0.05), 1));
@@ -652,9 +698,9 @@
         // ============================================================
         function getColor(altura, explosivo) {
             if (explosivo) {
-                const r = Math.min(1, 0.6 + altura * 0.6);
-                const g = Math.min(1, 0.1 + altura * 0.5);
-                const b = Math.min(1, 0.1 + altura * 0.3);
+                const r = Math.min(1, 0.5 + altura * 0.7);
+                const g = Math.min(1, 0.1 + altura * 0.4);
+                const b = Math.min(1, 0.1 + altura * 0.25);
                 return `rgb(${Math.floor(r * 255)}, ${Math.floor(g * 255)}, ${Math.floor(b * 255)})`;
             } else {
                 const hue = 200 + altura * 180;
@@ -811,13 +857,14 @@
                 tituloEl.style.textShadow = '0 0 30px rgba(0, 255, 255, 0.3)';
             }
 
-            // ===== BARRAS (con altura máxima reducida en modo explosivo) =====
+            // ===== BARRAS =====
             let alturas;
             if (explosivo) {
                 const latido = tiempoActual;
                 alturas = generarCorazon(NUM_BARRAS, latido, true);
+                // Menos caos adicional
                 for (let i = 0; i < NUM_BARRAS; i++) {
-                    alturas[i] += 0.5 * Math.abs(Math.sin(tiempoActual * 15 + i * 3)) * (Math.random() * 0.5 + 0.5);
+                    alturas[i] += 0.25 * Math.abs(Math.sin(tiempoActual * 12 + i * 2.5)) * (Math.random() * 0.4 + 0.6);
                     alturas[i] = Math.min(Math.max(alturas[i], 0.05), 1);
                 }
             } else {
@@ -831,17 +878,21 @@
                 }
             }
 
-            // Altura máxima: 180px en modo explosivo, 200px en modo normal
-            const alturaMax = explosivo ? ALTURA_MAXIMA : 200;
+            // Altura máxima según modo
+            const alturaMax = explosivo ? ALTURA_MAXIMA_EXPLOSIVO : ALTURA_MAXIMA_NORMAL;
+
+            // Obtener altura del gráfico para escalar correctamente
+            const ejesHeight = ejesGrafico.clientHeight || 300;
 
             for (let i = 0; i < NUM_BARRAS; i++) {
                 const altura = alturas[i] || 0.05;
                 const barra = barras[i];
-                const alturaPx = Math.max(3, altura * alturaMax);
+                // Escalar al tamaño del gráfico
+                const alturaPx = Math.max(2, altura * (alturaMax / 200) * ejesHeight * 0.85);
                 barra.style.height = alturaPx + 'px';
                 barra.style.background = getColor(altura, explosivo);
                 if (explosivo) {
-                    barra.style.boxShadow = `0 0 ${8 + altura * 15}px ${getColor(altura, true)}`;
+                    barra.style.boxShadow = `0 0 ${6 + altura * 12}px ${getColor(altura, true)}`;
                 } else {
                     barra.style.boxShadow = 'none';
                 }
@@ -853,7 +904,7 @@
                 const alto = window.innerHeight;
                 const cx = ancho / 2;
                 const cy = alto / 2;
-                const cantidad = 5 + Math.floor(Math.random() * 10);
+                const cantidad = 4 + Math.floor(Math.random() * 8);
                 const centroX = cx + (Math.random() - 0.5) * 200;
                 const centroY = cy * 0.3 + (Math.random() - 0.5) * 100;
                 explosionParticulas(centroX, centroY, cantidad);
@@ -863,12 +914,12 @@
                 if (frameCounter % 30 === 0) {
                     const cx = window.innerWidth / 2;
                     const cy = window.innerHeight / 2;
-                    explosionParticulas(cx, cy * 0.3, 20 + Math.floor(Math.random() * 20));
+                    explosionParticulas(cx, cy * 0.3, 15 + Math.floor(Math.random() * 15));
                 }
                 if (frameCounter % 15 === 0) {
                     const x = Math.random() * window.innerWidth;
                     const y = Math.random() * window.innerHeight * 0.5;
-                    explosionParticulas(x, y, 3 + Math.floor(Math.random() * 5));
+                    explosionParticulas(x, y, 2 + Math.floor(Math.random() * 4));
                 }
             }
 
@@ -989,7 +1040,7 @@
         // ============================================================
         console.log('♫ Doma - Josean Log | Visualizador Musical ♫');
         console.log(`🎵 Audio inicia en segundo ${INICIO_AUDIO}`);
-        console.log('❤🔥 A los 40 segundos: modo explosivo');
+        console.log('❤🔥 A los 40 segundos: modo explosivo (intensidad reducida)');
         console.log('🔄 Bucle infinito automático');
 
         iniciar();
