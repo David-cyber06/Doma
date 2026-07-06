@@ -19,6 +19,7 @@
             min-height: 100vh;
             font-family: 'Segoe UI', sans-serif;
             overflow: hidden;
+            user-select: none;
         }
 
         .container {
@@ -31,6 +32,7 @@
             align-items: center;
             background: #0a0008;
             transition: background 0.1s ease;
+            padding: 20px;
         }
 
         /* Letra */
@@ -53,6 +55,8 @@
             letter-spacing: 2px;
             margin-bottom: 10px;
             text-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            min-height: 50px;
         }
 
         .letra {
@@ -67,6 +71,7 @@
             padding: 10px;
             line-height: 1.4;
             text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+            color: #fff;
         }
 
         /* Barras */
@@ -114,15 +119,17 @@
         .controles {
             margin-top: 20px;
             display: flex;
-            gap: 20px;
+            gap: 16px;
             align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .btn {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: #ddd;
-            padding: 10px 30px;
+            padding: 10px 28px;
             border-radius: 30px;
             cursor: pointer;
             font-size: 14px;
@@ -152,6 +159,52 @@
             border-color: rgba(255, 107, 107, 0.5);
         }
 
+        .btn-audio {
+            background: rgba(0, 255, 255, 0.1);
+            border-color: rgba(0, 255, 255, 0.2);
+            color: #00ffff;
+            min-width: 60px;
+        }
+
+        .btn-audio:hover {
+            background: rgba(0, 255, 255, 0.2);
+            border-color: rgba(0, 255, 255, 0.4);
+        }
+
+        /* Estado de carga */
+        .cargando {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #0a0008;
+            z-index: 1000;
+            color: #d4a0d4;
+            font-size: 20px;
+            letter-spacing: 3px;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .cargando .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(180, 80, 180, 0.1);
+            border-top: 3px solid #d4a0d4;
+            border-radius: 50%;
+            animation: girar 1s linear infinite;
+        }
+        @keyframes girar {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .cargando.oculto {
+            display: none;
+        }
+
         /* Responsive */
         @media (max-width: 600px) {
             .letra {
@@ -160,6 +213,7 @@
             }
             .titulo {
                 font-size: 16px;
+                min-height: 40px;
             }
             .barras-container {
                 height: 180px;
@@ -171,13 +225,11 @@
                 min-height: 3px;
             }
             .btn {
-                padding: 8px 20px;
+                padding: 8px 18px;
                 font-size: 12px;
             }
             .controles {
-                gap: 12px;
-                flex-wrap: wrap;
-                justify-content: center;
+                gap: 10px;
             }
         }
 
@@ -197,9 +249,11 @@
             .info {
                 font-size: 11px;
             }
+            .titulo {
+                font-size: 13px;
+            }
         }
 
-        /* Scroll oculto */
         ::-webkit-scrollbar {
             width: 0px;
         }
@@ -207,6 +261,15 @@
 </head>
 <body>
 
+    <!-- Pantalla de carga -->
+    <div class="cargando" id="cargando">
+        <div class="spinner"></div>
+        <span>🎵 Cargando canción...</span>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CONTENIDO PRINCIPAL -->
+    <!-- ============================================================ -->
     <div class="container" id="container">
 
         <div class="letra-container">
@@ -223,6 +286,7 @@
 
         <div class="controles">
             <button class="btn btn-primary" id="btnReiniciar">🔄 Reiniciar</button>
+            <button class="btn btn-audio" id="btnAudio">🔊</button>
         </div>
 
     </div>
@@ -249,14 +313,6 @@
         ];
 
         // ============================================================
-        // ESTADO
-        // ============================================================
-        let tiempoInicio = 0;
-        let reproduciendo = false;
-        let animacionId = null;
-        let ultimoFrame = 0;
-
-        // ============================================================
         // DOM
         // ============================================================
         const container = document.getElementById('container');
@@ -266,6 +322,31 @@
         const modoTextoEl = document.getElementById('modoTexto');
         const barrasContainer = document.getElementById('barrasContainer');
         const btnReiniciar = document.getElementById('btnReiniciar');
+        const btnAudio = document.getElementById('btnAudio');
+        const cargando = document.getElementById('cargando');
+
+        // ============================================================
+        // AUDIO
+        // ============================================================
+        const audio = new Audio('music/doma.mp3');
+        audio.loop = true; // Bucle infinito
+        audio.volume = 0.7;
+        let audioListo = false;
+
+        // Cargar audio
+        audio.addEventListener('canplaythrough', () => {
+            audioListo = true;
+            cargando.classList.add('oculto');
+            console.log('✅ Audio cargado correctamente');
+        });
+
+        audio.addEventListener('error', () => {
+            console.warn('⚠️ No se pudo cargar el audio, pero el visualizador funciona');
+            cargando.classList.add('oculto');
+        });
+
+        // Intentar cargar
+        audio.load();
 
         // ============================================================
         // CREAR BARRAS
@@ -292,7 +373,6 @@
             const alturas = new Array(ancho).fill(0.05);
             const centro = Math.floor(ancho / 2);
 
-            // Forma de corazón (13 barras)
             const formaCorazon = [0.2, 0.3, 0.5, 0.7, 0.85, 0.95, 1.0, 0.95, 0.85, 0.7, 0.5, 0.3, 0.2];
             const inicio = centro - Math.floor(formaCorazon.length / 2);
 
@@ -303,10 +383,8 @@
                 }
             }
 
-            // Latido
             const intensidadLatido = 0.5 + 0.5 * Math.sin(latido * 10);
 
-            // Barras laterales (olas)
             for (let i = 0; i < ancho; i++) {
                 if (alturas[i] < 0.3) {
                     const distancia = Math.abs(i - centro) / (ancho / 2);
@@ -315,12 +393,10 @@
                 }
             }
 
-            // Aplicar latido
             for (let i = 0; i < ancho; i++) {
                 alturas[i] = alturas[i] * (0.3 + 0.7 * intensidadLatido);
             }
 
-            // Baile aleatorio
             for (let i = 0; i < ancho; i++) {
                 alturas[i] += 0.2 * Math.abs(Math.sin(latido * 18)) * (Math.random() * 0.5 + 0.5);
             }
@@ -333,23 +409,29 @@
         // ============================================================
         function getColor(altura, modoCorazon) {
             if (modoCorazon) {
-                // Colores cálidos: rojo, rosa, naranja
                 const r = Math.min(1, 0.4 + altura * 0.8);
                 const g = Math.min(1, 0.1 + altura * 0.4);
                 const b = Math.min(1, 0.1 + altura * 0.3);
                 return `rgb(${Math.floor(r * 255)}, ${Math.floor(g * 255)}, ${Math.floor(b * 255)})`;
             } else {
-                // Colores plasma: morado, azul, rosa
                 const hue = 200 + altura * 180;
                 return `hsl(${hue}, 90%, ${30 + altura * 50}%)`;
             }
         }
 
         // ============================================================
+        // ESTADO
+        // ============================================================
+        let tiempoInicio = 0;
+        let reproduciendo = false;
+        let animacionId = null;
+        let pausado = false;
+
+        // ============================================================
         // ACTUALIZAR ANIMACIÓN
         // ============================================================
         function actualizarAnimacion(timestamp) {
-            if (!reproduciendo || tiempoInicio === 0) {
+            if (!reproduciendo || pausado) {
                 animacionId = requestAnimationFrame(actualizarAnimacion);
                 return;
             }
@@ -357,7 +439,6 @@
             const tiempoActual = (Date.now() - tiempoInicio) / 1000;
 
             if (tiempoActual > DURACION_TOTAL) {
-                // BUCLE: reiniciar automáticamente
                 tiempoInicio = Date.now();
                 return;
             }
@@ -368,21 +449,17 @@
             // ===== FONDO =====
             let r, g, b;
             if (tiempoActual < 40) {
-                // Modo oscuro
                 r = 0.05 + 0.1 * Math.pow(Math.sin(tiempoActual * 0.5), 2);
                 g = 0.05 + 0.1 * Math.pow(Math.sin(tiempoActual * 0.6), 2);
                 b = 0.15 + 0.15 * Math.pow(Math.sin(tiempoActual * 0.7), 2);
 
-                // Explosiones sutiles
                 if (Math.sin(tiempoActual * 4) > 0.95) r = Math.min(0.3, r + 0.15);
                 if (Math.sin(tiempoActual * 4.2) > 0.95) b = Math.min(0.4, b + 0.15);
             } else {
-                // Modo corazón - colores cálidos
                 r = 0.4 + 0.5 * Math.pow(Math.sin(tiempoActual * 1.5), 2);
                 g = 0.1 + 0.3 * Math.pow(Math.sin(tiempoActual * 2.0), 2);
                 b = 0.1 + 0.3 * Math.pow(Math.sin(tiempoActual * 2.5), 2);
 
-                // Explosiones rojas
                 if (Math.sin(tiempoActual * 8) > 0.85) r = Math.min(1, r + 0.5);
                 if (Math.sin(tiempoActual * 8.3) > 0.85) g = Math.min(0.8, g + 0.4);
                 if (Math.sin(tiempoActual * 7.7) > 0.85) {
@@ -405,7 +482,6 @@
 
             letraEl.textContent = textoActual;
 
-            // Color de la letra según el modo
             if (modoCorazon) {
                 const hue = (tiempoActual * 20) % 360;
                 letraEl.style.color = `hsl(${hue}, 100%, 65%)`;
@@ -425,13 +501,11 @@
             if (modoCorazon) {
                 const latido = tiempoActual;
                 alturas = generarCorazon(NUM_BARRAS, latido);
-                // Añadir efecto musical
                 for (let i = 0; i < NUM_BARRAS; i++) {
                     alturas[i] += 0.3 * Math.abs(Math.sin(tiempoActual * 10)) * (Math.random() * 0.5 + 0.5);
                     alturas[i] = Math.min(Math.max(alturas[i], 0.05), 1);
                 }
             } else {
-                // Modo normal: frecuencias
                 alturas = [];
                 for (let i = 0; i < NUM_BARRAS; i++) {
                     const freq = Math.abs(Math.sin(i * 0.3 + tiempoActual * 8));
@@ -455,14 +529,13 @@
             modoTextoEl.textContent = modoCorazon ? '❤ MODO CORAZÓN ❤' : '🎵 Modo oscuro';
             modoTextoEl.style.color = modoCorazon ? '#ff6b6b' : '#888';
 
-            // ===== TÍTULO DE BARRAS =====
+            // ===== TÍTULO =====
             if (modoCorazon) {
                 tituloEl.textContent = `♫ TIEMPO RESTANTE: ${tiempoRestante.toFixed(1)}s ♫  ❤❤❤❤❤❤❤`;
             } else {
                 tituloEl.textContent = `♫ TIEMPO RESTANTE: ${tiempoRestante.toFixed(1)}s ♫`;
             }
 
-            // Continuar
             animacionId = requestAnimationFrame(actualizarAnimacion);
         }
 
@@ -475,6 +548,7 @@
             }
             tiempoInicio = Date.now();
             reproduciendo = true;
+            pausado = false;
             animacionId = requestAnimationFrame(actualizarAnimacion);
         }
 
@@ -483,7 +557,10 @@
         // ============================================================
         function reiniciar() {
             tiempoInicio = Date.now();
-            // Reiniciar colores
+            pausado = false;
+            if (audio.paused) {
+                audio.play().catch(() => {});
+            }
             container.style.background = '#0a0008';
             letraEl.style.color = '#fff';
             tituloEl.style.color = '#00ffff';
@@ -492,26 +569,70 @@
             modoTextoEl.style.color = '#888';
         }
 
+        // ============================================================
+        // CONTROLES DE AUDIO
+        // ============================================================
+        let audioEncendido = true;
+
+        btnAudio.addEventListener('click', () => {
+            if (audioEncendido) {
+                audio.pause();
+                audioEncendido = false;
+                btnAudio.textContent = '🔇';
+                pausado = true;
+            } else {
+                audio.play().catch(() => {});
+                audioEncendido = true;
+                btnAudio.textContent = '🔊';
+                pausado = false;
+                // Reiniciar el tiempo si estaba pausado
+                if (!tiempoInicio) {
+                    tiempoInicio = Date.now();
+                }
+            }
+        });
+
         btnReiniciar.addEventListener('click', () => {
             reiniciar();
         });
 
         // ============================================================
-        // INICIO AUTOMÁTICO
+        // INICIO AUTOMÁTICO CON AUDIO
         // ============================================================
         console.log('♫ Doma - Josean Log | Visualizador Musical ♫');
+        console.log('🎵 Audio: music/doma.mp3');
         console.log('🎵 Modo oscuro hasta los 40 segundos');
         console.log('❤ A los 40 segundos: MODO CORAZÓN');
         console.log('🔄 Bucle infinito automático');
 
+        // Iniciar visualizador
         iniciar();
+
+        // Intentar reproducir audio automáticamente (necesita interacción del usuario)
+        const intentarAudio = () => {
+            if (audioListo) {
+                audio.play().catch(() => {
+                    console.log('⏳ Esperando interacción del usuario para reproducir audio');
+                });
+            }
+            document.removeEventListener('click', intentarAudio);
+            document.removeEventListener('touchstart', intentarAudio);
+        };
+
+        document.addEventListener('click', intentarAudio);
+        document.addEventListener('touchstart', intentarAudio);
+
+        // Si el audio ya está cargado, intentar reproducir
+        setTimeout(() => {
+            if (audioListo) {
+                audio.play().catch(() => {});
+            }
+        }, 500);
 
         // ============================================================
         // RESIZE
         // ============================================================
-        window.addEventListener('resize', () => {
-            // Las barras se ajustan automáticamente con flex
-        });
+        window.addEventListener('resize', () => {});
     </script>
 
 </body>
