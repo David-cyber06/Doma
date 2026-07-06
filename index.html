@@ -217,7 +217,7 @@
             height: 3px;
             min-height: 2px;
             border-radius: 2px 2px 0 0;
-            transition: height 0.05s ease, background 0.05s ease;
+            transition: height 0.04s ease, background 0.04s ease;
             background: cyan;
             max-width: 20px;
             will-change: height;
@@ -636,8 +636,7 @@
         const NUM_BARRAS = 70;
         const INICIO_AUDIO = 80;
         const MODO_EXPLOSIVO = 40;
-        const ALTURA_MAXIMA_EXPLOSIVO = 140;
-        const ALTURA_MAXIMA_NORMAL = 170;
+        const ALTURA_MAXIMA = 160;
 
         const LETRAS = [
             { tiempo: 0.0, texto: "❤ De corazones tienes colección ❤" },
@@ -767,37 +766,28 @@
         crearBarras();
 
         // ============================================================
-        // GENERAR PAISAJE (MODO NORMAL - MONTES Y CORAZONES)
+        // GENERAR ONDAS (MODO NORMAL)
         // ============================================================
-        function generarPaisaje(ancho, tiempo) {
+        function generarOndas(ancho, tiempo) {
             const alturas = new Array(ancho);
 
             for (let i = 0; i < ancho; i++) {
-                const x = i / ancho; // 0 a 1
+                const x = i / ancho;
 
-                // MONTES: varias ondas con diferentes frecuencias
-                const monte1 = 0.4 * Math.pow(Math.sin(x * 8 + tiempo * 2.2 + 1.2), 2) + 0.2;
-                const monte2 = 0.35 * Math.pow(Math.sin(x * 12 - tiempo * 1.8 + 0.8), 2) + 0.15;
-                const monte3 = 0.3 * Math.pow(Math.sin(x * 5 + tiempo * 3.5 + 0.3), 2) + 0.1;
-                const monte4 = 0.25 * Math.pow(Math.sin(x * 15 + tiempo * 1.2 + 2.1), 2) + 0.1;
+                // Onda principal que se mueve
+                const onda1 = Math.sin(i * 0.15 + tiempo * 3.0) * 0.35 + 0.5;
+                const onda2 = Math.sin(i * 0.25 - tiempo * 2.2 + 1.5) * 0.25 + 0.3;
+                const onda3 = Math.sin(i * 0.08 + tiempo * 1.8 + 0.7) * 0.2 + 0.2;
 
-                // CORAZONES PEQUEÑOS que aparecen y desaparecen
-                const centro1 = 0.2 + 0.1 * Math.sin(tiempo * 0.5);
-                const centro2 = 0.5 + 0.1 * Math.cos(tiempo * 0.4);
-                const centro3 = 0.8 + 0.1 * Math.sin(tiempo * 0.6 + 1);
+                // Picos que suben y bajan
+                const pico1 = 0.3 * Math.exp(-Math.pow((x - 0.2 - 0.1 * Math.sin(tiempo * 0.3)) * 10, 2));
+                const pico2 = 0.3 * Math.exp(-Math.pow((x - 0.5 - 0.1 * Math.cos(tiempo * 0.4)) * 10, 2));
+                const pico3 = 0.3 * Math.exp(-Math.pow((x - 0.8 - 0.1 * Math.sin(tiempo * 0.5 + 1)) * 10, 2));
 
-                const corazon1 = 0.3 * Math.exp(-Math.pow((x - centro1) * 12, 2));
-                const corazon2 = 0.3 * Math.exp(-Math.pow((x - centro2) * 12, 2));
-                const corazon3 = 0.3 * Math.exp(-Math.pow((x - centro3) * 12, 2));
+                // Ruido suave para dar textura
+                const ruido = 0.04 * Math.sin(i * 2.5 + tiempo * 12);
 
-                // Sumar todo
-                let altura = monte1 * 0.5 + monte2 * 0.3 + monte3 * 0.2 + monte4 * 0.15;
-                altura += corazon1 * 0.4 + corazon2 * 0.4 + corazon3 * 0.4;
-
-                // Pequeño efecto de movimiento ondulante en toda la gráfica
-                altura += 0.08 * Math.sin(i * 0.2 + tiempo * 4);
-
-                // Nunca se queda en cero
+                let altura = onda1 * 0.5 + onda2 * 0.3 + onda3 * 0.2 + pico1 * 0.3 + pico2 * 0.3 + pico3 * 0.3 + ruido;
                 altura = Math.max(altura, 0.06);
                 altura = Math.min(altura, 1);
 
@@ -808,77 +798,42 @@
         }
 
         // ============================================================
-        // GENERAR CORAZÓN (MODO EXPLOSIVO - CAOS DE CORAZONES)
+        // GENERAR CAOS (MODO EXPLOSIVO - ONDAS LOCAS)
         // ============================================================
-        function generarCaosCorazones(ancho, latido) {
+        function generarCaos(ancho, tiempo) {
             const alturas = new Array(ancho);
-            const centro = Math.floor(ancho / 2);
 
-            // CORAZÓN PRINCIPAL GIGANTE
-            const formaCorazon = [];
-            const mitad = Math.floor(ancho * 0.35);
-
-            for (let i = -mitad; i <= mitad; i++) {
-                const x = i / mitad;
-                const x2 = x * x;
-                const yMax = Math.sqrt(Math.max(0, 1 - x2 * 1.2));
-                let valor = yMax * 0.9;
-                if (Math.abs(x) < 0.12) {
-                    valor = valor * (1 + 0.3 * (1 - Math.abs(x) / 0.12));
-                }
-                formaCorazon.push(Math.max(0, valor - 0.05));
-            }
-
-            const inicio = centro - Math.floor(formaCorazon.length / 2);
-
-            // Inicializar
             for (let i = 0; i < ancho; i++) {
-                alturas[i] = 0.05;
-            }
+                const x = i / ancho;
 
-            // Corazón principal
-            for (let i = 0; i < formaCorazon.length; i++) {
-                const idx = inicio + i;
-                if (idx >= 0 && idx < ancho) {
-                    alturas[idx] = Math.max(alturas[idx], formaCorazon[i] * 0.9);
-                }
-            }
+                // Múltiples ondas con diferentes frecuencias y velocidades
+                const onda1 = Math.sin(i * 0.12 + tiempo * 4.5) * 0.3 + 0.5;
+                const onda2 = Math.sin(i * 0.2 - tiempo * 3.8 + 2.0) * 0.25 + 0.4;
+                const onda3 = Math.sin(i * 0.07 + tiempo * 5.2 + 1.0) * 0.3 + 0.3;
+                const onda4 = Math.sin(i * 0.3 + tiempo * 2.5 + 0.5) * 0.2 + 0.2;
 
-            // CORAZONES SECUNDARIOS (caos bonito)
-            const numCorazones = 5 + Math.floor(Math.sin(latido * 0.5) * 3 + 3);
-            for (let c = 0; c < numCorazones; c++) {
-                const cx = 0.1 + 0.8 * Math.random();
-                const cy = 0.2 + 0.3 * Math.sin(latido * 2 + c * 1.5) + 0.2;
-                const size = 0.03 + 0.05 * Math.random() + 0.02 * Math.sin(latido * 3 + c);
+                // Picos aleatorios que aparecen y desaparecen
+                const picoRand = Math.random() * 0.3;
+                const pico1 = 0.4 * Math.exp(-Math.pow((x - 0.15 - 0.1 * Math.sin(tiempo * 0.7)) * 12, 2));
+                const pico2 = 0.4 * Math.exp(-Math.pow((x - 0.4 - 0.1 * Math.cos(tiempo * 0.8)) * 12, 2));
+                const pico3 = 0.4 * Math.exp(-Math.pow((x - 0.65 - 0.1 * Math.sin(tiempo * 0.6 + 1.5)) * 12, 2));
+                const pico4 = 0.4 * Math.exp(-Math.pow((x - 0.85 - 0.1 * Math.cos(tiempo * 0.5 + 2.0)) * 12, 2));
 
-                const centroCorazon = Math.floor(cx * ancho);
-                const radio = Math.floor(size * ancho);
+                // Ruido caótico
+                const ruido = 0.08 * Math.sin(i * 3.0 + tiempo * 18 + x * 20);
 
-                for (let i = -radio; i <= radio; i++) {
-                    const idx = centroCorazon + i;
-                    if (idx >= 0 && idx < ancho) {
-                        const x = i / radio;
-                        const x2 = x * x;
-                        const yMax = Math.sqrt(Math.max(0, 1 - x2 * 1.2));
-                        let valor = yMax * 0.8 * cy;
-                        if (Math.abs(x) < 0.1) {
-                            valor = valor * (1 + 0.2 * (1 - Math.abs(x) / 0.1));
-                        }
-                        alturas[idx] = Math.max(alturas[idx], Math.max(0, valor - 0.02));
-                    }
-                }
-            }
+                let altura = onda1 * 0.4 + onda2 * 0.3 + onda3 * 0.2 + onda4 * 0.1;
+                altura += pico1 * 0.3 + pico2 * 0.3 + pico3 * 0.3 + pico4 * 0.3;
+                altura += ruido;
 
-            // LATIDO
-            const latidoFactor = 0.4 + 0.6 * (0.5 + 0.5 * Math.sin(latido * 10));
-            for (let i = 0; i < ancho; i++) {
-                const dist = Math.abs(i - centro) / (ancho / 2);
-                const atenuacion = 1 - dist * 0.2;
-                const latidoLocal = latidoFactor * (0.7 + 0.3 * atenuacion);
-                if (alturas[i] > 0.1) {
-                    alturas[i] = alturas[i] * latidoLocal;
-                }
-                alturas[i] = Math.min(Math.max(alturas[i], 0.05), 1);
+                // Latido global: todo sube y baja
+                const latido = 0.6 + 0.4 * (0.5 + 0.5 * Math.sin(tiempo * 8));
+                altura = altura * latido;
+
+                altura = Math.max(altura, 0.05);
+                altura = Math.min(altura, 1);
+
+                alturas[i] = altura;
             }
 
             return alturas;
@@ -895,13 +850,13 @@
 
             let color;
             if (explosivo) {
-                const r = Math.min(1, 0.5 + altura * 0.7);
-                const g = Math.min(1, 0.1 + altura * 0.4);
-                const b = Math.min(1, 0.1 + altura * 0.25);
+                const r = Math.min(1, 0.3 + altura * 0.8);
+                const g = Math.min(1, 0.05 + altura * 0.5);
+                const b = Math.min(1, 0.05 + altura * 0.3);
                 color = `rgb(${Math.floor(r * 255)},${Math.floor(g * 255)},${Math.floor(b * 255)})`;
             } else {
-                const hue = 200 + altura * 180;
-                color = `hsl(${hue},90%,${30 + altura * 50}%)`;
+                const hue = 190 + altura * 160;
+                color = `hsl(${hue},90%,${25 + altura * 55}%)`;
             }
             colorCache[key] = color;
             return color;
@@ -1044,16 +999,14 @@
             }
 
             // ===== BARRAS =====
-            const alturaMax = explosivo ? ALTURA_MAXIMA_EXPLOSIVO : ALTURA_MAXIMA_NORMAL;
             const ejesHeight = ejesGrafico.clientHeight || 300;
-            const escala = (alturaMax / 200) * ejesHeight * 0.85;
+            const escala = (ALTURA_MAXIMA / 200) * ejesHeight * 0.85;
 
             let alturas;
             if (explosivo) {
-                const latido = tiempoActual * 1.1;
-                alturas = generarCaosCorazones(NUM_BARRAS, latido);
+                alturas = generarCaos(NUM_BARRAS, tiempoActual);
             } else {
-                alturas = generarPaisaje(NUM_BARRAS, tiempoActual);
+                alturas = generarOndas(NUM_BARRAS, tiempoActual);
             }
 
             for (let i = 0; i < NUM_BARRAS; i++) {
@@ -1098,7 +1051,7 @@
                 modoTextoEl.style.color = '#ff6b6b';
                 modoTextoEl.style.textShadow = '0 0 30px rgba(255,107,107,0.5)';
                 modoTextoEl.style.fontSize = '20px';
-                tituloEl.textContent = `♫ ${tiempoRestante.toFixed(1)}s ♫  ❤🔥❤🔥❤🔥❤🔥`;
+                tituloEl.textContent = `♫ ${tiempoRestante.toFixed(1)}s ♫  🔥🔥🔥🔥`;
             } else {
                 modoTextoEl.textContent = '🎵';
                 modoTextoEl.style.color = '#888';
@@ -1191,8 +1144,8 @@
         // ============================================================
         console.log('♫ Doma - Josean Log | Visualizador Musical ♫');
         console.log(`🎵 Audio inicia en segundo ${INICIO_AUDIO}`);
-        console.log('🏔️❤️ Modo normal: MONTES + CORAZONES');
-        console.log('❤️‍🔥 Modo explosivo: CAOS DE CORAZONES');
+        console.log('🌊 Modo normal: ONDAS SUAVES');
+        console.log('🔥 Modo explosivo: CAOS DE ONDAS');
         console.log('🔄 Bucle infinito automático');
 
         iniciar();
