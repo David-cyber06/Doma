@@ -33,7 +33,7 @@
             justify-content: center;
             align-items: center;
             background: #0a0008;
-            transition: background 0.1s ease;
+            transition: background 0.08s ease;
             padding: 8px 16px 10px;
             overflow: hidden;
             padding-top: 6px;
@@ -85,12 +85,12 @@
         }
 
         .titulo {
-            color: #ff8844;
+            color: #00ffff;
             font-size: 14px;
             font-weight: bold;
             letter-spacing: 2px;
             margin-bottom: 1px;
-            text-shadow: 0 0 20px rgba(255, 136, 68, 0.4);
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
             transition: all 0.3s ease;
             min-height: 22px;
             z-index: 1;
@@ -107,8 +107,8 @@
             transition: all 0.1s ease;
             padding: 2px;
             line-height: 1.2;
-            text-shadow: 0 0 30px rgba(255, 100, 50, 0.15);
-            color: #ffcc88;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+            color: #fff;
             z-index: 1;
             position: relative;
             width: 100%;
@@ -121,7 +121,7 @@
             transform: translate(-50%, -50%);
             width: 120%;
             height: 120%;
-            background: radial-gradient(circle, rgba(255, 120, 50, 0.25), transparent 70%);
+            background: radial-gradient(circle, rgba(255, 100, 150, 0.3), transparent 70%);
             border-radius: 50%;
             pointer-events: none;
             animation: brilloLetra 0.5s ease-in-out infinite alternate;
@@ -171,7 +171,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            color: #663322;
+            color: #666;
             font-size: 9px;
             font-family: 'Segoe UI', monospace;
             letter-spacing: 0.5px;
@@ -180,7 +180,7 @@
             width: 36px;
         }
         .eje-y span {
-            opacity: 0.6;
+            opacity: 0.5;
         }
 
         .eje-y-titulo {
@@ -188,7 +188,7 @@
             left: -50px;
             top: 50%;
             transform: translateY(-50%) rotate(-90deg);
-            color: #883322;
+            color: #555;
             font-size: 10px;
             letter-spacing: 2px;
             font-family: 'Segoe UI', sans-serif;
@@ -208,8 +208,8 @@
             justify-content: center;
             gap: 2px;
             padding: 0 2px;
-            border-left: 1px solid rgba(255, 100, 50, 0.08);
-            border-bottom: 1px solid rgba(255, 100, 50, 0.08);
+            border-left: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .barra {
@@ -218,7 +218,7 @@
             min-height: 2px;
             border-radius: 2px 2px 0 0;
             transition: height 0.04s ease, background 0.04s ease;
-            background: #ff6633;
+            background: cyan;
             max-width: 20px;
             will-change: height;
         }
@@ -228,18 +228,18 @@
             justify-content: space-between;
             padding: 3px 6px 0 6px;
             margin-left: 48px;
-            color: #663322;
+            color: #555;
             font-size: 8px;
             font-family: 'Segoe UI', monospace;
             letter-spacing: 0.5px;
         }
         .eje-x span {
-            opacity: 0.6;
+            opacity: 0.5;
         }
 
         .eje-x-titulo {
             text-align: center;
-            color: #883322;
+            color: #555;
             font-size: 10px;
             letter-spacing: 2px;
             font-family: 'Segoe UI', sans-serif;
@@ -250,7 +250,7 @@
         }
 
         .info {
-            color: #884433;
+            color: #888;
             font-size: 13px;
             margin-top: 10px;
             letter-spacing: 2px;
@@ -260,11 +260,11 @@
             flex-shrink: 0;
         }
         .info strong {
-            color: #ff6633;
+            color: #ff6b6b;
         }
 
         .tiempo {
-            color: #774433;
+            color: #aaa;
             font-size: 13px;
             margin-top: 1px;
             letter-spacing: 1px;
@@ -287,9 +287,9 @@
         }
 
         .btn {
-            background: rgba(255, 80, 30, 0.1);
-            border: 1px solid rgba(255, 80, 30, 0.2);
-            color: #cc8844;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #ddd;
             padding: 10px 28px;
             border-radius: 30px;
             cursor: pointer;
@@ -304,8 +304,8 @@
         }
 
         .btn:hover {
-            background: rgba(255, 80, 30, 0.2);
-            border-color: rgba(255, 80, 30, 0.4);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.25);
             transform: scale(1.02);
         }
 
@@ -314,26 +314,26 @@
         }
 
         .btn-primary {
-            background: rgba(255, 80, 30, 0.2);
-            border-color: rgba(255, 80, 30, 0.35);
-            color: #ff6633;
+            background: rgba(255, 107, 107, 0.2);
+            border-color: rgba(255, 107, 107, 0.35);
+            color: #ff6b6b;
         }
 
         .btn-primary:hover {
-            background: rgba(255, 80, 30, 0.35);
-            border-color: rgba(255, 80, 30, 0.55);
+            background: rgba(255, 107, 107, 0.3);
+            border-color: rgba(255, 107, 107, 0.55);
         }
 
         .btn-audio {
-            background: rgba(255, 120, 50, 0.15);
-            border-color: rgba(255, 120, 50, 0.25);
-            color: #ff8844;
+            background: rgba(0, 255, 255, 0.15);
+            border-color: rgba(0, 255, 255, 0.25);
+            color: #00ffff;
             min-width: 54px;
         }
 
         .btn-audio:hover {
-            background: rgba(255, 120, 50, 0.25);
-            border-color: rgba(255, 120, 50, 0.45);
+            background: rgba(0, 255, 255, 0.25);
+            border-color: rgba(0, 255, 255, 0.45);
         }
 
         .mensaje-audio {
@@ -341,12 +341,12 @@
             bottom: 80px;
             left: 50%;
             transform: translateX(-50%);
-            color: #ff8844;
+            color: #d4a0d4;
             font-size: 16px;
-            background: rgba(20, 5, 10, 0.9);
+            background: rgba(10, 0, 15, 0.85);
             padding: 12px 24px;
             border-radius: 30px;
-            border: 1px solid rgba(255, 120, 50, 0.2);
+            border: 1px solid rgba(180, 80, 180, 0.2);
             backdrop-filter: blur(10px);
             z-index: 100;
             animation: pulseMensaje 2s ease-in-out infinite;
@@ -383,7 +383,7 @@
             align-items: center;
             background: #0a0008;
             z-index: 1000;
-            color: #ff8844;
+            color: #d4a0d4;
             font-size: 20px;
             letter-spacing: 3px;
             flex-direction: column;
@@ -392,8 +392,8 @@
         .cargando .spinner {
             width: 50px;
             height: 50px;
-            border: 3px solid rgba(255, 120, 50, 0.1);
-            border-top: 3px solid #ff8844;
+            border: 3px solid rgba(180, 80, 180, 0.1);
+            border-top: 3px solid #d4a0d4;
             border-radius: 50%;
             animation: girar 1s linear infinite;
         }
@@ -766,7 +766,7 @@
         crearBarras();
 
         // ============================================================
-        // GENERAR ONDAS (MODO NORMAL)
+        // GENERAR ONDAS (MODO NORMAL - IGUAL QUE ANTES)
         // ============================================================
         function generarOndas(ancho, tiempo) {
             const alturas = new Array(ancho);
@@ -795,7 +795,7 @@
         }
 
         // ============================================================
-        // GENERAR CAOS (MODO EXPLOSIVO)
+        // GENERAR CAOS (MODO EXPLOSIVO - NARANJA-ROJO-PÚRPURA)
         // ============================================================
         function generarCaos(ancho, tiempo) {
             const alturas = new Array(ancho);
@@ -832,7 +832,7 @@
         }
 
         // ============================================================
-        // COLOR (NARANJA-ROJO-PÚRPURA)
+        // COLOR (NORMAL = FRÍO, EXPLOSIVO = NARANJA-ROJO-PÚRPURA)
         // ============================================================
         const colorCache = {};
 
@@ -848,24 +848,23 @@
                 const b = Math.min(1, 0.1 + altura * 0.5);
                 color = `rgb(${Math.floor(r * 255)},${Math.floor(g * 255)},${Math.floor(b * 255)})`;
             } else {
-                // Modo normal: cálido pero más suave
-                const r = Math.min(1, 0.2 + altura * 0.7);
-                const g = Math.min(1, 0.05 + altura * 0.3);
-                const b = Math.min(1, 0.05 + altura * 0.2);
-                color = `rgb(${Math.floor(r * 255)},${Math.floor(g * 255)},${Math.floor(b * 255)})`;
+                // Modo normal: colores fríos (azul/cyan) como antes
+                const hue = 200 + altura * 160;
+                color = `hsl(${hue}, 85%, ${30 + altura * 50}%)`;
             }
             colorCache[key] = color;
             return color;
         }
 
         // ============================================================
-        // COLOR DE FONDO (EXPLOSIVO: NARANJA-ROJO-PÚRPURA OSCURO)
+        // COLOR DE FONDO (NORMAL = OSCURO, EXPLOSIVO = NARANJA-ROJO)
         // ============================================================
         function getFondoColor(tiempo, explosivo) {
             if (!explosivo) {
-                const r = 0.03 + 0.08 * Math.pow(Math.sin(tiempo * 0.4), 2);
-                const g = 0.02 + 0.04 * Math.pow(Math.sin(tiempo * 0.5 + 0.5), 2);
-                const b = 0.05 + 0.06 * Math.pow(Math.sin(tiempo * 0.6 + 1), 2);
+                // Modo normal: fondo oscuro como antes
+                const r = 0.05 + 0.1 * Math.pow(Math.sin(tiempo * 0.5), 2);
+                const g = 0.05 + 0.1 * Math.pow(Math.sin(tiempo * 0.6), 2);
+                const b = 0.15 + 0.15 * Math.pow(Math.sin(tiempo * 0.7), 2);
                 return `rgb(${Math.floor(r * 255)},${Math.floor(g * 255)},${Math.floor(b * 255)})`;
             }
 
@@ -873,12 +872,10 @@
             const pulso = Math.sin(tiempo * 2.5) * 0.5 + 0.5;
             const pulso2 = Math.sin(tiempo * 3.2 + 1.5) * 0.5 + 0.5;
 
-            // Base: naranja oscuro
             let r = 0.15 + 0.3 * pulso;
             let g = 0.03 + 0.08 * pulso2;
             let b = 0.05 + 0.2 * (1 - pulso);
 
-            // Explosiones de color
             if (Math.sin(tiempo * 10) > 0.9) r = Math.min(1, r + 0.4);
             if (Math.sin(tiempo * 11) > 0.9) {
                 r = Math.min(1, r + 0.2);
@@ -888,15 +885,11 @@
                 r = Math.min(1, r + 0.5);
                 g = Math.min(1, g + 0.2);
             }
-
-            // Picos de rojo intenso
             if (Math.sin(tiempo * 14) > 0.92) {
                 r = 0.9;
                 g = 0.1;
                 b = 0.2;
             }
-
-            // Picos de púrpura
             if (Math.sin(tiempo * 16) > 0.92) {
                 r = 0.6;
                 g = 0.05;
@@ -911,7 +904,7 @@
         }
 
         // ============================================================
-        // PARTÍCULAS (COLORES NARANJA-ROJO-PÚRPURA)
+        // PARTÍCULAS (SOLO EN MODO EXPLOSIVO - COLORES NARANJA-ROJO)
         // ============================================================
         let particulaTimer = 0;
 
@@ -1011,6 +1004,7 @@
                 }
 
                 if (explosivo) {
+                    // MODO EXPLOSIVO: NARANJA-ROJO
                     const hue = (tiempoActual * 40 + 20) % 60 + 10;
                     const lig = 50 + 20 * Math.sin(tiempoActual * 5);
                     letraEl.style.color = `hsl(${hue}, 100%, ${lig}%)`;
@@ -1023,13 +1017,14 @@
                     tituloEl.style.color = '#ff6633';
                     tituloEl.style.textShadow = '0 0 30px rgba(255, 80, 30, 0.5)';
                 } else {
-                    const hue = 30 + (tiempoActual * 20) % 30;
-                    letraEl.style.color = `hsl(${hue}, 80%, 65%)`;
-                    letraEl.style.textShadow = `0 0 40px hsla(${hue}, 80%, 50%, 0.2)`;
+                    // MODO NORMAL: FRÍO (IGUAL QUE ANTES)
+                    const hue = 180 + (tiempoActual * 30) % 60;
+                    letraEl.style.color = `hsl(${hue}, 100%, 70%)`;
+                    letraEl.style.textShadow = `0 0 40px hsla(${hue}, 100%, 70%, 0.2)`;
                     letraEl.style.transform = 'scale(1)';
                     brilloLetra.style.display = 'none';
-                    tituloEl.style.color = '#ff8844';
-                    tituloEl.style.textShadow = '0 0 30px rgba(255, 136, 68, 0.3)';
+                    tituloEl.style.color = '#00ffff';
+                    tituloEl.style.textShadow = '0 0 30px rgba(0, 255, 255, 0.3)';
                 }
             }
 
@@ -1058,7 +1053,7 @@
                 }
             }
 
-            // ===== PARTÍCULAS =====
+            // ===== PARTÍCULAS (SOLO EN MODO EXPLOSIVO) =====
             if (explosivo) {
                 particulaTimer++;
                 if (particulaTimer % 3 === 0) {
@@ -1088,10 +1083,10 @@
                 modoTextoEl.style.fontSize = '22px';
                 tituloEl.textContent = `♫ ${tiempoRestante.toFixed(1)}s ♫  🔥🔥🔥🔥`;
             } else {
-                modoTextoEl.textContent = '🌊';
-                modoTextoEl.style.color = '#884433';
+                modoTextoEl.textContent = '🎵';
+                modoTextoEl.style.color = '#888';
                 modoTextoEl.style.textShadow = 'none';
-                modoTextoEl.style.fontSize = '18px';
+                modoTextoEl.style.fontSize = '16px';
                 tituloEl.textContent = `♫ ${tiempoRestante.toFixed(1)}s ♫`;
             }
 
@@ -1139,15 +1134,15 @@
             }
 
             container.style.background = '#0a0008';
-            letraEl.style.color = '#ffcc88';
+            letraEl.style.color = '#fff';
             letraEl.style.transform = 'scale(1)';
-            tituloEl.style.color = '#ff8844';
-            tituloEl.style.textShadow = '0 0 30px rgba(255, 136, 68, 0.3)';
+            tituloEl.style.color = '#00ffff';
+            tituloEl.style.textShadow = '0 0 30px rgba(0, 255, 255, 0.3)';
             tiempoRestanteEl.textContent = '99.0';
-            modoTextoEl.textContent = '🌊';
-            modoTextoEl.style.color = '#884433';
+            modoTextoEl.textContent = '🎵';
+            modoTextoEl.style.color = '#888';
             modoTextoEl.style.textShadow = 'none';
-            modoTextoEl.style.fontSize = '18px';
+            modoTextoEl.style.fontSize = '16px';
             brilloLetra.style.display = 'none';
 
             particulasContainer.innerHTML = '';
@@ -1155,7 +1150,7 @@
             for (let i = 0; i < NUM_BARRAS; i++) {
                 const barra = barras[i];
                 barra.style.height = '3px';
-                barra.style.background = '#ff6633';
+                barra.style.background = 'cyan';
                 barra.style.boxShadow = 'none';
             }
 
@@ -1179,7 +1174,7 @@
         // ============================================================
         console.log('♫ Doma - Josean Log | Visualizador Musical ♫');
         console.log(`🎵 Audio inicia en segundo ${INICIO_AUDIO}`);
-        console.log('🌊 Modo normal: ONDAS CÁLIDAS');
+        console.log('🌊 Modo normal: ONDAS FRÍAS (AZUL/CYAN)');
         console.log('🔥 Modo explosivo: NARANJA-ROJO-PÚRPURA');
         console.log('🔄 Bucle infinito automático');
 
