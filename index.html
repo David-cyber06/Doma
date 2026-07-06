@@ -33,7 +33,7 @@
             justify-content: center;
             align-items: center;
             background: #0a0008;
-            transition: background 0.05s ease;
+            transition: background 0.1s ease;
             padding: 8px 16px 10px;
             overflow: hidden;
             padding-top: 6px;
@@ -54,7 +54,7 @@
             position: absolute;
             border-radius: 50%;
             pointer-events: none;
-            animation: particulaVolar 3s ease-out forwards;
+            animation: particulaVolar 2.5s ease-out forwards;
             opacity: 0;
         }
 
@@ -69,17 +69,17 @@
             }
         }
 
-        /* ===== LETRA - ARRIBA ===== */
+        /* ===== LETRA ===== */
         .letra-container {
             width: 92%;
             max-width: 850px;
             text-align: center;
-            min-height: 60px;
+            min-height: 55px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 2px 16px 3px;
+            padding: 2px 16px 2px;
             position: relative;
             z-index: 1;
             flex-shrink: 0;
@@ -87,21 +87,21 @@
 
         .titulo {
             color: #00ffff;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: bold;
             letter-spacing: 2px;
             margin-bottom: 1px;
             text-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
             transition: all 0.3s ease;
-            min-height: 24px;
+            min-height: 22px;
             z-index: 1;
         }
 
         .letra {
-            font-size: 21px;
+            font-size: 20px;
             font-weight: bold;
             text-align: center;
-            min-height: 42px;
+            min-height: 38px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -140,29 +140,27 @@
             }
         }
 
-        /* ===== GRÁFICO - MÁS GRANDE Y CENTRADO ===== */
+        /* ===== GRÁFICO ===== */
         .grafico-container {
             width: 94%;
             max-width: 940px;
             position: relative;
             z-index: 1;
-            margin-top: 0px;
             flex-shrink: 0;
             height: 400px;
-            /* Más grande */
             display: flex;
             flex-direction: column;
             flex: 1;
-            min-height: 300px;
-            max-height: 550px;
+            min-height: 280px;
+            max-height: 520px;
         }
 
         .grafico-container .ejes {
             position: relative;
             width: 100%;
             height: 100%;
-            min-height: 260px;
-            max-height: 480px;
+            min-height: 240px;
+            max-height: 460px;
             flex: 1;
             margin-left: 48px;
         }
@@ -221,9 +219,10 @@
             height: 3px;
             min-height: 2px;
             border-radius: 3px 3px 0 0;
-            transition: height 0.03s ease, background 0.03s ease;
+            transition: height 0.04s ease, background 0.04s ease;
             background: cyan;
             max-width: 28px;
+            will-change: height;
         }
 
         .eje-x {
@@ -252,7 +251,7 @@
             margin-left: 48px;
         }
 
-        /* ===== INFO Y CONTROLES - MÁS ABAJO ===== */
+        /* ===== INFO Y CONTROLES ===== */
         .info {
             color: #888;
             font-size: 13px;
@@ -340,7 +339,6 @@
             border-color: rgba(0, 255, 255, 0.45);
         }
 
-        /* ===== MENSAJE AUDIO ===== */
         .mensaje-audio {
             position: fixed;
             bottom: 80px;
@@ -377,7 +375,6 @@
             }
         }
 
-        /* ===== CARGA ===== */
         .cargando {
             position: fixed;
             top: 0;
@@ -422,25 +419,25 @@
                 padding-top: 4px;
             }
             .letra {
-                font-size: 17px;
-                min-height: 34px;
+                font-size: 16px;
+                min-height: 32px;
             }
             .titulo {
                 font-size: 12px;
                 min-height: 20px;
             }
             .letra-container {
-                min-height: 48px;
+                min-height: 44px;
                 padding: 1px 10px 2px;
             }
             .grafico-container {
                 height: 300px;
-                min-height: 220px;
-                max-height: 420px;
+                min-height: 200px;
+                max-height: 400px;
             }
             .grafico-container .ejes {
-                min-height: 180px;
-                max-height: 350px;
+                min-height: 160px;
+                max-height: 330px;
                 margin-left: 38px;
             }
             .eje-y {
@@ -501,25 +498,25 @@
                 padding-top: 2px;
             }
             .letra {
-                font-size: 14px;
-                min-height: 28px;
+                font-size: 13px;
+                min-height: 26px;
             }
             .titulo {
                 font-size: 10px;
                 min-height: 16px;
             }
             .letra-container {
-                min-height: 38px;
+                min-height: 36px;
                 padding: 1px 6px 1px;
             }
             .grafico-container {
-                height: 220px;
-                min-height: 160px;
-                max-height: 320px;
+                height: 200px;
+                min-height: 150px;
+                max-height: 300px;
             }
             .grafico-container .ejes {
-                min-height: 140px;
-                max-height: 260px;
+                min-height: 120px;
+                max-height: 240px;
                 margin-left: 32px;
             }
             .eje-y {
@@ -624,7 +621,7 @@
         </div>
 
         <div class="info">
-            ⏱ <strong id="tiempoRestante">80.0</strong>s restantes
+            ⏱ <strong id="tiempoRestante">99.0</strong>s restantes
         </div>
         <div class="tiempo" id="modoTexto">🎵</div>
 
@@ -643,10 +640,9 @@
         const NUM_BARRAS = 40;
         const INICIO_AUDIO = 80;
         const MODO_EXPLOSIVO = 40;
-        const ALTURA_MAXIMA_EXPLOSIVO = 160;
-        const ALTURA_MAXIMA_NORMAL = 200;
+        const ALTURA_MAXIMA_EXPLOSIVO = 130;
+        const ALTURA_MAXIMA_NORMAL = 180;
 
-        // LETRAS COMPLETAS CON NUEVOS VERSOS
         const LETRAS = [
             { tiempo: 0.0, texto: "❤ De corazones tienes colección ❤" },
             { tiempo: 3.5, texto: " ☼☽ Ya va amanecer ☀︎︎" },
@@ -663,8 +659,8 @@
             { tiempo: 78.0, texto: "🛏️ En los secretos de tu almohada 🛏️" },
             { tiempo: 83.0, texto: "📖 Hasta que entiendas la lección 📖" },
             { tiempo: 87.0, texto: "🌀 Debo llegar al fondo de este desparpajo 🌀" },
-            { tiempo: 93, texto: "💪 Que yo de esta no me rajo 💪" },
-            { tiempo: 95, texto: "❤️‍🔥 Hasta domar tu corazón ❤️‍🔥" },
+            { tiempo: 93.0, texto: "💪 Que yo de esta no me rajo 💪" },
+            { tiempo: 95.0, texto: "❤️‍🔥 Hasta domar tu corazón ❤️‍🔥" }
         ];
 
         // ============================================================
@@ -710,7 +706,7 @@
         audio.load();
 
         // ============================================================
-        // FUNCIÓN PARA INICIAR AUDIO
+        // INICIAR AUDIO
         // ============================================================
         function iniciarAudio() {
             if (audioListo && !audioIniciado) {
@@ -719,7 +715,7 @@
                     audioIniciado = true;
                     mensajeAudio.classList.remove('mostrar');
                     console.log('🔊 Audio iniciado');
-                }).catch((err) => {
+                }).catch(() => {
                     console.log('⏳ Audio bloqueado, esperando interacción');
                 });
             }
@@ -775,87 +771,88 @@
         crearBarras();
 
         // ============================================================
-        // GENERAR CORAZÓN - MODO EXPLOSIVO CON LATIDO FUERTE
+        // GENERAR CORAZÓN (OPTIMIZADO)
         // ============================================================
         function generarCorazon(ancho, latido, explosivo) {
-            const alturas = new Array(ancho).fill(0.05);
+            const alturas = new Array(ancho);
             const centro = Math.floor(ancho / 2);
-
-            // FORMA DE CORAZÓN (13 barras)
             const formaCorazon = [0.2, 0.3, 0.5, 0.7, 0.85, 0.95, 1.0, 0.95, 0.85, 0.7, 0.5, 0.3, 0.2];
-            const inicio = centro - Math.floor(formaCorazon.length / 2);
+            const inicio = centro - 6;
+
+            for (let i = 0; i < ancho; i++) {
+                alturas[i] = 0.05;
+            }
 
             for (let i = 0; i < formaCorazon.length; i++) {
                 const idx = inicio + i;
                 if (idx >= 0 && idx < ancho) {
-                    alturas[idx] = Math.max(alturas[idx], formaCorazon[i]);
+                    alturas[idx] = formaCorazon[i];
                 }
             }
 
-            // LATIDO - más fuerte en modo explosivo
-            let intensidadLatido;
             if (explosivo) {
-                // Latido fuerte y rápido que sube y baja claramente
-                const latidoPuro = Math.sin(latido * 14);
-                intensidadLatido = 0.3 + 0.7 * Math.abs(latidoPuro);
-                // Picos más altos
-                if (Math.abs(latidoPuro) > 0.85) {
-                    intensidadLatido = 0.9 + 0.1 * Math.sin(latido * 28);
+                const latidoAbs = Math.abs(Math.sin(latido * 14));
+                const intensidad = 0.3 + 0.7 * Math.min(latidoAbs * 1.5, 1);
+
+                for (let i = 0; i < ancho; i++) {
+                    const dist = Math.abs(i - centro) / (ancho / 2);
+                    const salto = (0.5 + 0.5 * Math.sin(latido * 14 - i * 0.4 + 0.5)) * (1 - dist * 0.4);
+                    alturas[i] = Math.max(alturas[i], salto * 0.6);
+                    alturas[i] = alturas[i] * (0.2 + 0.8 * intensidad);
+                    alturas[i] += 0.15 * Math.abs(Math.sin(latido * 18 + i * 2)) * (0.4 + 0.6 * Math.random());
+                    alturas[i] = Math.min(Math.max(alturas[i], 0.05), 1);
                 }
             } else {
-                intensidadLatido = 0.5 + 0.5 * Math.sin(latido * 10);
-            }
-
-            // BARRAS LATERALES (olas que acompañan el latido)
-            for (let i = 0; i < ancho; i++) {
-                if (alturas[i] < 0.3) {
-                    const distancia = Math.abs(i - centro) / (ancho / 2);
-                    const frecuencia = explosivo ? 16 : 12;
-                    const salto = (0.6 + 0.4 * Math.sin(latido * frecuencia - i * 0.5 + 0.5)) * (1 - distancia * 0.5);
-                    alturas[i] = Math.max(alturas[i], salto);
+                const intensidad = 0.5 + 0.5 * Math.sin(latido * 10);
+                for (let i = 0; i < ancho; i++) {
+                    const dist = Math.abs(i - centro) / (ancho / 2);
+                    const salto = (0.5 + 0.5 * Math.sin(latido * 10 - i * 0.3)) * (1 - dist * 0.5);
+                    alturas[i] = Math.max(alturas[i], salto * 0.5);
+                    alturas[i] = alturas[i] * (0.2 + 0.8 * intensidad);
+                    alturas[i] += 0.1 * Math.abs(Math.sin(latido * 12 + i * 1.5)) * Math.random();
+                    alturas[i] = Math.min(Math.max(alturas[i], 0.05), 1);
                 }
             }
 
-            // APLICAR LATIDO GENERAL
-            for (let i = 0; i < ancho; i++) {
-                alturas[i] = alturas[i] * (0.2 + 0.8 * intensidadLatido);
-            }
-
-            // CAOS (más controlado en explosivo para que se vea el corazón)
-            const factorCaos = explosivo ? 0.25 : 0.2;
-            for (let i = 0; i < ancho; i++) {
-                alturas[i] += factorCaos * Math.abs(Math.sin(latido * 22 + i * 2.5)) * (Math.random() * 0.4 + 0.6);
-            }
-
-            return alturas.map(a => Math.min(Math.max(a, 0.05), 1));
+            return alturas;
         }
 
         // ============================================================
-        // COLOR
+        // COLOR (OPTIMIZADO - precalculado)
         // ============================================================
+        const colorCache = {};
+
         function getColor(altura, explosivo) {
+            const key = Math.round(altura * 100) + '_' + (explosivo ? '1' : '0');
+            if (colorCache[key]) return colorCache[key];
+
+            let color;
             if (explosivo) {
                 const r = Math.min(1, 0.5 + altura * 0.7);
                 const g = Math.min(1, 0.1 + altura * 0.4);
                 const b = Math.min(1, 0.1 + altura * 0.25);
-                return `rgb(${Math.floor(r * 255)}, ${Math.floor(g * 255)}, ${Math.floor(b * 255)})`;
+                color = `rgb(${Math.floor(r * 255)},${Math.floor(g * 255)},${Math.floor(b * 255)})`;
             } else {
                 const hue = 200 + altura * 180;
-                return `hsl(${hue}, 90%, ${30 + altura * 50}%)`;
+                color = `hsl(${hue},90%,${30 + altura * 50}%)`;
             }
+            colorCache[key] = color;
+            return color;
         }
 
         // ============================================================
-        // PARTÍCULAS
+        // PARTÍCULAS (OPTIMIZADO - menos cantidad)
         // ============================================================
+        let particulaTimer = 0;
+
         function crearParticula(x, y, color) {
             const particula = document.createElement('div');
             particula.className = 'particula';
-            const size = 4 + Math.random() * 10;
+            const size = 3 + Math.random() * 7;
             const angulo = Math.random() * 2 * Math.PI;
-            const distancia = 100 + Math.random() * 300;
+            const distancia = 80 + Math.random() * 200;
             const dx = Math.cos(angulo) * distancia;
-            const dy = Math.sin(angulo) * distancia - 100;
+            const dy = Math.sin(angulo) * distancia - 80;
 
             particula.style.width = size + 'px';
             particula.style.height = size + 'px';
@@ -865,27 +862,24 @@
             particula.style.setProperty('--dy', dy + 'px');
             particula.style.background = color;
             particula.style.boxShadow = `0 0 ${size * 2}px ${color}`;
-            particula.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+            particula.style.animationDuration = (1.5 + Math.random() * 1.5) + 's';
 
             particulasContainer.appendChild(particula);
 
             setTimeout(() => {
-                particula.remove();
-            }, 4000);
+                if (particula.parentNode) particula.remove();
+            }, 3500);
         }
 
         function explosionParticulas(centroX, centroY, cantidad) {
-            const colores = [
-                '#ff6b6b', '#ff4757', '#ff6348', '#ff7f50',
-                '#ff9ff3', '#f368e0', '#ff6b81', '#ff4757',
-                '#ffda79', '#ffb142', '#ff9f43', '#ff6b6b',
-                '#ff00ff', '#ff1493', '#ff69b4', '#ff4081'
+            const colores = ['#ff6b6b', '#ff4757', '#ff6348', '#ff9ff3', '#f368e0', '#ff6b81', '#ffda79', '#ffb142', '#ff00ff',
+                '#ff1493', '#ff69b4'
             ];
 
             for (let i = 0; i < cantidad; i++) {
                 const color = colores[Math.floor(Math.random() * colores.length)];
-                const x = centroX + (Math.random() - 0.5) * 100;
-                const y = centroY + (Math.random() - 0.5) * 100;
+                const x = centroX + (Math.random() - 0.5) * 80;
+                const y = centroY + (Math.random() - 0.5) * 80;
                 crearParticula(x, y, color);
             }
         }
@@ -901,7 +895,7 @@
         let reiniciando = false;
 
         // ============================================================
-        // ACTUALIZAR ANIMACIÓN
+        // ACTUALIZAR ANIMACIÓN (OPTIMIZADA)
         // ============================================================
         function actualizarAnimacion(timestamp) {
             if (!reproduciendo || pausado) {
@@ -924,141 +918,114 @@
             const tiempoRestante = Math.max(0, DURACION_TOTAL - tiempoActual);
             const explosivo = tiempoActual >= MODO_EXPLOSIVO;
 
-            // ===== FONDO =====
-            let r, g, b;
-            if (!explosivo) {
-                r = 0.05 + 0.1 * Math.pow(Math.sin(tiempoActual * 0.5), 2);
-                g = 0.05 + 0.1 * Math.pow(Math.sin(tiempoActual * 0.6), 2);
-                b = 0.15 + 0.15 * Math.pow(Math.sin(tiempoActual * 0.7), 2);
-                if (Math.sin(tiempoActual * 4) > 0.95) r = Math.min(0.3, r + 0.15);
-                if (Math.sin(tiempoActual * 4.2) > 0.95) b = Math.min(0.4, b + 0.15);
-            } else {
-                const pulso = Math.sin(tiempoActual * 3) * 0.5 + 0.5;
-                r = 0.3 + 0.7 * pulso;
-                g = 0.05 + 0.4 * Math.pow(Math.sin(tiempoActual * 2.5 + 1), 2);
-                b = 0.05 + 0.4 * Math.pow(Math.sin(tiempoActual * 2.8 + 2), 2);
+            // ===== FONDO (optimizado - cambios menos frecuentes) =====
+            if (frameCounter % 2 === 0 || explosivo) {
+                let r, g, b;
+                if (!explosivo) {
+                    r = 0.05 + 0.1 * Math.pow(Math.sin(tiempoActual * 0.5), 2);
+                    g = 0.05 + 0.1 * Math.pow(Math.sin(tiempoActual * 0.6), 2);
+                    b = 0.15 + 0.15 * Math.pow(Math.sin(tiempoActual * 0.7), 2);
+                    if (Math.sin(tiempoActual * 4) > 0.95) r = Math.min(0.3, r + 0.15);
+                    if (Math.sin(tiempoActual * 4.2) > 0.95) b = Math.min(0.4, b + 0.15);
+                } else {
+                    const pulso = Math.sin(tiempoActual * 3) * 0.5 + 0.5;
+                    r = 0.3 + 0.7 * pulso;
+                    g = 0.05 + 0.4 * Math.pow(Math.sin(tiempoActual * 2.5 + 1), 2);
+                    b = 0.05 + 0.4 * Math.pow(Math.sin(tiempoActual * 2.8 + 2), 2);
 
-                if (Math.sin(tiempoActual * 12) > 0.9) r = Math.min(1, r + 0.5);
-                if (Math.sin(tiempoActual * 13) > 0.9) g = Math.min(0.8, g + 0.5);
-                if (Math.sin(tiempoActual * 11) > 0.9) {
-                    r = Math.min(1, r + 0.4);
-                    b = Math.min(1, b + 0.4);
+                    if (Math.sin(tiempoActual * 12) > 0.9) r = Math.min(1, r + 0.5);
+                    if (Math.sin(tiempoActual * 13) > 0.9) g = Math.min(0.8, g + 0.5);
+                    if (Math.sin(tiempoActual * 11) > 0.9) { r = Math.min(1, r + 0.4);
+                        b = Math.min(1, b + 0.4); }
+                    if (Math.sin(tiempoActual * 20) > 0.95) { r = 1;
+                        g = 1;
+                        b = 1; }
                 }
-                if (Math.sin(tiempoActual * 20) > 0.95) {
-                    r = 1;
-                    g = 1;
-                    b = 1;
-                }
+                const bgColor = `rgb(${Math.floor(r * 255)},${Math.floor(g * 255)},${Math.floor(b * 255)})`;
+                container.style.background = bgColor;
             }
-
-            const bgColor = `rgb(${Math.floor(r * 255)}, ${Math.floor(g * 255)}, ${Math.floor(b * 255)})`;
-            container.style.background = bgColor;
 
             // ===== LETRA =====
-            let textoActual = '';
-            for (let i = LETRAS.length - 1; i >= 0; i--) {
-                if (tiempoActual >= LETRAS[i].tiempo) {
-                    textoActual = LETRAS[i].texto;
-                    break;
+            if (frameCounter % 2 === 0 || explosivo) {
+                let textoActual = '';
+                for (let i = LETRAS.length - 1; i >= 0; i--) {
+                    if (tiempoActual >= LETRAS[i].tiempo) {
+                        textoActual = LETRAS[i].texto;
+                        break;
+                    }
                 }
-            }
 
-            letraEl.textContent = textoActual;
+                if (letraEl.textContent !== textoActual) {
+                    letraEl.textContent = textoActual;
+                }
 
-            if (explosivo) {
-                const hue = (tiempoActual * 60) % 360;
-                const lig = 55 + 20 * Math.sin(tiempoActual * 5);
-                letraEl.style.color = `hsl(${hue}, 100%, ${lig}%)`;
-                letraEl.style.textShadow = `
-                    0 0 30px hsla(${hue}, 100%, 70%, 0.5),
-                    0 0 60px hsla(${hue + 30}, 100%, 60%, 0.3),
-                    0 0 100px hsla(${hue + 60}, 100%, 50%, 0.2)
-                `;
-                letraEl.style.transform = `scale(${1 + 0.03 * Math.sin(tiempoActual * 8)})`;
-
-                brilloLetra.style.display = 'block';
-                brilloLetra.style.background = `radial-gradient(circle, hsla(${hue}, 100%, 70%, 0.4), transparent 70%)`;
-
-                tituloEl.style.color = '#ff6b6b';
-                tituloEl.style.textShadow = `
-                    0 0 30px rgba(255, 107, 107, 0.5),
-                    0 0 60px rgba(255, 107, 107, 0.2)
-                `;
-            } else {
-                const hue = 180 + (tiempoActual * 30) % 60;
-                letraEl.style.color = `hsl(${hue}, 100%, 70%)`;
-                letraEl.style.textShadow = `0 0 40px hsla(${hue}, 100%, 70%, 0.2)`;
-                letraEl.style.transform = 'scale(1)';
-                brilloLetra.style.display = 'none';
-                tituloEl.style.color = '#00ffff';
-                tituloEl.style.textShadow = '0 0 30px rgba(0, 255, 255, 0.3)';
+                if (explosivo) {
+                    const hue = (tiempoActual * 60) % 360;
+                    const lig = 55 + 20 * Math.sin(tiempoActual * 5);
+                    letraEl.style.color = `hsl(${hue},100%,${lig}%)`;
+                    letraEl.style.textShadow =
+                        `0 0 30px hsla(${hue},100%,70%,0.5),0 0 60px hsla(${hue+30},100%,60%,0.3),0 0 100px hsla(${hue+60},100%,50%,0.2)`;
+                    letraEl.style.transform = `scale(${1 + 0.03 * Math.sin(tiempoActual * 8)})`;
+                    brilloLetra.style.display = 'block';
+                    brilloLetra.style.background =
+                        `radial-gradient(circle, hsla(${hue},100%,70%,0.4), transparent 70%)`;
+                    tituloEl.style.color = '#ff6b6b';
+                    tituloEl.style.textShadow = '0 0 30px rgba(255,107,107,0.5),0 0 60px rgba(255,107,107,0.2)';
+                } else {
+                    const hue = 180 + (tiempoActual * 30) % 60;
+                    letraEl.style.color = `hsl(${hue},100%,70%)`;
+                    letraEl.style.textShadow = `0 0 40px hsla(${hue},100%,70%,0.2)`;
+                    letraEl.style.transform = 'scale(1)';
+                    brilloLetra.style.display = 'none';
+                    tituloEl.style.color = '#00ffff';
+                    tituloEl.style.textShadow = '0 0 30px rgba(0,255,255,0.3)';
+                }
             }
 
             // ===== BARRAS =====
-            let alturas;
-            if (explosivo) {
-                const latido = tiempoActual * 1.2; // Latido más rápido
-                alturas = generarCorazon(NUM_BARRAS, latido, true);
-                // Movimiento de abajo hacia arriba (el corazón late)
-                for (let i = 0; i < NUM_BARRAS; i++) {
-                    // Efecto de bombeo: sube y baja claramente
-                    const bombeo = 0.3 * Math.abs(Math.sin(tiempoActual * 14 + i * 0.3));
-                    alturas[i] = Math.min(1, alturas[i] + bombeo * 0.5);
-                    alturas[i] = Math.max(0.05, alturas[i]);
-                }
-            } else {
-                alturas = [];
-                for (let i = 0; i < NUM_BARRAS; i++) {
-                    const freq = Math.abs(Math.sin(i * 0.3 + tiempoActual * 8));
-                    const variacion = Math.random() * 0.3;
-                    let altura = freq * (0.5 + 0.5 * Math.sin(tiempoActual * 3)) + variacion * 0.2;
-                    altura = Math.min(Math.max(altura, 0.05), 1);
-                    alturas.push(altura);
-                }
-            }
-
-            // Altura máxima según modo
+            const latido = tiempoActual * (explosivo ? 1.3 : 1);
+            const alturas = generarCorazon(NUM_BARRAS, latido, explosivo);
             const alturaMax = explosivo ? ALTURA_MAXIMA_EXPLOSIVO : ALTURA_MAXIMA_NORMAL;
             const ejesHeight = ejesGrafico.clientHeight || 300;
+            const escala = (alturaMax / 200) * ejesHeight * 0.85;
 
             for (let i = 0; i < NUM_BARRAS; i++) {
                 const altura = alturas[i] || 0.05;
                 const barra = barras[i];
-                const alturaPx = Math.max(2, altura * (alturaMax / 200) * ejesHeight * 0.88);
+                const alturaPx = Math.max(2, altura * escala);
                 barra.style.height = alturaPx + 'px';
                 barra.style.background = getColor(altura, explosivo);
                 if (explosivo) {
-                    const brillo = 8 + altura * 20;
+                    const brillo = 6 + altura * 16;
                     barra.style.boxShadow = `0 0 ${brillo}px ${getColor(altura, true)}`;
                 } else {
                     barra.style.boxShadow = 'none';
                 }
             }
 
-            // ===== PARTÍCULAS (MODO EXPLOSIVO) =====
+            // ===== PARTÍCULAS (MODO EXPLOSIVO - REDUCIDAS) =====
             if (explosivo) {
-                // Partículas constantes
-                if (frameCounter % 2 === 0) {
+                particulaTimer++;
+                if (particulaTimer % 3 === 0) {
                     const ancho = window.innerWidth;
                     const alto = window.innerHeight;
                     const cx = ancho / 2;
                     const cy = alto / 2;
-                    const cantidad = 3 + Math.floor(Math.random() * 6);
-                    const centroX = cx + (Math.random() - 0.5) * 300;
-                    const centroY = cy * 0.35 + (Math.random() - 0.5) * 120;
+                    const cantidad = 2 + Math.floor(Math.random() * 4);
+                    const centroX = cx + (Math.random() - 0.5) * 250;
+                    const centroY = cy * 0.35 + (Math.random() - 0.5) * 100;
                     explosionParticulas(centroX, centroY, cantidad);
                 }
 
-                // Explosiones grandes
-                if (frameCounter % 25 === 0) {
+                if (particulaTimer % 25 === 0) {
                     const cx = window.innerWidth / 2;
                     const cy = window.innerHeight / 2;
-                    explosionParticulas(cx, cy * 0.35, 15 + Math.floor(Math.random() * 15));
+                    explosionParticulas(cx, cy * 0.35, 8 + Math.floor(Math.random() * 8));
                 }
-                if (frameCounter % 12 === 0) {
+                if (particulaTimer % 15 === 0) {
                     const x = Math.random() * window.innerWidth;
                     const y = Math.random() * window.innerHeight * 0.5;
-                    explosionParticulas(x, y, 2 + Math.floor(Math.random() * 4));
+                    explosionParticulas(x, y, 1 + Math.floor(Math.random() * 2));
                 }
             }
 
@@ -1068,7 +1035,7 @@
             if (explosivo) {
                 modoTextoEl.textContent = '❤🔥';
                 modoTextoEl.style.color = '#ff6b6b';
-                modoTextoEl.style.textShadow = '0 0 30px rgba(255, 107, 107, 0.5)';
+                modoTextoEl.style.textShadow = '0 0 30px rgba(255,107,107,0.5)';
                 modoTextoEl.style.fontSize = '20px';
                 tituloEl.textContent = `♫ TIEMPO RESTANTE: ${tiempoRestante.toFixed(1)}s ♫  ❤🔥❤🔥❤🔥❤🔥❤🔥`;
             } else {
@@ -1093,6 +1060,7 @@
             reproduciendo = true;
             pausado = false;
             frameCounter = 0;
+            particulaTimer = 0;
             reiniciando = false;
             animacionId = requestAnimationFrame(actualizarAnimacion);
         }
@@ -1112,6 +1080,7 @@
             tiempoInicio = Date.now();
             pausado = false;
             frameCounter = 0;
+            particulaTimer = 0;
 
             if (audioIniciado) {
                 audio.currentTime = INICIO_AUDIO;
@@ -1124,7 +1093,7 @@
             letraEl.style.color = '#fff';
             letraEl.style.transform = 'scale(1)';
             tituloEl.style.color = '#00ffff';
-            tituloEl.style.textShadow = '0 0 30px rgba(0, 255, 255, 0.3)';
+            tituloEl.style.textShadow = '0 0 30px rgba(0,255,255,0.3)';
             tiempoRestanteEl.textContent = '99.0';
             modoTextoEl.textContent = '🎵';
             modoTextoEl.style.color = '#888';
@@ -1161,7 +1130,7 @@
         // ============================================================
         console.log('♫ Doma - Josean Log | Visualizador Musical ♫');
         console.log(`🎵 Audio inicia en segundo ${INICIO_AUDIO}`);
-        console.log('❤🔥 A los 40 segundos: MODO EXPLOSIVO (corazón latiendo)');
+        console.log('❤🔥 A los 40 segundos: MODO EXPLOSIVO');
         console.log('🔄 Bucle infinito automático');
 
         iniciar();
